@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inquiry">
+
+	<select id="list" resultType="ivo">
+		select * from inquiry order by
+		u_idx
+	</select>
+
+	<select id="pageList" parameterType="Map" resultType="ivo">
+		select *
+		from inquiry order by u_idx desc limit #{limit} offset #{offset}
+	</select>
+
+	<!-- 삽입 -->
+	<insert id="insert" parameterType="ivo">
+		insert into inquiry(user_id,
+		category, user_name, email, phone, password,
+		subject,content, f_name, write_date)
+		values(${user_id}, ${category}, ${user_name},
+		${email}, ${phone}, ${password},
+		${subject}, ${content}, ${f_name}, now())
+	</insert>
+
+	<!-- 상세보기 -->
+	<select id="detail" parameterType="String" resultType="ivo"> select *
+		from inquiry where u_idx = #{u_idx}
+	</select>
+
+</mapper>

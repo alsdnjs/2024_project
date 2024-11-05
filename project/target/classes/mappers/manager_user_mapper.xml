@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+	<select id="list" resultType="uvo" parameterType="map">
+
+		SELECT * FROM
+		users
+		LIMIT #{offset}, #{size}
+	</select>
+
+	<select id="detail" parameterType="String" resultType="uvo">
+		select *
+		from users where user_id = #{user_id}
+	</select>
+
+	<insert id="insert" parameterType="uvo">
+		insert into
+		users(user_id,
+		username, password, phone_number, email, created_at,
+		basic_address,
+		userrank, user_role)
+		values(#{user_id}, #{username}, #{password},
+		#{phone_number}, #{email}, NOW(),
+		#{basic_address}, #{userrank},
+		#{user_role})
+	</insert>
+
+	<delete id="delete" parameterType="String">
+		delete from users where
+		user_id = #{user_id}
+	</delete>
+
+	<update id="update" parameterType="uvo">
+		update users
+		set basic_address
+		= #{basic_address},
+		userrank = #{userrank}, user_role = #{user_role}
+		where user_id = #{user_id}
+	</update>
+
+	<select id="count" resultType="int">
+		SELECT COUNT(*) FROM users;
+	</select>
+
+	<update id="warn" parameterType="uvo">
+		UPDATE users
+		SET warned_user =
+		#{warned_user},
+		warn_start_at = NOW(),
+		warn_end_at = DATE_ADD(NOW(),
+		INTERVAL 7 DAY),
+		warn_cause = #{warn_cause}
+		WHERE user_id = #{user_id}
+	</update>
+	
+	<update id="warn_expire">
+		UPDATE users
+		SET warned_user = NULL,
+		warn_start_at = NULL,
+		warn_end_at = NULL,
+		warn_cause = NULL
+		WHERE warn_end_at = NOW()
+	</update>
+	
+	 <!-- 검색 조건에 맞는 사용자 리스트 불러오기 -->
+    <select id="search" resultType="uvo">
+        SELECT * FROM users
+        WHERE username LIKE #{keyword} OR basic_address LIKE #{keyword}
+        ORDER BY user_id
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- 검색 조건에 맞는 전체 사용자 수 조회 -->
+    <select id="search_count" resultType="int">
+        SELECT COUNT(*) FROM users
+        WHERE username LIKE #{keyword} OR basic_address LIKE #{keyword}
+    </select>
+</mapper>
+
+
+
+
+
+

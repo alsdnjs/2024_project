@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- MyBatis가 해당 값의 타입을 명시적으로 알지 못하면 null 취급한다 -->
+	<!-- 매번 쿼리를 실행 할 때 마다 데이터베이스에 요청이 가고 , 결과를 새로 받아온다 -->
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+		<setting name="cacheEnabled" value="false" />
+	</settings>
+
+	<typeAliases>
+		<!-- 민원  , 수지 -->
+		<!-- 메인페이지 고객센터  -->
+		
+		<!-- 관리자 공지사항 -->
+		<typeAlias type="com.ict.manager.notice.vo.NoticeVO" alias="nvo"/>
+		<!-- 관리자 -->
+		<typeAlias type="com.ict.manager.vo.ManagerVO" alias="gb2vo"/>
+		
+		<!-- 경빈님 -->
+		<typeAlias type="com.ict.member.vo.MemberVO" alias="mvo"/>
+
+		<!-- 인겸님  -->
+		<typeAlias type="com.ict.products.vo.ProductsVO" alias="ProductsVO"/>
+		<typeAlias type="com.ict.products.vo.CartVO" alias="CartVO"/>
+		<typeAlias type="com.ict.products.vo.CategoryVO" alias="CategoryVO"/>
+		
+		<!-- 수지님 -->
+		<typeAlias type="com.ict.manager.user.vo.ManagerUserVO"  alias="uvo" />
+		
+		<!-- 혜리님 -->
+		<typeAlias type="com.ict.inquiry.vo.InquiryVO"  alias="ivo" />
+		
+	</typeAliases>
+	
+	
+	<mappers>
+		<!-- 민원 , 수지 -->
+
+		<!-- 관리자 페이지 -->
+		<mapper resource="mappers/manager_mapper.xml"/>
+		<mapper resource="mappers/notice_mapper.xml"/>
+		
+		<!-- 경빈님  -->
+		<mapper resource="mappers/member_mapper.xml"/>
+			
+			<!-- 인겸님 -->
+		<mapper resource="mappers/products_mapper.xml"/>
+		
+		<!--  수지님 -->
+		<mapper resource="mappers/manager_user_mapper.xml" />
+		
+		<!-- 혜리님  -->
+		<mapper resource="mappers/inquiry_mapper.xml" />
+		
+	</mappers>
+</configuration>

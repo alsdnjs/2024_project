@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+
+    <!-- 회원가입 쿼리 -->
+    <insert id="registerMember" parameterType="com.ict.member.vo.MemberVO">
+        INSERT INTO users (user_role, user_id, username, email, password, phone_number, basic_address, created_at, updated_at)
+        VALUES (#{user_role}, #{user_id}, #{username}, #{email}, #{password}, #{phone_number}, #{basic_address}, NOW(), NOW())
+    </insert>
+
+    <!-- 로그인 쿼리 -->
+    <select id="loginCheck" parameterType="String" resultType="com.ict.member.vo.MemberVO">
+        SELECT * FROM users WHERE user_id = #{user_id}
+    </select>
+    
+    <!-- 기존 login 쿼리, 다른 매핑에 사용되는 경우 -->
+    <select id="login" parameterType="String" resultType="com.ict.member.vo.MemberVO">
+        SELECT * FROM members WHERE m_id = #{m_id}
+    </select>
+    
+    <!-- 아이디 중복 체크 쿼리 -->
+    <select id="idchk" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM users WHERE user_id = #{user_id}
+    </select>
+
+    <!-- 이메일 중복 체크 쿼리 -->
+    <select id="emailchk" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM users WHERE email = #{email}
+    </select>
+    
+    <!-- 아이디 찾기 쿼리 -->
+    <select id="idfind" parameterType="com.ict.member.vo.MemberVO" resultType="com.ict.member.vo.MemberVO">
+        SELECT user_id FROM users WHERE username = #{username} AND email = #{email}
+    </select>
+
+    <!-- 비밀번호 찾기 쿼리 -->
+    <select id="pwfind" parameterType="com.ict.member.vo.MemberVO" resultType="com.ict.member.vo.MemberVO">
+        SELECT user_id FROM users WHERE user_id = #{user_id} AND email = #{email}
+    </select>
+
+   <update id="updatePassword" parameterType="map">
+    UPDATE users SET password = #{newPassword} WHERE user_id = #{userId}
+</update>
+	
+	
+  
+	
+</mapper>
