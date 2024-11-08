@@ -19,4 +19,7 @@ public interface MemberService {
 
     // 비밀번호 변경
     int updatePassword(String userId, String newPassword) throws Exception;
+    
+    // 회원 등급 확인 메서드  11/7내가
+    String getMemberGrade(String user_idx);
 }

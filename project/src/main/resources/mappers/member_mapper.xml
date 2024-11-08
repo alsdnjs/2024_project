@@ -44,7 +44,14 @@
     UPDATE users SET password = #{newPassword} WHERE user_id = #{userId}
 </update>
 	
-	
+	<!-- 회원등급   -->
+	<select id="getTotalSpent" parameterType="string" resultType="int"> 
+	SELECT COALESCE(SUM(total_amount), 0) 
+	FROM orders 
+	WHERE user_idx = #{user_idx} 
+	AND status = '배송 완료' 
+	</select>
+  
   
 	
 </mapper>

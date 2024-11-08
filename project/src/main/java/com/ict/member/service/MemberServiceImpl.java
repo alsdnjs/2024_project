@@ -36,6 +36,25 @@ public class MemberServiceImpl implements MemberService {
         @Override
         public int updatePassword(String userId, String newPassword) throws Exception {
             return memberDAO.updatePassword(userId, newPassword);
-        
     }
+        //11/7 내가 추가한거
+        @Override
+        public String getMemberGrade(String user_idx) {
+            System.out.println("getTotalSpent 호출 - user_idx: " + user_idx);  // userId를 로그에 명확히 출력
+            Integer totalSpent = memberDAO.getTotalSpent(user_idx);
+            System.out.println("조회된 총 구매 금액: " + totalSpent);
+
+            totalSpent = (totalSpent != null) ? totalSpent : 0;
+            if (totalSpent >= 3000000) {
+                return "VIP";
+            } else if (totalSpent >= 1000000) {
+                return "GOLD";
+            } else if (totalSpent >= 100000) {
+                return "SILVER";
+            } else {
+                return "FAMILY";
+            }
+            
+        
+        }
 }

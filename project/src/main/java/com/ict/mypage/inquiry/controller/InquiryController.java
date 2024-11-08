@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.manager.inquiry.service.InquiryService;
+import com.ict.member.service.MemberService;
 import com.ict.member.vo.MemberVO;
 
 
@@ -26,7 +27,9 @@ public class InquiryController {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
-	
+	// 11/7 경빈 회원등급 
+	 @Autowired
+	 private MemberService memberService; 
 	
 	@Value("${file.upload-dir}") // jdbc.properties에서 파일 경로 주입
 	private String uploadDir;
@@ -35,10 +38,33 @@ public class InquiryController {
 	public ModelAndView firstin0() {
 		return new ModelAndView("mypage/mypage");
 	}
-
+	
 	@RequestMapping("/mypage")
-	public ModelAndView firstin02() {
-		return new ModelAndView("mypage/mypage");
+	//11111111
+	public ModelAndView getMypage(HttpSession session) {
+	    ModelAndView mv = new ModelAndView("mypage/mypage");
+
+	    // 로그인된 사용자 정보 확인
+	    MemberVO loggedInUser = (MemberVO) session.getAttribute("userInfo");
+	    if (loggedInUser == null) {
+	        mv.setViewName("redirect:/login"); // 로그인 페이지로 리다이렉트
+	        return mv;
+	    }
+
+	    // 사용자 ID 가져오기 및 로그 출력
+	    String user_idx = loggedInUser.getUser_idx();
+	    System.out.println("로그인된 사용자 ID: " + user_idx);
+
+	    // 회원 등급 조회
+	    String memberGrade = memberService.getMemberGrade(user_idx);
+
+	    // 로그로 회원 등급 확인
+	    System.out.println("회원 등급: " + memberGrade);
+
+	    // 등급 정보를 JSP로 전달
+	    mv.addObject("memberGrade", memberGrade);
+
+	    return mv;
 	}
 
 

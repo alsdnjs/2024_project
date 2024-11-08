@@ -427,13 +427,28 @@ body, html {
 								<p>관심 상품</p> <i class="fa-regular fa-heart"></i>
 							</a>
 						</div>
-						<div class="col-xl-3 col-md-6 dashboard-div">
-							<a href="/rank" class="dashboard-card box">
-								<p>회원등급</p> <span class="badge badge-gold">G GOLD</span> <span
-								class="discount-text">(8% 할인혜택)</span> <!-- 연한 주황색으로 할인혜택 표시 -->
-							</a>
-						</div>
-					</div>
+						<a href="/rank" class="dashboard-card box">			
+					    <p>회원등급</p> 
+					    <span class="badge 
+					        <c:choose>
+					            <c:when test="${memberGrade == 'VIP'}">badge-vip</c:when>
+					            <c:when test="${memberGrade == 'GOLD'}">badge-gold</c:when>
+					            <c:when test="${memberGrade == 'SILVER'}">badge-silver</c:when>
+					            <c:otherwise>badge-new</c:otherwise>
+					        </c:choose>
+					    ">
+					        ${memberGrade}
+					    </span> 
+					    <span class="discount-text">
+					        <c:choose>
+					            <c:when test="${memberGrade == 'VIP'}">(15% 할인혜택)</c:when>
+					            <c:when test="${memberGrade == 'GOLD'}">(8% 할인혜택)</c:when>
+					            <c:when test="${memberGrade == 'SILVER'}">(3% 할인혜택)</c:when>
+					            <c:otherwise>신규 가입자 혜택</c:otherwise>
+					        </c:choose>
+					    </span>
+					</a>
+				</div>
 
 					<!-- 배송 상태 카드들 -->
 					<div class="shipping-status">
@@ -547,76 +562,55 @@ body, html {
 				<!-- Modal Body with Input Form -->
 				<div class="modal-body">
 					<div class="row">
-						<!-- 상품 카드 1 -->
-						<div class="col-xl-3 col-md-6 mb-3">
-							<div class="product-card">
-								<img src="https://via.placeholder.com/300x200"
-									class="product_img" alt="상품 이미지">
-								<div class="product-info">
-									<h5>상품명 1</h5>
-									<p>상품 설명이 들어가는 자리입니다. 간단한 설명을 적어주세요.</p>
-									<p class="price">₩10,000</p>
-									<!-- 버튼 그룹 -->
-									<div class="btn-group" style="float: right;">
-										<button class="btn btn-primary">담기</button>
-										<button class="btn btn-danger">삭제</button>
-									</div>
-								</div>
-							</div>
-						</div>
+					
+					<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    function openLikesModal() {
+        $.ajax({
+            url: '/getLikes', // getLikes 컨트롤러의 URL
+            method: 'GET',
+            data: { user_idx: userIdx }, // userIdx 값을 전달
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                let modalBody = $('#orderInfoModal .modal-body .row');
+                modalBody.empty(); // 기존 내용을 초기화
 
-						<!-- 상품 카드 2 -->
-						<div class="col-xl-3 col-md-6 mb-3">
-							<div class="product-card">
-								<img src="https://via.placeholder.com/300x200"
-									class="product_img" alt="상품 이미지">
-								<div class="product-info">
-									<h5>상품명 2</h5>
-									<p>상품 설명이 들어가는 자리입니다. 간단한 설명을 적어주세요.</p>
-									<p class="price">₩20,000</p>
-									<!-- 버튼 그룹 -->
-									<div class="btn-group" style="float: right;">
-										<button class="btn btn-primary">담기</button>
-										<button class="btn btn-danger">삭제</button>
-									</div>
-								</div>
-							</div>
-						</div>
+                // 관심 상품 데이터를 모달에 추가
+                if (data.length === 0) {
+                    modalBody.append('<p>관심상품을 담아주세요.</p>');
+                } else {
+                    for (let i = 0; i < data.length; i++) {
+                        let product_name = data[i].product_name;
+                        let description = data[i].description;
+                        let price = data[i].price;
+                        let thumbnail_url = data[i].thumbnail_url;
 
-						<!-- 상품 카드 3 -->
-						<div class="col-xl-3 col-md-6 mb-3">
-							<div class="product-card">
-								<img src="https://via.placeholder.com/300x200"
-									class="product_img" alt="상품 이미지">
-								<div class="product-info">
-									<h5>상품명 3</h5>
-									<p>상품 설명이 들어가는 자리입니다. 간단한 설명을 적어주세요.</p>
-									<p class="price">₩30,000</p>
-									<!-- 버튼 그룹 -->
-									<div class="btn-group" style="float: right;">
-										<button class="btn btn-primary">담기</button>
-										<button class="btn btn-danger">삭제</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- 상품 카드 4 -->
-						<div class="col-xl-3 col-md-6 mb-3">
-							<div class="product-card">
-								<img src="https://via.placeholder.com/300x200"
-									class="product_img" alt="상품 이미지">
-								<div class="product-info">
-									<h5>상품명 4</h5>
-									<p>상품 설명이 들어가는 자리입니다. 간단한 설명을 적어주세요.</p>
-									<p class="price">₩30,000</p>
-									<!-- 버튼 그룹 -->
-									<div class="btn-group" style="float: right;">
-										<button class="btn btn-primary">담기</button>
-										<button class="btn btn-danger">삭제</button>
-									</div>
-								</div>
-							</div>
-						</div>
+                        // 상품 데이터를 모달에 하나씩 추가
+                        let productDiv = "<div class='col-xl-3 col-md-6 mb-3'><div class='product-card'>";
+                        productDiv += "<img src=" + thumbnail_url + " class='product_img' alt='상품 이미지'>";
+                        productDiv += "<div class='product-info'>";
+                        productDiv += "<h5>" + product_name + "</h5>";
+                        productDiv += "<p>" + description + "</p>"
+                        productDiv += "<p class='price'> ₩" + price + "</p>"
+                        productDiv += "<div class='btn-group' style='float: right;'>"
+                        productDiv += "<button class='btn btn-primary'>"+ "담기" +"</button>"
+                        productDiv += "<button class='btn btn-danger'>"+ "삭제" +"</button>"
+                        productDiv += "</div></div></div></div>";
+                        
+                        modalBody.append(productDiv); // 하나씩 추가
+                    }
+                }
+
+                // 모달 열기
+                $('#orderInfoModal').modal('show');
+            },
+            error: function(error) {
+                console.error("Error loading likes:", error);
+            }
+        });
+    }
+</script>
 					</div>
 
 

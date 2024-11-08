@@ -20,4 +20,8 @@ public interface MemberDAO {
 
     // 비밀번호 변경
     int updatePassword(String userId, String newPassword) throws Exception;
+    
+    // 총 구매 금액 조회 메서드  11/7 내가
+    int getTotalSpent(String user_idx); 
 }
+

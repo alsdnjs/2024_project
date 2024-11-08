@@ -48,8 +48,12 @@
 		<!-- 수지님 -->
 		<typeAlias type="com.ict.manager.user.vo.ManagerUserVO" alias="uvo" />
 			
+			<!--  공공데이터 -->
+			<typeAlias type="com.ict.data.vo.ProjectDatabaseVO" alias="pdvo" />
 		<!-- 혜리님 -->
 		<typeAlias type="com.ict.shipping.vo.ShippingVO" alias="shvo" />
+		
+	
 		
 
 	</typeAliases>
@@ -57,7 +61,7 @@
 
 	<mappers>
 		<!-- 민원 , 수지 -->
-
+<mapper resource="mappers/database_mapper.xml" />
 		<!-- 관리자 페이지 -->
 		<mapper resource="mappers/manager_mapper.xml" />
 		<mapper resource="mappers/manager_user_mapper.xml" />
@@ -81,7 +85,7 @@
 		
 <mapper resource="mappers/mypage_seller_page_mapper.xml" />
 	
-		
+
 
 	</mappers>
 </configuration>

@@ -261,6 +261,10 @@ hr {
 		z-index: 1;
 	}
 }
+.subjecth{
+	text-decoration: none;
+	color: black;
+}
 /* 페이징 컨테이너를 한 줄로 정렬 */
 .paging {
 	display: flex;
@@ -365,8 +369,10 @@ hr {
 		<div class="sidebar-size-controll"></div>
 		<!-- 사이드바 -->
 		<div id="sidebar" class="sidebar">
-			<a href="/mypage">나의 경빈이네</a> <a href="/orderHistory">주문/배송 내역</a> <a
-				href="/updateProfile">회원정보수정</a> <a href="/myInquiry">나의 1:1 문의</a>
+			<a href="/mypage">나의 경빈이네</a> 
+			<a href="/orderHistory">주문/배송 내역</a> 
+			<a href="/updateProfile">회원정보수정</a>
+			 <a href="/myInquiry" class="active">나의 1:1 문의</a>
         <%
         String userRole = (String) session.getAttribute("user_role");
         if (userRole != null) {
@@ -375,7 +381,7 @@ hr {
          }
         }
          %>
-        <a href="/sellerProfileChk" class="active">판매자정보수정</a>
+        <a href="/sellerProfileChk" >판매자정보수정</a>
 			<button id="toggleSidebar">>></button>
 		</div>
 

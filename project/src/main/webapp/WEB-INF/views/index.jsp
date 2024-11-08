@@ -68,7 +68,7 @@
        <link href="${pageContext.request.contextPath}/resources/css/styles.css" rel="stylesheet" />
     </head>
     <body>   
-    
+
  <jsp:include page="popup.jsp"></jsp:include>
 
         <!-- Navigation-->
@@ -81,7 +81,7 @@
                         <!-- 로그인 상태에 따른 메뉴 표시 -->
                         <c:choose>
                             <c:when test="${sessionScope.loginStatus == 'ok'}">
-                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/main">로그아웃</a></li>
+                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_logout">로그아웃</a></li>
                             </c:when>
                             <c:otherwise>
                                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_login">로그인 / 회원가입</a></li>
@@ -92,10 +92,10 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="/products" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="products">돼지고기</a></li>
+                                <li><a class="dropdown-item" href="products?category_idx=24002">돼지고기</a></li>
                                 <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="products">닭고기</a></li>
-                                <li><a class="dropdown-item" href="products">소고기</a></li>
+                                <li><a class="dropdown-item" href="products?category_idx=24003">닭고기</a></li>
+                                <li><a class="dropdown-item" href="products?category_idx=24001">소고기</a></li>
                             </ul>
                         </li>
                     </ul>

@@ -214,8 +214,15 @@ footer {
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-						<li class="nav-item"><a class="nav-link" aria-current="page"
-							href="#!">로그인 / 회원가입</a></li>
+						<!-- 로그인 상태에 따른 메뉴 표시 -->
+                        <c:choose>
+                            <c:when test="${sessionScope.loginStatus == 'ok'}">
+                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_logout">로그아웃</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_login">로그인 / 회원가입</a></li>
+                            </c:otherwise>
+                        </c:choose>
 						<li class="nav-item"><a class="nav-link" href="#!">마이페이지</a></li>
 						<li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
 						<li class="nav-item dropdown"><a
@@ -292,9 +299,49 @@ footer {
 						</c:otherwise>
 					</c:choose>
 				</div>
+				
+				<!-- 페이지기법 -->
+			<div class="paging">
+				<!-- 이전 -->
+				<c:choose>
+					<c:when test="${paging.beginBlock <= paging.pagePerBlock}">
+						<p class="disable"></p>
+					</c:when>
+					<c:otherwise>
+						<p>
+							<a href="/orderHistory?cPage=${paging.beginBlock - paging.pagePerBlock}"><<</a>
+						</p>
+					</c:otherwise>
+				</c:choose>
+				<!-- 블록안에 들어간 페이지번호들 -->
+				<c:forEach begin="${paging.beginBlock}" end="${paging.endBlock}"
+					step="1" var="k">
+
+					<%-- 현재페이지(링크X)와 현패페이지가 아닌 것을 구분하자 --%>
+					<c:if test="${k == paging.nowPage}">
+						<a class="now">${k}</a>
+					</c:if>
+					<c:if test="${k != paging.nowPage}">
+						<a href="/orderHistory?cPage=${k}">${k}</a>
+					</c:if>
+				</c:forEach>
+				<!-- 다음 -->
+				<c:choose>
+					<c:when test="${paging.endBlock >= paging.totalPage}">
+						<p class="disable">>></p>
+					</c:when>
+					<c:otherwise>
+						<p>
+							<a href="/orderHistory?cPage=${paging.beginBlock + paging.pagePerBlock}">>></a>
+						</p>
+					</c:otherwise>
+				</c:choose>
 			</div>
+
 		</div>
 	</div>
+	</div>
+		
 
 	<!-- 여기서부터 푸터 -->
 	<footer class="footer py-5">

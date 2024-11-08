@@ -274,10 +274,10 @@
 					<!-- 로그인 상태에 따른 메뉴 표시 -->
                         <c:choose>
                             <c:when test="${sessionScope.loginStatus == 'ok'}">
-                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
+                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_logout">로그아웃</a></li>
                             </c:when>
                             <c:otherwise>
-                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/login">로그인 / 회원가입</a></li>
+                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_login">로그인 / 회원가입</a></li>
                             </c:otherwise>
                         </c:choose>
 						<li class="nav-item"><a class="nav-link" href="/mypage">마이페이지</a></li>

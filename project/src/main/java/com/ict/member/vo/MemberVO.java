@@ -143,6 +143,30 @@ public class MemberVO {
 		this.warn_end_at = warn_end_at;
 	}
 	
+	@Override
+	public String toString() {
+	    return "MemberVO{" +
+	            "user_idx=" + user_idx +
+	            ", user_id='" + user_id + '\'' +
+	            ", username='" + username + '\'' +
+	            ", email='" + email + '\'' +
+	            ", password='" + password + '\'' +
+	            ", phone_number='" + phone_number + '\'' +
+	            ", basic_address='" + basic_address + '\'' +
+	            ", created_at='" + created_at + '\'' +
+	            ", updated_at='" + updated_at + '\'' +
+	            ", deleted='" + deleted + '\'' +
+	            ", is_verified='" + is_verified + '\'' +
+	            ", user_role='" + user_role + '\'' +
+	            ", last_login='" + last_login + '\'' +
+	            ", warned_user='" + warned_user + '\'' +
+	            ", warn_cause='" + warn_cause + '\'' +
+	            ", warn_start_at='" + warn_start_at + '\'' +
+	            ", warn_end_at='" + warn_end_at + '\'' +
+	            '}';
+	
+	
+	}
 	
 	
 

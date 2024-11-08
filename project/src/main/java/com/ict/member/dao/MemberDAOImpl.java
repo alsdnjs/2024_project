@@ -47,4 +47,14 @@ public class MemberDAOImpl implements MemberDAO {
             params.put("newPassword", newPassword);
             return sqlSessionTemplate.update("member.updatePassword", params);
     }
+        // MemberDAOImpl.java 수정
+        @Override
+        public int getTotalSpent(String user_idx) {
+           System.out.println("getTotalSpent 호출 - user_idx: " + user_idx);
+           Integer total = sqlSessionTemplate.selectOne("member.getTotalSpent", user_idx);
+           System.out.println("조회된 총 구매 금액: " + total);
+           return (total != null) ? total : 0;
+                
+            
+    }
 }
