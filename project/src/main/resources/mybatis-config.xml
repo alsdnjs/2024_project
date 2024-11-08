@@ -11,49 +11,77 @@
 	</settings>
 
 	<typeAliases>
-		<!-- 민원  , 수지 -->
-		<!-- 메인페이지 고객센터  -->
-		
-		<!-- 관리자 공지사항 -->
-		<typeAlias type="com.ict.manager.notice.vo.NoticeVO" alias="nvo"/>
-		<!-- 관리자 -->
-		<typeAlias type="com.ict.manager.vo.ManagerVO" alias="gb2vo"/>
-		
-		<!-- 경빈님 -->
-		<typeAlias type="com.ict.member.vo.MemberVO" alias="mvo"/>
+		<!-- 민원 , 수지 -->
+		<!-- 메인페이지 고객센터 -->
 
-		<!-- 인겸님  -->
+		<!-- 관리자 공지사항 -->
+		<typeAlias type="com.ict.manager.manager.vo.ManagerVO" alias="mmvo" />
+		
+		<typeAlias type="com.ict.manager.user.vo.ManagerUserVO" alias="uvo" />
+		
+		<typeAlias type="com.ict.manager.product.vo.ManagerProductVO" alias="mpvo" />
+		
+		<typeAlias type="com.ict.manager.seller.vo.ManagerSellerVO"	alias="msvo" />
+		
+		<typeAlias type="com.ict.manager.order.vo.ManagerOrderVO" alias="movo" />
+		
+		<typeAlias type="com.ict.manager.inquiry.vo.ManagerInquiryVO" alias="mivo" />
+		
+		<typeAlias type="com.ict.manager.inquiry.answer.vo.ManagerInquiryAnswerVO" alias="miavo" />
+		<typeAlias type="com.ict.manager.notice.vo.NoticeVO" alias="nvo" />
+	
+	
+		<typeAlias type="com.ict.mypage.seller.vo.MypageSellerProfileVO" alias="mspvo" />
+	
+		<!-- 경빈님 -->
+		<typeAlias type="com.ict.member.vo.MemberVO" alias="mvo" />
+		<typeAlias type="com.ict.saup.vo.SaupVO" alias="svo" />
+
+		<!-- 인겸님 -->
 		<typeAlias type="com.ict.products.vo.ProductsVO" alias="ProductsVO"/>
-		<typeAlias type="com.ict.products.vo.CartVO" alias="CartVO"/>
+		<typeAlias type="com.ict.cart.vo.CartVO" alias="CartVO"/>
 		<typeAlias type="com.ict.products.vo.CategoryVO" alias="CategoryVO"/>
+		<typeAlias type="com.ict.products.vo.ReviewVO" alias="ReviewVO"/>
+		<typeAlias type="com.ict.likes.vo.LikeVO" alias="LikeVO"/>
 		
+
 		<!-- 수지님 -->
-		<typeAlias type="com.ict.manager.user.vo.ManagerUserVO"  alias="uvo" />
-		
+		<typeAlias type="com.ict.manager.user.vo.ManagerUserVO" alias="uvo" />
+			
 		<!-- 혜리님 -->
-		<typeAlias type="com.ict.inquiry.vo.InquiryVO"  alias="ivo" />
+		<typeAlias type="com.ict.shipping.vo.ShippingVO" alias="shvo" />
 		
+
 	</typeAliases>
-	
-	
+
+
 	<mappers>
 		<!-- 민원 , 수지 -->
 
 		<!-- 관리자 페이지 -->
-		<mapper resource="mappers/manager_mapper.xml"/>
-		<mapper resource="mappers/notice_mapper.xml"/>
-		
-		<!-- 경빈님  -->
-		<mapper resource="mappers/member_mapper.xml"/>
-			
-			<!-- 인겸님 -->
-		<mapper resource="mappers/products_mapper.xml"/>
-		
-		<!--  수지님 -->
+		<mapper resource="mappers/manager_mapper.xml" />
 		<mapper resource="mappers/manager_user_mapper.xml" />
-		
+		<mapper resource="mappers/manager_product_mapper.xml" />
+		<mapper resource="mappers/manager_seller_mapper.xml" />
+		<mapper resource="mappers/manager_order_mapper.xml" />
+		<mapper resource="mappers/manager_inquiry_mapper.xml" />
+		<mapper resource="mappers/manager_inquiry_answer_mapper.xml" />
+		<mapper resource="mappers/manager_notice_mapper.xml" />
+
+		<!-- 경빈님 -->
+		<mapper resource="mappers/member_mapper.xml" />
+		<mapper resource="mappers/saup_mapper.xml" />
+
+		<!-- 인겸님 -->
+		<mapper resource="mappers/products_mapper.xml"/>
+		<mapper resource="mappers/cart_mapper.xml"/>
+		<mapper resource="mappers/like_mapper.xml"/>
 		<!-- 혜리님  -->
-		<mapper resource="mappers/inquiry_mapper.xml" />
+		<mapper resource="mappers/shipping_mapper.xml" />
 		
+<mapper resource="mappers/mypage_seller_page_mapper.xml" />
+	
+		
+
 	</mappers>
 </configuration>

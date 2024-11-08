@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="answer">
+
+	<select id="getAnswer" resultType="miavo" parameterType="String">
+		SELECT answer FROM inquiry_answer WHERE u_idx = #{u_idx}
+	</select>
+	
+	<insert id="insert" parameterType="miavo">
+		insert into
+		inquiry_answer(
+		u_idx, admin_id, answer,
+		write_date)
+		values(
+		#{u_idx}, #{admin_id},
+		#{answer}, NOW())
+	</insert>
+	
+	<update id="update" parameterType="miavo">
+		update inquiry_answer
+		set answer
+		= #{answer}
+		where u_idx = #{u_idx}
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

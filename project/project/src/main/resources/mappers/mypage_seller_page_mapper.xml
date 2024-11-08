@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mypage_seller">
+	 <!-- 사용자 비밀번호 가져오기 -->
+    <select id="check" resultType="String" parameterType="String">
+        SELECT u.password
+        FROM sellers s
+        INNER JOIN users u ON s.user_id = u.user_id
+        WHERE s.user_id = #{userId}
+    </select>
+    
+    <update id="update" parameterType="mspvo">
+    	update sellers
+    	set store_name = #{store_name},
+    	store_description = #{store_description},
+    	update_at = Now(),
+    	contact_number = #{contact_number}
+    	where sellers_idx = #{sellers_idx}
+    </update>
+</mapper>
+
+
+
+
+
+

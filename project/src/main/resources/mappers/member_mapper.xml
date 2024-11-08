@@ -11,12 +11,12 @@
     </insert>
 
     <!-- 로그인 쿼리 -->
-    <select id="loginCheck" parameterType="String" resultType="com.ict.member.vo.MemberVO">
+    <select id="loginCheck" parameterType="String" resultType="mvo">
         SELECT * FROM users WHERE user_id = #{user_id}
     </select>
     
     <!-- 기존 login 쿼리, 다른 매핑에 사용되는 경우 -->
-    <select id="login" parameterType="String" resultType="com.ict.member.vo.MemberVO">
+    <select id="login" parameterType="String" resultType="mvo">
         SELECT * FROM members WHERE m_id = #{m_id}
     </select>
     
@@ -31,12 +31,12 @@
     </select>
     
     <!-- 아이디 찾기 쿼리 -->
-    <select id="idfind" parameterType="com.ict.member.vo.MemberVO" resultType="com.ict.member.vo.MemberVO">
+    <select id="idfind" parameterType="mvo" resultType="com.ict.member.vo.MemberVO">
         SELECT user_id FROM users WHERE username = #{username} AND email = #{email}
     </select>
 
     <!-- 비밀번호 찾기 쿼리 -->
-    <select id="pwfind" parameterType="com.ict.member.vo.MemberVO" resultType="com.ict.member.vo.MemberVO">
+    <select id="pwfind" parameterType="mvo" resultType="mvo">
         SELECT user_id FROM users WHERE user_id = #{user_id} AND email = #{email}
     </select>
 

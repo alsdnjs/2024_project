@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">
+	<select id="list" resultType="mpvo" parameterType="map">
+		SELECT * FROM
+		products
+		LIMIT #{offset}, #{size}
+	</select>
+
+	<select id="detail" parameterType="String" resultType="mpvo">
+		SELECT
+		p.*, s.store_name
+		FROM products p
+		JOIN sellers s ON p.sellers_idx = s.sellers_idx
+		WHERE p.product_idx = #{product_idx}
+	</select>
+
+	<insert id="insert" parameterType="mpvo">
+		insert into
+		products(product_idx,
+		product_name, sellers_idx, description, price,
+		stock,
+		category_id,
+		created_at, is_active, thumbnail_url)
+		values(#{product_idx},
+		#{product_name}, #{sellers_idx},
+		#{description}, #{price},
+		#{stock}, #{category_id}, NOW(),
+		#{is_active}, #{thumbnail_url})
+	</insert>
+
+	<delete id="delete" parameterType="String">
+		delete from products where
+		product_idx = #{product_idx}
+	</delete>
+
+	<update id="update" parameterType="mpvo">
+		update products
+		set is_active
+		=
+		#{is_active}
+		where product_idx = #{product_idx}
+	</update>
+
+	<select id="count" resultType="int">
+		SELECT COUNT(*) FROM products;
+	</select>
+
+
+	<!-- 검색 -->
+	<select id="search" resultType="mpvo">
+		SELECT * FROM products
+		WHERE product_name LIKE #{keyword} OR sellers_idx LIKE #{keyword} OR
+		product_idx LIKE #{keyword}
+		ORDER BY product_idx
+		LIMIT #{size} OFFSET #{offset}
+	</select>
+
+	<!-- 검색 페이지 -->
+	<select id="search_count" resultType="int">
+		SELECT COUNT(*) FROM products
+		WHERE product_name LIKE #{keyword} OR sellers_idx LIKE #{keyword} OR
+		product_idx LIKE #{keyword}
+	</select>
+
+	<select id="check" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM products WHERE product_idx = #{product_idx}
+	</select>
+	
+</mapper>
+
+
+
+
+
+

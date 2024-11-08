@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cart">
+	<select id="list" resultType="CartVO" parameterType="String">
+		SELECT c.*, u.user_id, u.username, p.product_name, p.price, p.saleprice, p.stock, thumbnail_url, p.status
+		FROM cart c 
+		INNER JOIN users u ON c.user_idx = u.user_idx 
+		INNER JOIN products p ON c.product_idx = p.product_idx 
+		WHERE c.user_idx = #{user_idx};
+	</select>
+</mapper>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inquiry">
+	<select id="list" resultType="mivo" parameterType="map">
+		select i.*, ia.answer
+		from inquiry i
+		left join inquiry_answer ia on
+		i.u_idx = ia.u_idx
+		<!-- 정렬을 날짜 역순으로 함 -->
+		order by write_date desc
+		LIMIT #{offset}, #{size}
+	</select>
+
+	<insert id="insert" parameterType="mivo">
+		insert into inquiry(u_idx,
+		user_id, category, password, subject,
+		content, f_name, write_date)
+		values(#{u_idx}, #{user_id},#{category},
+		#{password}, #{subject}, #{content},
+		#{f_name}, now())
+	</insert>
+
+	<select id="count" resultType="int">
+		select count(*) from inquiry
+	</select>
+
+	<select id="detail" parameterType="String" resultType="mivo">
+		select *
+		from inquiry where u_idx = #{u_idx}
+	</select>
+
+	<delete id="delete" parameterType="String">
+		delete from inquiry where
+		u_idx = #{u_idx}
+	</delete>
+
+	<!-- 검색 -->
+	<select id="search" resultType="mivo">
+		SELECT * FROM inquiry
+		WHERE
+		subject LIKE #{keyword} OR user_id LIKE #{keyword}
+		OR category LIKE
+		#{keyword}
+		ORDER BY u_idx
+		LIMIT #{size} OFFSET #{offset}
+	</select>
+
+	<!-- 검색 페이지 -->
+	<select id="search_count" resultType="int">
+		SELECT COUNT(*) FROM
+		inquiry
+		WHERE subject LIKE #{keyword} OR user_id LIKE #{keyword}
+		OR
+		category LIKE #{keyword}
+	</select>
+
+	<!-- 사용자의 전체 문의 수를 가져오는 쿼리(마이페이지)-->
+	<select id="count_user" resultType="int" parameterType="String">
+		select
+		count(*) from inquiry where user_id = #{user_id}
+	</select>
+
+	<!-- 특정 사용자의 문의리스트(마이페이지) -->
+	<select id="list_user" resultType="mivo" parameterType="string">
+		select * from
+		inquiry WHERE user_id = #{user_id} order by u_idx
+	</select>
+	<!-- 페이지리스트(마이페이지) -->
+	<select id="pageList" parameterType="Map" resultType="mivo">
+		select *  from inquiry 
+		where user_id = #{user_id}
+		order by u_idx desc 
+		limit #{limit} offset #{offset}
+	</select> 
+	
+	<!-- 회원정보 수정 -->
+	<update id="updateMemberInfo" parameterType="mvo">
+UPDATE users SET username = #{username}, email = #{email}, phone_number = #{phone_number}, basic_address = #{basic_address}, password = #{password},
+<!--  비밀번호 추가  -->
+updated_at = NOW() WHERE user_id = #{user_id}
+</update>
+
+<!--  사용자 정보 조회  -->
+<select id="getMemberInfo" parameterType="String" resultType="mvo"> SELECT * FROM users WHERE user_id = #{user_id} </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

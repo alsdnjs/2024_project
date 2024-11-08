@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="seller">
+	<select id="list" resultType="msvo" parameterType="map">
+
+		SELECT * FROM
+		sellers
+		LIMIT #{offset}, #{size}
+	</select>
+
+	<select id="detail" parameterType="String" resultType="msvo">
+		select *
+		from sellers where sellers_idx = #{sellers_idx}
+	</select>
+
+	<select id="detail2" parameterType="String" resultType="msvo">
+		select *
+		from sellers where user_id = #{user_id}
+	</select>
+	
+	<delete id="delete" parameterType="String">
+		delete from sellers where
+		sellers_idx = #{sellers_idx}
+	</delete>
+
+	<update id="update" parameterType="msvo">
+		update sellers
+		set store_name
+		= #{store_name},
+		store_description = #{store_description}, update_at = Now(),
+		contact_number = #{contact_number}, seller_rep_name = #{seller_rep_name}
+		where sellers_idx = #{sellers_idx}
+	</update>
+
+	<select id="count" resultType="int">
+		SELECT COUNT(*) FROM sellers;
+	</select>
+
+	
+	 <!-- 검색 -->
+    <select id="search" resultType="msvo">
+        SELECT * FROM sellers
+        WHERE store_name LIKE #{keyword} OR seller_rep_name LIKE #{keyword}
+        ORDER BY seller_id
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- 검색 페이지 -->
+    <select id="search_count" resultType="int">
+        SELECT COUNT(*) FROM sellers
+        WHERE store_name LIKE #{keyword} OR seller_rep_name LIKE #{keyword}
+    </select>
+</mapper>
+
+
+
+
+
+

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="notice">
+	<select id="list" resultType="nvo">
+		select * from notices order by
+		n_idx desc LIMIT #{offset}, #{size}
+	</select>
+
+	<insert id="insert" parameterType="nvo">
+		insert into notices(subject,
+		writer, content, f_name, pwd, write_date)
+		values(#{subject},
+		#{writer},#{content}, #{f_name}, #{pwd}, now())
+	</insert>
+
+	<select id="detail" parameterType="String" resultType="nvo">
+		select *
+		from notices where n_idx = #{n_idx}
+	</select>
+
+	<update id="update" parameterType="nvo">
+		update notices
+		set subject =
+		#{subject} , content=#{content} , writer = #{writer} ,
+		f_name=#{f_name}
+		where n_idx = #{n_idx}
+	</update>
+
+	<select id="count" resultType="int">
+		select count(*) from notices
+	</select>
+
+	<delete id="delete" parameterType="String">
+		delete from notices where
+		n_idx = #{n_idx}
+	</delete>
+
+	<select id="pageList" parameterType="Map" resultType="nvo">
+		SELECT *
+		FROM notices order by n_idx desc limit #{limit} offset #{offset};
+	</select>
+	
+	<!-- 검색 -->
+	<select id="search" resultType="nvo">
+		SELECT * FROM notices
+		WHERE subject
+		LIKE #{keyword} OR writer LIKE #{keyword}
+		ORDER BY n_idx
+		LIMIT
+		#{size} OFFSET #{offset}
+	</select>
+
+	<!-- 검색 페이지 -->
+	<select id="search_count" resultType="int">
+		SELECT COUNT(*) FROM notices
+		WHERE subject
+		LIKE #{keyword} OR writer LIKE #{keyword}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

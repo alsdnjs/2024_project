@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shipping">
+	
+	 <select id="count" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM Shipping WHERE orders_idx = #{orders_idx}
+    </select>
+
+    <select id="list" parameterType="map" resultType="shvo">
+     SELECT * FROM Shipping s 
+         INNER JOIN orders o ON s.orders_idx=o.orders_idx 
+         INNER JOIN Products p ON o.product_idx=p.product_idx
+         WHERE s.orders_idx = #{orders_idx}
+        ORDER BY shipping_date DESC
+   	 LIMIT #{offset}, #{limit}
+    </select>
+	
+	
+</mapper>

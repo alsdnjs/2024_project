@@ -3,18 +3,18 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="manager">
-	<select id="list" resultType="gb2vo" parameterType="map">
+	<select id="list" resultType="mmvo" parameterType="map">
 
 		SELECT * FROM manager
 		LIMIT #{offset}, #{size}
 	</select>
 
-	<select id="detail" parameterType="String" resultType="gb2vo">
+	<select id="detail" parameterType="String" resultType="mmvo">
 		select *
 		from manager where manager_id = #{manager_id}
 	</select>
 
-	<insert id="insert" parameterType="gb2vo">
+	<insert id="insert" parameterType="mmvo">
 		insert into
 		manager(manager_id, manager_pw, manager_type, manager_email,
 		manager_name)
@@ -27,7 +27,7 @@
 		manager_id = #{manager_id}
 	</delete>
 
-	<update id="update" parameterType="gb2vo">
+	<update id="update" parameterType="mmvo">
 		update manager
 		set
 		manager_name= #{manager_name}, manager_id = #{manager_id}, manager_pw
@@ -41,6 +41,20 @@
 	<select id="count" resultType="int">
 		SELECT COUNT(*) FROM manager;
 	</select>
+	
+	<!-- 검색 -->
+    <select id="search" resultType="mmvo">
+        SELECT * FROM manager
+        WHERE manager_name LIKE #{keyword}
+        ORDER BY manager_id
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- 검색 페이지 -->
+    <select id="search_count" resultType="int">
+        SELECT COUNT(*) FROM manager
+        WHERE manager_name LIKE #{keyword}
+    </select>
 </mapper>
 
 
