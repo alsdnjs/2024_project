@@ -30,23 +30,23 @@ public class CartDAOImpl implements CartDAO{
 	}
 
 	@Override
-	public int getCartInsert(CartVO cartVO) throws Exception {
-		return 0;
+	public String getCartInsert(CartVO cartVO) throws Exception {
+		return null;
 	}
 
 	@Override
-	public int getCartUpdate(CartVO cartVO) throws Exception {
-		return 0;
+	public String getCartUpdate(CartVO cartVO) throws Exception {
+		return null;
 	}
 
 	@Override
-	public int getCartEdit(CartVO cavo) throws Exception {
-		return 0;
+	public String getCartEdit(CartVO cavo) throws Exception {
+		return null;
 	}
 
 	@Override
-	public int getCartDelete(String cart_idx) throws Exception {
-		return 0;
+	public String getCartDelete(String cart_idx) throws Exception {
+		return null;
 	}
 
 }

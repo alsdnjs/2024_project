@@ -381,7 +381,6 @@ hr {
          }
         }
          %>
-        <a href="/sellerProfileChk" >판매자정보수정</a>
 			<button id="toggleSidebar">>></button>
 		</div>
 

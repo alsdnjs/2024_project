@@ -311,13 +311,21 @@
 <div class="side-main-container">
     <div class="sidebar-size-controll"></div>
     <!-- 사이드바 -->
-    <div id="sidebar" class="sidebar">
-        <a href="/mypage">나의 경빈이네</a>
-        <a href="/orderHistory">주문/배송 내역</a>
-        <a href="#" class="active">회원정보수정</a>
-        <a href="/myInquiry">나의 상품문의</a>
-        <button id="toggleSidebar">>></button>
-    </div>
+ <div id="sidebar" class="sidebar">
+			<a href="/mypage" >나의 경빈이네</a> 
+			<a href="/orderHistory" >주문/배송 내역</a> 
+			<a href="/updateProfile" class="active">회원정보수정</a>
+			 <a href="/myInquiry" >나의 1:1 문의</a>
+        <%
+        String userRole = (String) session.getAttribute("user_role");
+        if (userRole != null) {
+        if (userRole.equalsIgnoreCase("사업자")) {
+        %> <a href="/sellerProfileChk">판매자정보수정</a> <%
+         }
+        }
+         %>
+			<button id="toggleSidebar">>></button>
+		</div>
     <!-- 메인 컨테이너 -->
    <div class="container-fluid main-content" id="main-content">
     <div class="form-container">

@@ -176,10 +176,9 @@ p {
 				<tr>
 					<td>카테고리</td>
 					<td><select name="category_id" required>
-							<option value="4">돼지고기</option>
-							<option value="3">소고기</option>
-							<option value="2">양고기</option>
-							<option value="1">가공육</option>
+							<option value="24002">돼지고기</option>
+							<option value="24001">소고기</option>
+							<option value="24003">닭고기</option>
 					</select></td>
 				</tr>
 				<tr>

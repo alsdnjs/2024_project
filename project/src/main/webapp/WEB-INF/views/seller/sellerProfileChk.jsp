@@ -334,7 +334,7 @@
  		}
 		}
  		%>
-        <a href="/sellerProfile" class="active">판매자정보수정</a>
+       
         <button id="toggleSidebar">>></button>
     </div>
     <!-- 메인 컨테이너 -->

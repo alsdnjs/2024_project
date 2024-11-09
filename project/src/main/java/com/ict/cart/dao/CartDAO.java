@@ -15,9 +15,9 @@ public interface CartDAO {
     public List<CartVO> getCartList(String user_idx) throws Exception;
     
     public CartVO getCartCheck(String m_idx, String p_num);
-    public int getCartInsert(CartVO cartVO) throws Exception; 
-    public int getCartUpdate(CartVO cartVO) throws Exception; 
-    public int getCartEdit(CartVO cavo)throws Exception;
-    public int getCartDelete(String cart_idx) throws Exception; 
+    public String getCartInsert(CartVO cartVO) throws Exception; 
+    public String getCartUpdate(CartVO cartVO) throws Exception; 
+    public String getCartEdit(CartVO cavo)throws Exception;
+    public String getCartDelete(String cart_idx) throws Exception; 
 
 }

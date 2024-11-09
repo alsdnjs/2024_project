@@ -22,7 +22,7 @@
 		products(product_idx,
 		product_name, sellers_idx, description, price,
 		stock,
-		category_id,
+		category_idx,
 		created_at, is_active, thumbnail_url)
 		values(#{product_idx},
 		#{product_name}, #{sellers_idx},

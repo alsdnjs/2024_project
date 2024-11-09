@@ -281,8 +281,7 @@ footer {
                 <a href="/notice" >공지사항</a>
                 <a href="/questions" class="active">자주 묻는 질문</a>
                 <a href="/rank">등급 혜택</a>
-                <a href="/productinquiries">상품 문의</a>
-                <a href="/oneinquiries">1:1 문의</a>
+              
             </div>
 
 			<!-- 메인 콘텐츠 -->

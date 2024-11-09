@@ -157,6 +157,7 @@ public class LoginController {
                 	session.setAttribute("user_id", memberVO.getUser_id());
                     session.setAttribute("loginStatus", "ok");
                     session.setAttribute("userInfo", foundUser);
+                    session.setAttribute("user_role", foundUser.getUser_role());
                     
                     System.out.println("로그인 성공: 세션 설정 완료");
                     

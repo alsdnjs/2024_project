@@ -17,6 +17,8 @@ import com.ict.manager.seller.service.SellerService;
 import com.ict.manager.seller.vo.ManagerSellerVO;
 import com.ict.manager.user.service.UserService;
 import com.ict.manager.user.vo.ManagerUserVO;
+import com.ict.member.service.MemberService;
+import com.ict.member.vo.MemberVO;
 import com.ict.mypage.seller.service.MypageSellerProfileService;
 import com.ict.mypage.seller.vo.MypageSellerProfileVO;
 
@@ -37,7 +39,10 @@ public class MypageSellerController {
 	public ModelAndView sellerProfile(HttpServletRequest request) {
 		// 주석
 		HttpSession session = request.getSession();
-		 String userId = (String) session.getAttribute("user_id");
+		String userId = (String) session.getAttribute("user_id");
+		
+		String userRole = (String) session.getAttribute("user_role");
+		System.out.println("세션확인용 : " + userRole);
 		
 		ManagerUserVO userInfo = userService.getUserDetail(userId);
 		ModelAndView mv = new ModelAndView("seller/sellerProfileChk");
@@ -59,11 +64,13 @@ public class MypageSellerController {
 	public ModelAndView SellerUpdateLogin(HttpServletRequest request, String password) {
 	    HttpSession session = request.getSession();
 	    String userId = (String) session.getAttribute("user_id");
+	    System.out.println("아이디를 가져오는가" + userId);
+	    // 아이디는 제대로 가져옴
 
 	    // seller 정보 가져오기
 	    ManagerSellerVO sellerInfo = sellerService.getSellerDetail2(userId);
 	    ModelAndView mv = new ModelAndView("seller/sellerProfile");
-
+	    
 	    if (sellerInfo != null) {
 	        mv.addObject("seller_idx", sellerInfo.getSellers_idx());
 	        mv.addObject("store_name", sellerInfo.getStore_name());
@@ -73,9 +80,16 @@ public class MypageSellerController {
 	    }
 
 	    // DB에서 암호화된 비밀번호 가져오기
-	    String storedPassword = mypageSellerService.SellerProfileUpdate(userId);
+	    ManagerUserVO uvo = userService.getUserDetail(userId);
+	    
+	    if (uvo.getPassword() == null || uvo == null) {
+	    	mv = new ModelAndView("seller/sellerProfileChk");
+	        mv.addObject("message", "비밀번호가 올바르지 않습니다.");
+	        return mv;
+		}
+	    String storedPassword = uvo.getPassword();
 	    System.out.println("Stored Password: " + storedPassword);
-
+	    
 	    // 비밀번호 검사
 	    if (passwordEncoder.matches(password, storedPassword)) {
 	        return mv;

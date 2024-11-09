@@ -140,9 +140,8 @@ body {
 					</c:choose>
 					<li class="nav-item"><a class="nav-link" href="/mypage">마이페이지</a></li>
 					<li class="nav-item"><a class="nav-link" href="/notice">고객센터</a></li>
-					
-					<li class="nav-item dropdown">
-					<a
+
+					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" onclick="toggleDropdown()">카테고리</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<li><a class="dropdown-item"
@@ -231,10 +230,19 @@ body {
 							<div class="col mb-5">
 								<div class="card h-100">
 									<!-- Product image-->
-									<img class="card-img-top"
+									<c:choose>
+										<c:when test="${empty k.thumbnail_url}">
+											<img class="card-img-top"
 										src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
 										alt="..." />
-									<!-- Product details-->
+										</c:when>
+										<c:otherwise>
+					
+											<img class="card-img-top" src="resources/upload/${k.thumbnail_url}"
+													/>
+										</c:otherwise>
+									</c:choose>
+									
 									<div class="card-body p-4">
 										<div class="text-center">
 											<!-- Product name-->

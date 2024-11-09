@@ -29,22 +29,56 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public int getCartInsert(CartVO cartVO) throws Exception {
+	public String getCartInsert(CartVO cartVO) throws Exception {
+		return null;
+	}
+
+	@Override
+	public String getCartUpdate(CartVO cartVO) throws Exception {
+		return null;
+	}
+
+	@Override
+	public String getCartEdit(CartVO cavo) throws Exception {
+		return null;
+	}
+
+	@Override
+	public String getCartDelete(String cart_idx) throws Exception {
+		return null;
+	}
+
+	@Override
+	public CartVO getProductByIdx(String productIdx) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int deleteSelectedItems(List<Integer> product_ids, String user_idx) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
+
+	
+
+	@Override
+	public int updateExistingQuantity(String cart_idx, int quantity) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int getCartUpdate(CartVO cartVO) throws Exception {
-		return 0;
+	public CartVO isProductInCart(String user_idx, String product_idx) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public int getCartEdit(CartVO cavo) throws Exception {
-		return 0;
-	}
-
-	@Override
-	public int getCartDelete(String cart_idx) throws Exception {
+	public int addToCart(String user_idx, String product_idx, int quantity) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
