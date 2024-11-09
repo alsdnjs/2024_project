@@ -341,6 +341,43 @@ body, html {
 .d-flex{
 	margin-right: -70px;
 }
+.navbar-brand {
+	margin-left: -35px;
+}
+
+.d-flex {
+	margin-right: -70px;
+}
+.product_img{
+        width: 100%;
+        aspect-ratio: 4 / 3;  /* 1:1 비율 */
+    }
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    color: #333;
+}
+.no-history hr{
+    color: black;
+}
+
+.history-item hr {
+    background-color: black;
+    border: none; /* 기본 테두리를 제거하고 배경색만 남깁니다 */
+    height: 1px; /* hr 요소의 두께 */
+}
+.no-history hr{
+    color: black;
+}
+
+.history-item hr {
+    background-color: black;
+    border: none; /* 기본 테두리를 제거하고 배경색만 남깁니다 */
+    height: 1px; /* hr 요소의 두께 */
+}
 </style>
 </head>
 <body>
@@ -462,50 +499,75 @@ body, html {
 					<!-- 배송 상태 카드들 -->
 					<div class="shipping-status">
 						<i class="fa-solid fa-truck">진행중 주문</i>
+
 						<div class="row text-center">
+							<!-- 상태별 개수 변수 초기화 -->
+							<c:set var="paymentCompletedCount" value="0" />
+							<c:set var="preparingProductCount" value="0" />
+							<c:set var="preparingShippingCount" value="0" />
+							<c:set var="shippingPreparingCount" value="0" />
+							<c:set var="shippingCompletedCount" value="0" />
+
+							<!-- 목록을 반복하며 상태별 개수 누적 -->
+							<c:forEach var="k" items="${clist}" varStatus="c">
+								<c:if test="${k.status == '결제완료'}">
+									<c:set var="paymentCompletedCount"
+										value="${paymentCompletedCount + 1}" />
+								</c:if>
+								<c:if test="${k.status == '상품준비중'}">
+									<c:set var="preparingProductCount"
+										value="${preparingProductCount + 1}" />
+								</c:if>
+								
+								<c:if test="${k.status == '배송 중'}">
+									<c:set var="preparingShippingCount"
+										value="${preparingShippingCount + 1}" />
+								</c:if>
+								<c:if test="${k.status == '배송완료'}">
+									<c:set var="shippingCompletedCount"
+										value="${shippingCompletedCount + 1}" />
+								</c:if>
+							</c:forEach>
+
+							<!-- 결과 출력 -->
 							<div class="col-xl-2 col-md-4 col-sm-6 mt-3">
 								<div class="dashboard-card2 box">
-									<p>입금대기중</p>
-									<span>0건</span>
+									<p>결제완료</p>
+									<span>${paymentCompletedCount}건</span>
 								</div>
 							</div>
 							<div class="col-xl-2 col-md-4 col-sm-6 mt-3">
 								<div class="dashboard-card2 box">
-									<p>입금확인</p>
-									<span>0건</span>
+									<p>상품준비 중</p>
+									<span>${preparingProductCount}건</span>
 								</div>
 							</div>
 							<div class="col-xl-2 col-md-4 col-sm-6 mt-3">
 								<div class="dashboard-card2 box">
-									<p>배송준비중</p>
-									<span>0건</span>
+									<p>배송준비 중</p>
+									<span>${shippingPreparingCount}건</span>
 								</div>
 							</div>
 							<div class="col-xl-2 col-md-4 col-sm-6 mt-3">
 								<div class="dashboard-card2 box">
-									<p>배송중</p>
-									<span>0건</span>
+									<p>배송 중</p>
+									<span>${preparingShippingCount}건</span>
 								</div>
 							</div>
 							<div class="col-xl-2 col-md-4 col-sm-6 mt-3">
 								<div class="dashboard-card2 box">
 									<p>배송완료</p>
-									<span>0건</span>
+									<span>${shippingCompletedCount}건</span>
 								</div>
 							</div>
-							<div class="col-xl-2 col-md-4 col-sm-6 mt-3">
-								<div class="dashboard-card2 box">
-									<p>취소</p>
-									<span>0건</span>
-								</div>
-							</div>
+
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<!-- Bootstrap Modal 1 -->
 	<div class="modal fade" id="pointInfoModal" tabindex="-1" role="dialog"
 		aria-labelledby="pointInfoModalLabel" aria-hidden="true">
@@ -522,36 +584,104 @@ body, html {
 
 				<!-- Modal Body with Input Form -->
 				<div class="modal-body">
+					<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
+				<script type="text/javascript">
+				// 페이지가 로드될 때 실행하여 적립금 표시 업데이트
+				$(document).ready(function() {
+				    loadTotalPoints();
+				});
 
+				function loadTotalPoints() {
+				    $.ajax({
+				        url: '/getpoint', 
+				        method: 'GET',
+				        data: { user_id: user_id }, // userIdx 변수가 사용자 ID를 저장하고 있어야 함
+				        dataType: "json",
+				        success: function(data) {
+				            let totalPoints = 0;
+				            for (let i = 0; i < data.length; i++) {
+				                if (data[i].points_type === '적립') {
+				                    totalPoints += data[i].points_amount;
+				                } else if (data[i].points_type === '사용') {
+				                    totalPoints -= data[i].points_amount;
+				                }
+				            }
 
-					<!-- 적립금 정보 -->
-					<div class="points-info">
-						<h3>사용 가능 적립금</h3>
-						<div class="points-amount">0원</div>
-						<div class="points-detail">
-							소멸예정 금액 (30일 이내): 0원<br> 총 누적 적립금: 6,128원
-						</div>
-					</div>
-					<!-- 탭 메뉴 -->
-					<div class="tabs">
-						<button>전체</button>
-					</div>
+				            // 0원 부분을 업데이트
+				            $('#totalPointsDisplay').text(totalPoints.toLocaleString() + "원");
+				        },
+				        error: function(error) {
+				            console.error("Error loading total points:", error);
+				        }
+				    });
+				}
 
-					<!-- 적립금 내역 없음 표시 -->
-					<div class="no-history" style="display: none;">적립/사용/소멸 내역이
-						없습니다.</div>
+				function openPointsModal() {
+				    $.ajax({
+				        url: '/getpoint', 
+				        method: 'GET',
+				        data: { user_idx: user_id },
+				        dataType: "json",
+				        success: function(data) {
+				            let modalBody = $('#pointInfoModal .modal-body');
+				            modalBody.empty();
+
+				            // 총 적립금 계산
+				            let totalPoints = 0;
+				            for (let i = 0; i < data.length; i++) {
+				                if (data[i].points_type === '적립') {
+				                    totalPoints += data[i].points_amount;
+				                } else if (data[i].points_type === '사용') {
+				                    totalPoints -= data[i].points_amount;
+				                }
+				            }
+
+				            // 모달 내 적립금 표시 업데이트
+				            let pointsInfo = "<div class='points-info'>";
+				            pointsInfo += "<h3>사용 가능 적립금</h3>";
+				            pointsInfo += "<div class='points-amount'>" + totalPoints.toLocaleString() + "원</div>";
+				            pointsInfo += "</div>";
+				            pointsInfo += "<div class='tabs'><button>전체내역</button></div>";
+				            pointsInfo += "<hr>";
+				            modalBody.append(pointsInfo);
+
+				            // 적립금 내역 반복 표시
+				            if (data.length === 0) {
+				                modalBody.append("<div class='no-history'><hr>적립/사용 내역이 없습니다.</div>");
+				            } else {
+				                for (let i = 0; i < data.length; i++) {
+				                    let description = data[i].description;
+				                    let points_type = data[i].points_type;
+				                    let points_amount = data[i].points_amount;
+				                    let created_at = data[i].created_at;
+
+				                    let pointDiv = "<div class='history-item'><hr>";
+				                    pointDiv += "<span>" + description + "</span>&ensp;";
+				                    pointDiv += "<span>" + points_amount.toLocaleString() + "원</span>&ensp;";
+				                    pointDiv += "<span>" + points_type + "</span>&ensp;";
+				                    pointDiv += "<span>" + created_at + "</span>";
+				                    pointDiv += "</div>";
+
+				                    modalBody.append(pointDiv);
+				                }
+				            }
+
+				            // 모달 열기
+				            $('#pointInfoModal').modal('show');
+				        },
+				        error: function(error) {
+				            console.error("Error loading point:", error);
+				        }
+				    });
+				}
+
+				</script>
 
 				</div>
 
-				<!-- Modal Footer with Buttons -->
-				<div class="modal-footer" style="justify-content: center;">
-					<img src="https://cdn-icons-png.flaticon.com/512/16/16410.png"
-						class="point_img" alt="적립금 아이콘"> 적립/사용/소멸 내역이 없습니다.
-				</div>
 			</div>
 		</div>
 	</div>
-
 
 	<!-- Bootstrap Modal 2 -->
 	<div class="modal fade" id="orderInfoModal" tabindex="-1" role="dialog"

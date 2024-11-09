@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.common.Paging;
@@ -18,68 +17,99 @@ import com.ict.shipping.vo.ShippingVO;
 @Controller
 public class ShippingController {
 
-    @Autowired
-    private ShippingService shippingService;
-    
-    @Autowired
-    private Paging paging;
-    
-    @RequestMapping("/orderHistory")
-    public ModelAndView getShippingList(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        ModelAndView mv = new ModelAndView("mypage/orderHistory");
+	@Autowired
+	private ShippingService shippingService;
 
-        // 세션에서 주문 ID를 가져온다.
-        Integer user_idx = (Integer) session.getAttribute("user_idx");
+	@Autowired
+	private Paging paging;
 
-        // user_idx가 null일 경우 처리
-        if (user_idx == null || user_idx == 0) {
-            // 테스트용으로 임시 값 설정
-            user_idx = 41; // 존재하는 주문 ID 값으로 설정
-            session.setAttribute("user_idx", user_idx);
-        }
+	@RequestMapping("/orderHistory")
+	public ModelAndView getShippingList(HttpServletRequest request) {
+	    HttpSession session = request.getSession();
+	    ModelAndView mv = new ModelAndView("mypage/orderHistory");
 
-        // 전체 배송 내역 수를 구하기
-        int count = shippingService.getTotalCount(user_idx);
-        paging.setTotalRecord(count);
+	    // 세션에서 user_id 가져오기
+	    String user_id = (String) session.getAttribute("user_id");
+	    if (user_id == null) {
+	        mv.addObject("error", "로그인이 필요합니다.");
+	        mv.setViewName("redirect:/user_login");
+	        return mv;
+	    }
 
-        // 페이지 수 계산
-        if (paging.getTotalRecord() <= paging.getNumPerPage()) {
-            paging.setTotalPage(1);
-        } else {
-            paging.setTotalPage(paging.getTotalRecord() / paging.getNumPerPage());
-            if (paging.getTotalRecord() % paging.getNumPerPage() != 0) {
-                paging.setTotalPage(paging.getTotalPage() + 1);
-            }
-        }
+	    // 전체 배송 내역 수 조회 및 페이징 설정
+	    int count = shippingService.getTotalCount(user_id);
+	    paging.setTotalRecord(count);
+	    paging.setTotalPage((int) Math.ceil((double) count / paging.getNumPerPage()));
+	    
+	    // 현재 페이지 설정
+	    String cPage = request.getParameter("cPage");
+	    paging.setNowPage(cPage == null ? 1 : Integer.parseInt(cPage));
+	    
+	    // Offset 계산
+	    paging.setOffset(paging.getNumPerPage() * (paging.getNowPage() - 1));
+	    
+	    // 블록 계산
+	    int beginBlock = (paging.getNowPage() - 1) / paging.getPagePerBlock() * paging.getPagePerBlock() + 1;
+	    int endBlock = Math.min(beginBlock + paging.getPagePerBlock() - 1, paging.getTotalPage());
+	    paging.setBeginBlock(beginBlock);
+	    paging.setEndBlock(endBlock);
 
-        // 현재 페이지 설정
-        String cPage = request.getParameter("cPage");
-        if (cPage == null) {
-            paging.setNowPage(1);
-        } else {
-            paging.setNowPage(Integer.parseInt(cPage));
-        }
+	    // DB에서 페이징 처리된 배송 내역 가져오기
+	    List<ShippingVO> olist = shippingService.getShippingList(user_id, paging.getOffset(), paging.getNumPerPage());
+	       
+	    // Debugging 코드: olist가 비어 있는지 확인
+	    System.out.println("Debug: 주문 내역 리스트 사이즈 = " + (olist != null ? olist.size() : "olist가 null입니다."));
+	    
+	    mv.addObject("olist", olist);
+	    mv.addObject("paging", paging);
 
-        // offset 계산
-        paging.setOffset(paging.getNumPerPage() * (paging.getNowPage() - 1));
+	    return mv;
+	}
 
-        // 시작블록과 끝블록 설정
-        paging.setBeginBlock(
-                (int) (((paging.getNowPage() - 1) / paging.getPagePerBlock()) * paging.getPagePerBlock() + 1));
-        paging.setEndBlock(paging.getBeginBlock() + paging.getPagePerBlock() - 1);
 
-        if (paging.getEndBlock() > paging.getTotalPage()) {
-            paging.setEndBlock(paging.getTotalPage());
-        }
+	@RequestMapping("/mypage")
+	public ModelAndView getMypage(HttpServletRequest request) {
+	    HttpSession session = request.getSession();
+	    ModelAndView mv = new ModelAndView("mypage/mypage");
 
-        // DB에서 페이징 처리된 배송 내역 가져오기
-        List<ShippingVO> olist = shippingService.getShippingList(user_idx, paging.getOffset(), paging.getNumPerPage());
+	    // 세션에서 user_idx 가져오기
+	    String user_id = (String) session.getAttribute("user_id");
+	    System.out.println("Debug: user_idx from session = " + user_id);  // user_idx 값 확인
 
-        // 뷰에 데이터 추가
-        mv.addObject("olist", olist);
-        mv.addObject("paging", paging);
+	    // shippingService가 null인지 확인
+	    if (shippingService == null) {
+	        System.out.println("Error: shippingService is null.");  // shippingService null 확인
+	        mv.addObject("error", "서비스가 초기화되지 않았습니다.");
+	        return mv;
+	    } else {
+	        System.out.println("Debug: shippingService is initialized");  // shippingService 정상 확인
+	    }
 
-        return mv;
-    }
+	    // 주문 내역 가져오기
+	    List<ShippingVO> clist = null;
+	    try {
+	        System.out.println("Debug: Attempting to retrieve order count for user_id = " + user_id);
+	        clist = shippingService.getOrderCount(user_id);
+
+	        // clist가 null인지 확인
+	        if (clist == null) {
+	            System.out.println("Error: clist is null.");  // clist null 확인
+	            mv.addObject("error", "유효한 주문 내역이 없습니다.");
+	        } else if (clist.isEmpty()) {
+	            System.out.println("Debug: clist is empty");  // clist가 빈 리스트일 때
+	            mv.addObject("error", "주문 내역이 없습니다.");
+	        } else {
+	            System.out.println("Debug: clist retrieved successfully, size = " + clist.size());  // clist 크기 확인
+	            mv.addObject("clist", clist);
+	        }
+	    } catch (Exception e) {
+	        System.out.println("Error: Exception occurred while retrieving order count.");
+	        e.printStackTrace();
+	        mv.addObject("error", "주문 내역을 가져오는 중 오류가 발생했습니다.");
+	    }
+
+	    return mv;
+	}
+
+
 }

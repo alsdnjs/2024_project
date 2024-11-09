@@ -17,14 +17,15 @@ public class ShippingDAOImpl implements ShippingDAO{
 	private SqlSessionTemplate sqlSessionTemplate;
 	
 	@Override
-	public int getTotalCount(int user_idx) {
-		return sqlSessionTemplate.selectOne("shipping.count", user_idx);
+	public int getTotalCount(String user_id) {
+		return sqlSessionTemplate.selectOne("shipping.count", user_id);
 	}
 
 	@Override
-	public List<ShippingVO> getShippingList(int user_idx, int offset, int limit) {
+	public List<ShippingVO> getShippingList(String user_id, int offset, int limit) {
 	    Map<String, Object> paramMap = new HashMap<>();
-	    paramMap.put("user_idx", user_idx);  // int 타입이 Integer로 자동 박싱됨
+	    System.out.println("여기는dao"+ user_id);
+	    paramMap.put("user_id", user_id);  // int 타입이 Integer로 자동 박싱됨
 	    paramMap.put("offset", offset);
 	    paramMap.put("limit", limit);
 
@@ -32,8 +33,8 @@ public class ShippingDAOImpl implements ShippingDAO{
 	}
 
 	@Override
-	public List<ShippingVO> getOrderCount(int user_idx) {
-		return sqlSessionTemplate.selectList("shipping.clist", user_idx);
+	public List<ShippingVO> getOrderCount(String user_id) {
+		return sqlSessionTemplate.selectList("shipping.clist", user_id);
 	}
 
 

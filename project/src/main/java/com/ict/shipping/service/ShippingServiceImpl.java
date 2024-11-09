@@ -15,19 +15,20 @@ public class ShippingServiceImpl implements ShippingService{
 	private ShippingDAO shippingDAO;
 	
 	@Override
-	public int getTotalCount(int user_idx) {
-		return shippingDAO.getTotalCount(user_idx);
+	public int getTotalCount(String user_id) {
+		return shippingDAO.getTotalCount(user_id);
 	}
 
 	@Override
-	public List<ShippingVO> getShippingList(int user_idx, int offset, int limit) {
-		return shippingDAO.getShippingList(user_idx, offset, limit);
+	public List<ShippingVO> getShippingList(String user_id, int offset, int limit) {
+		return shippingDAO.getShippingList(user_id, offset, limit);
 	}
 
 	@Override
-	public List<ShippingVO> getOrderCount(int user_idx) {
-		return shippingDAO.getOrderCount(user_idx);
+	public List<ShippingVO> getOrderCount(String user_id) {
+		 System.out.println("여기는ser"+ user_id);
+		return shippingDAO.getOrderCount(user_id);
 	}
 
-	
+
 }

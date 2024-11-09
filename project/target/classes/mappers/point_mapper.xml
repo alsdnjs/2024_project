@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="point">
+	
+	 <select id="plist" parameterType="String" resultType="pvo">
+		SELECT * FROM points p
+         INNER JOIN users u ON p.user_idx=u.user_idx
+         WHERE u.user_id = #{user_id}
+         ORDER BY p.created_at DESC
+	</select>
+	
+</mapper>

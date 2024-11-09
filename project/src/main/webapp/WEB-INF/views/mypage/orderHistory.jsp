@@ -278,7 +278,7 @@ footer {
 					<hr>
 					<br>
 					<c:choose>
-						<c:when test="${empty list}">
+						<c:when test="${empty olist}">
 							<p>주문/배송 내역이 없습니다.</p>
 						</c:when>
 						<c:otherwise>
@@ -293,7 +293,7 @@ footer {
 											<th>주문상태</th>
 										</tr>
 									</thead>
-							<c:forEach var="k" items="${list}" varStatus="c">
+							<c:forEach var="k" items="${olist}" varStatus="c">
 									<tbody>
 										<tr>
 										<td>${paging.totalRecord - ((paging.nowPage-1)*paging.numPerPage + c.index)}</td>

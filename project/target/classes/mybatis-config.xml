@@ -42,7 +42,7 @@
 		<typeAlias type="com.ict.cart.vo.CartVO" alias="CartVO"/>
 		<typeAlias type="com.ict.products.vo.CategoryVO" alias="CategoryVO"/>
 		<typeAlias type="com.ict.products.vo.ReviewVO" alias="ReviewVO"/>
-		<typeAlias type="com.ict.likes.vo.LikeVO" alias="LikeVO"/>
+		<typeAlias type="com.ict.like.vo.LikeVO" alias="LikeVO"/>
 		
 
 		<!-- 수지님 -->
@@ -52,7 +52,7 @@
 			<typeAlias type="com.ict.data.vo.ProjectDatabaseVO" alias="pdvo" />
 		<!-- 혜리님 -->
 		<typeAlias type="com.ict.shipping.vo.ShippingVO" alias="shvo" />
-		
+		<typeAlias type="com.ict.point.vo.PointVO" alias="pvo"/>
 	
 		
 
@@ -82,8 +82,9 @@
 		<mapper resource="mappers/like_mapper.xml"/>
 		<!-- 혜리님  -->
 		<mapper resource="mappers/shipping_mapper.xml" />
-		
+		<mapper resource="mappers/point_mapper.xml"/>
 <mapper resource="mappers/mypage_seller_page_mapper.xml" />
+
 	
 
 

@@ -111,6 +111,8 @@ body {
 .dropdown-item:hover {
 	background-color: #ddd;
 }
+
+
 </style>
 </head>
 <body>
@@ -249,11 +251,10 @@ body {
 											<div class="product-label">
 												<h5 class="product-name">${k.product_name}</h5>
 												<div class="heart-container">
-													<input type="hidden" value="${k.product_idx}"> <input
-														type="checkbox" class="product-checkbox"
-														id="product${k.product_idx}"
-														data-product-idx="${k.product_idx}" hidden> <label
-														for="product${k.product_idx}" class="heart-checkbox">
+												<input type="hidden" value="${k.product_idx}"> 
+								<input type="checkbox" class="product-checkbox" id="product${k.product_idx}"
+										data-product-idx="${k.product_idx}" hidden> 
+														<label for="product${k.product_idx}" class="heart-checkbox">
 														<i class="far fa-heart"></i>
 													</label>
 												</div>
