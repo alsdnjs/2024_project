@@ -276,7 +276,10 @@ input {
                     	<div class="id_name">아이디 <span class="text-danger">*</span></div>
                    	 <div class="id_input_box">
                         <input class="id_input" type="text" name="user_id" placeholder="아이디 입력" required></div>
+                          <button type="button" class="btn btn-outline-secondary" id="idCheckButton">중복 확인</button>
                 	</div>
+                	 <div id="idCheckResult" style="color: red; font-size: 0.9em;"></div>
+					</div>
 					
 					<!-- 이름 -->
 					<div class="user_wrap">
@@ -515,6 +518,39 @@ input {
 			        });
 			    });
 			});
+				
+				
+				$(document).ready(function() {
+				    $('#idCheckButton').on('click', function() {
+				        const userId = $("input[name='user_id']").val();
+				        if (!userId) {
+				            alert("아이디를 입력해 주세요.");
+				            return;
+				        }
+
+				        // AJAX 요청
+				        $.ajax({
+				            url: "/check_user_id_login",
+				            type: "POST",
+				            data: { user_id: userId },
+				            success: function(response) {
+				                if (response.isAvailable) {
+				                    $('#idCheckResult').text("사용 가능한 아이디입니다.").css("color", "green");
+				                } else {
+				                    $('#idCheckResult').text("이미 사용 중인 아이디입니다.").css("color", "red");
+				                }
+				            },
+				            error: function() {
+				                alert("아이디 중복 체크에 실패했습니다. 다시 시도해 주세요.");
+				            }
+				        });
+				    });
+				});
+				
+				
+				
+				
+				
 </script>
 </body>
 </html>

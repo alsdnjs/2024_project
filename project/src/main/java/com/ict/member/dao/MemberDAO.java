@@ -1,5 +1,8 @@
 package com.ict.member.dao;
 
+import java.util.List;
+
+import com.ict.member.vo.AddressVO;
 import com.ict.member.vo.MemberVO;
 
 public interface MemberDAO {
@@ -23,5 +26,14 @@ public interface MemberDAO {
     
     // 총 구매 금액 조회 메서드  11/7 내가
     int getTotalSpent(String user_idx); 
+    
+    
+    
+ // 아이디 중복 1109 2시
+    public int checkUserId(String userId) throws Exception;
+    
+    
+    public List<AddressVO> getMemberAddressList(int user_idx) throws Exception;
+	public int getTotalPoint(int user_idx) throws Exception;
 }
 

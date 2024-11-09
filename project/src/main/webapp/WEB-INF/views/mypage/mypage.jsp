@@ -708,7 +708,7 @@ body, html {
 <script type="text/javascript">
     function openLikesModal() {
         $.ajax({
-            url: '/getLikes', // getLikes 컨트롤러의 URL
+            url: '/get_product_likes', // getLikes 컨트롤러의 URL
             method: 'GET',
             data: { user_idx: userIdx }, // userIdx 값을 전달
             dataType: "json",

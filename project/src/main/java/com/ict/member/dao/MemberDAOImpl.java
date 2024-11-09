@@ -1,12 +1,14 @@
 package com.ict.member.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ict.member.vo.AddressVO;
 import com.ict.member.vo.MemberVO;
 
 @Repository
@@ -57,4 +59,26 @@ public class MemberDAOImpl implements MemberDAO {
                 
             
     }
+        
+     // 아이디 중복  11092시
+        @Override
+        public int checkUserId(String userId) throws Exception {
+            return sqlSessionTemplate.selectOne("member.idchk", userId);
+        } 
+        
+        
+        @Override
+    	public List<AddressVO> getMemberAddressList(int user_idx) throws Exception {
+    		return sqlSessionTemplate.selectList("member.getAddressList", user_idx);
+    	}
+
+    	@Override
+    	public int getTotalPoint(int user_idx) throws Exception {
+    		return sqlSessionTemplate.selectOne("member.totalPoint", user_idx);
+    	}
+        
+        
+        
+        
+        
 }

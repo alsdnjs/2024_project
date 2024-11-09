@@ -1,5 +1,8 @@
 package com.ict.Login.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.member.service.MemberService;
@@ -126,6 +130,27 @@ public class LoginController {
         return mv;
     }
     
+  //아이디 중복 1109 2시
+    @PostMapping("/check_user_id_login")
+    @ResponseBody
+    public Map<String, Object> checkUserId(@RequestParam("user_id") String userId) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            boolean isAvailable = memberService.isUserIdAvailable(userId);
+            result.put("isAvailable", isAvailable);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("isAvailable", false);
+        }
+        return result;
+    }
+    
+    
+    
+    
+    
+    
+    
 	@GetMapping("/index")
 	public String index() {
 	    return "index"; // index.jsp 또는 index.html 페이지로 이동
@@ -158,6 +183,7 @@ public class LoginController {
                     session.setAttribute("loginStatus", "ok");
                     session.setAttribute("userInfo", foundUser);
                     session.setAttribute("user_role", foundUser.getUser_role());
+                    session.setAttribute("user_idx", foundUser.getUser_idx());
                     
                     System.out.println("로그인 성공: 세션 설정 완료");
                     

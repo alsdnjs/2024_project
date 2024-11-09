@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.ict.cart.service.CartService;
 import com.ict.cart.vo.CartVO;
+import com.ict.member.service.MemberService; // 추가된 부분
+import com.ict.member.vo.AddressVO; // 추가된 부분
 import com.ict.member.vo.MemberVO;
 
 @Controller
@@ -22,25 +24,28 @@ public class CartController {
 
     @Autowired
     private CartService cartService;
+    
+    @Autowired
+    private MemberService memberService; // 추가된 부분
 
-    // 세션에서 user_idx를 가져오는 로그인 상태 확인 메서드
-    private String getUserIdxFromSession(HttpSession session) {
+    // 세션에서 user_id를 가져오는 로그인 상태 확인 메서드
+    private String getUserIdFromSession(HttpSession session) {
         MemberVO loggedInUser = (MemberVO) session.getAttribute("userInfo");
-        return (loggedInUser != null) ? loggedInUser.getUser_idx() : null;
+        return (loggedInUser != null) ? loggedInUser.getUser_id() : null;
     }
 
     @GetMapping("/cart_list")
     public ModelAndView cartList(HttpSession session) {
         ModelAndView mv = new ModelAndView();
         try {
-            String user_idx = getUserIdxFromSession(session);
-            if (user_idx == null) {
+            String user_id = getUserIdFromSession(session);
+            if (user_id == null) {
                 System.out.println("로그인되지 않은 사용자입니다.");
                 mv.setViewName("redirect:/user_login");
                 return mv;
             }
 
-            List<CartVO> cart_list = cartService.getCartList(user_idx);
+            List<CartVO> cart_list = cartService.getCartList(user_id);
             mv.setViewName("cart/cart_list");
             mv.addObject("cart_list", cart_list);
         } catch (Exception e) {
@@ -54,8 +59,8 @@ public class CartController {
     @GetMapping("/orders_detail")
     public ModelAndView ordersDetail(HttpSession session) {
         try {
-            String user_idx = getUserIdxFromSession(session);
-            if (user_idx == null) {
+            String user_id = getUserIdFromSession(session);
+            if (user_id == null) {
                 return new ModelAndView("redirect:/user_login");
             }
             ModelAndView mv = new ModelAndView("products/order_details");
@@ -70,10 +75,21 @@ public class CartController {
     public ModelAndView viewOrderDetails(@RequestParam("selectedItems") String selectedItemsJson, HttpSession session) {
         ModelAndView mv = new ModelAndView("cart/order_details");
         try {
-            String user_idx = getUserIdxFromSession(session);
-            if (user_idx == null) {
+            String user_id = getUserIdFromSession(session);
+            if (user_id == null) {
                 return new ModelAndView("redirect:/user_login");
             }
+
+            // 사용자 주소 목록 받아오기 - 추가된 부분
+            int user_idx = Integer.parseInt(user_id); 
+            List<AddressVO> user_addresses = memberService.getMemberAddressList(user_idx);
+            if (user_addresses != null) {
+                mv.addObject("user_addresses", user_addresses);
+            }
+
+            // 사용자 포인트 불러오기 - 추가된 부분
+            int point = memberService.getTotalPoint(user_idx);
+            mv.addObject("point", point);
 
             // JSON 문자열을 List<Map<String, Object>>로 변환
             Gson gson = new Gson();
@@ -83,8 +99,8 @@ public class CartController {
             List<CartVO> cartList = new ArrayList<>();
 
             for (Map<String, Object> item : items) {
-            	String productIdx = String.valueOf(((Double) item.get("product_idx")).intValue());
-                String quantity = String.valueOf(((Double) item.get("quantity")).intValue());
+                int productIdx = ((Double) item.get("product_idx")).intValue();
+                int quantity = ((Double) item.get("quantity")).intValue();
 
                 // 상품 정보 DB에서 조회
                 CartVO product = cartService.getProductByIdx(productIdx);
@@ -106,9 +122,9 @@ public class CartController {
     @ResponseBody
     public Map<String, Object> deleteSelectedItems(HttpSession session, @RequestParam("product_ids") List<Integer> product_ids) {
         Map<String, Object> response = new HashMap<>();
-        String user_idx = getUserIdxFromSession(session);
+        String user_id = getUserIdFromSession(session);
 
-        if (user_idx == null) {
+        if (user_id == null) {
             response.put("login", false);
             response.put("success", false);
             return response;
@@ -117,9 +133,8 @@ public class CartController {
         }
 
         try {
-            // 만약 deleteSelectedItems 메서드가 int를 반환하면 아래와 같이 처리
-            int result = cartService.deleteSelectedItems(product_ids, user_idx);
-            response.put("success", result > 0); // 성공 여부를 정수 비교로 처리
+            int result = cartService.deleteSelectedItems(product_ids, user_id);
+            response.put("success", result > 0);
             return response;
         } catch (Exception e) {
             System.out.println(e);
@@ -128,24 +143,24 @@ public class CartController {
         }
     }
 
-
     @PostMapping("/add_to_cart")
     @ResponseBody
-    public Map<String, Object> addCart(HttpSession session, @RequestParam("product_idx") String product_idx, @RequestParam("quantity") int quantity) {
+    public Map<String, Object> addCart(HttpSession session, @RequestParam("product_idx") int product_idx, @RequestParam("quantity") int quantity) {
         Map<String, Object> response = new HashMap<>();
 
         try {
-            String user_idx = getUserIdxFromSession(session);
-            if (user_idx == null) {
+            String user_id = getUserIdFromSession(session);
+            if (user_id == null) {
                 response.put("redirect", true);
                 response.put("loginUrl", "/user_login");
                 return response;
             }
 
             int result;
-            CartVO existingItem = cartService.isProductInCart(user_idx, product_idx);
+            // 장바구니에 상품이 이미 있는지 확인 후 insert 또는 update
+            CartVO existingItem = cartService.isProductInCart(user_id, product_idx);
             if (existingItem == null) {
-                result = cartService.addToCart(user_idx, product_idx, quantity);
+                result = cartService.addToCart(user_id, product_idx, quantity);
             } else {
                 result = cartService.updateExistingQuantity(existingItem.getCart_idx(), quantity);
             }
@@ -157,8 +172,4 @@ public class CartController {
             return null;
         }
     }
-
-
-
-
 }

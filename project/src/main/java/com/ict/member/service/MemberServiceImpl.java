@@ -1,9 +1,12 @@
 package com.ict.member.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ict.member.dao.MemberDAO;
+import com.ict.member.vo.AddressVO;
 import com.ict.member.vo.MemberVO;
 
 @Service
@@ -57,4 +60,25 @@ public class MemberServiceImpl implements MemberService {
             
         
         }
+        
+        
+        
+      //아이디 중복 1109 2시
+        @Override
+        public boolean isUserIdAvailable(String userId) throws Exception {
+            return memberDAO.checkUserId(userId) == 0; // 아이디가 존재하지 않으면 true 반환
+        }
+        
+        
+        @Override
+    	public List<AddressVO> getMemberAddressList(int user_idx) throws Exception {
+    		return memberDAO.getMemberAddressList(user_idx);
+    	}
+
+    	@Override
+    	public int getTotalPoint(int user_idx) throws Exception {
+    		return memberDAO.getTotalPoint(user_idx);
+    	}
+        
+        
 }
