@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.common.Paging;
+import com.ict.manager.product.controller.ManagerProductController;
+import com.ict.manager.product.service.ProductService;
+import com.ict.manager.product.vo.ManagerProductVO;
 import com.ict.products.service.ProductsService;
 import com.ict.products.vo.CategoryVO;
 import com.ict.products.vo.MembersVO;
@@ -29,6 +32,9 @@ public class ProductsController {
 	private ProductsService productsService;
 	@Autowired
 	private Paging paging;
+	
+	@Autowired
+	private ProductService productService;
 	
 	@GetMapping("/products")
 	public ModelAndView productsList(HttpServletRequest request, HttpSession session) {
@@ -133,5 +139,42 @@ public class ProductsController {
 			return null;
 		}
 	}
+	
+	@GetMapping("/product_search_main")
+	public ModelAndView productsSearchList(
+	        HttpServletRequest request,
+	        @RequestParam(value = "keyword", required = false) String keyword) {
+	    ModelAndView mv = new ModelAndView("products/products_list_search");
+	    String orderBy = request.getParameter("orderBy");
+
+	    try {
+	        List<ProductsVO> productList;
+
+	        if (keyword != null && !keyword.trim().isEmpty()) {
+	            // 검색어가 있을 때 정렬에 따라 결과 제공
+	            if (orderBy == null || orderBy.trim().isEmpty() || orderBy.equals("desc")) {
+	                productList = productsService.getProductListSearchDesc(keyword);
+	            } else {
+	                productList = productsService.getProductListSearchAsc(keyword);
+	            }
+	        } else {
+	            // 검색어가 없을 때 전체 상품 리스트 불러오기
+	            if (orderBy == null || orderBy.trim().isEmpty() || orderBy.equals("desc")) {
+	                productList = productsService.getAllProductListDesc();
+	            } else {
+	                productList = productsService.getAllProductListAsc();
+	            }
+	        }
+
+	        mv.addObject("ProductList", productList);
+	        mv.addObject("keyword", keyword);
+	        return mv;
+
+	    } catch (Exception e) {
+	        System.out.println(e);
+	        return null;
+	    }
+	}
+
 	
 }

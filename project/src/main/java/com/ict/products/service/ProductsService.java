@@ -16,6 +16,10 @@ public interface ProductsService {
     public List<ProductsVO> getProductListAsc(String category_idx) throws Exception;
     public List<ProductsVO> getProductListDesc(String category_idx) throws Exception;
     
+    // 검색어에 맞는 상품 리스트 정렬
+    public List<ProductsVO> getProductListSearchAsc(String keyword) throws Exception;
+    public List<ProductsVO> getProductListSearchDesc(String keyword) throws Exception;
+    
     // 상품 상세 페이지
     public ProductsVO getProductDetail(String product_idx) throws Exception;
     

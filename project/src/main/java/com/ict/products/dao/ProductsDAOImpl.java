@@ -84,6 +84,20 @@ public class ProductsDAOImpl implements ProductsDAO{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	// 검색 list 순서대로
+	@Override
+	public List<ProductsVO> getProductSearchListAsc(String keyword) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		params.put("keyword", "%" + keyword + "%"); // 검색 키워드 설정
+		return sqlSessionTemplate.selectList("products.search_products_asc", params);
+	}
+	@Override
+	public List<ProductsVO> getProductSearchListDesc(String keyword) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		params.put("keyword", "%" + keyword + "%"); // 검색 키워드 설정
+		return sqlSessionTemplate.selectList("products.search_products_desc", params);
+	}
 
 
 

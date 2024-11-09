@@ -245,17 +245,16 @@ footer {
                         </c:choose>
 
 						<li class="nav-item"><a class="nav-link" href="/mypage">마이페이지</a></li>
-						<li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
-							role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" href="#!">돼지고기</a></li>
-								<li><hr class="dropdown-divider" /></li>
-								<li><a class="dropdown-item" href="#!">닭고기</a></li>
-								<li><a class="dropdown-item" href="#!">소고기</a></li>
-							</ul></li>
-					</ul>
+						<li class="nav-item"><a class="nav-link" href="/notice">고객센터</a></li>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" id="navbarDropdown" href="/products" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="products?category_idx=24002">돼지고기</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="products?category_idx=24003">닭고기</a></li>
+                                <li><a class="dropdown-item" href="products?category_idx=24001">소고기</a></li>
+                            </ul>
+                        </li>
+                    </ul>
 					<div class="search-container">
 						<input type="text" class="search-input" placeholder="검색어를 입력하세요">
 						<button class="search-button">
@@ -263,11 +262,11 @@ footer {
 								alt="돋보기">
 						</button>
 					</div>
-					<form class="d-flex">
-						<button class="btn btn-outline-dark" type="submit">
-							<i class="bi-cart-fill me-1"></i> Cart
-						</button>
-					</form>
+					<form class="d-flex" action="/cart_list" method="get">
+					<button class="btn btn-outline-dark" type="submit">
+						<i class="bi-cart-fill me-1"></i> Cart
+					</button>
+                </form>
 				</div>
 			</div>
 		</nav>

@@ -77,6 +77,17 @@ public class ProductsServiceImpl implements ProductsService{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	// 검색
+	@Override
+	public List<ProductsVO> getProductListSearchAsc(String keyword) throws Exception {
+		return productDAO.getProductSearchListAsc(keyword);
+	}
+
+	@Override
+	public List<ProductsVO> getProductListSearchDesc(String keyword) throws Exception {
+		return productDAO.getProductSearchListDesc(keyword);
+	}
 
 
 

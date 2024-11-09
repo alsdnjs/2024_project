@@ -111,8 +111,6 @@ body {
 .dropdown-item:hover {
 	background-color: #ddd;
 }
-
-
 </style>
 </head>
 <body>
@@ -155,12 +153,12 @@ body {
 								href="/products?category_idx=24001">소고기</a></li>
 						</ul></li>
 				</ul>
-			<div class="search-container">
-                    <form action="product_search_main" method="get">
-                        <input type="text" class="search-input" name="keyword"
-                            placeholder="검색어를 입력하세요">
-                    </form>
-                </div>
+				<div class="search-container">
+				<form action="product_search_main" method = "get">
+					<input type="text" class="search-input" name="keyword" placeholder="검색어를 입력하세요">
+					
+				</form>
+				</div>
 				<!-- 장바구니 리스트 -->
 				<form class="d-flex" action="/cart_list" method="get">
 					<button class="btn btn-outline-dark" type="submit">
@@ -206,12 +204,12 @@ body {
 
 	<div class="register-link">
 		<p>
-			<a href="/products?orderBy=desc&category_idx=${param.category_idx}"
+			<a href="/product_search_main?orderBy=desc&keyword=${keyword}"
 				class="btn-custom">높은순</a>
 		</p>
 		<br>
 		<p>
-			<a href="/products?orderBy=asc&category_idx=${param.category_idx}"
+			<a href="/product_search_main?orderBy=asc&keyword=${keyword}"
 				class="btn-custom">낮은순</a>
 		</p>
 	</div>
@@ -250,10 +248,11 @@ body {
 											<div class="product-label">
 												<h5 class="product-name">${k.product_name}</h5>
 												<div class="heart-container">
-												<input type="hidden" value="${k.product_idx}"> 
-								<input type="checkbox" class="product-checkbox" id="product${k.product_idx}"
-										data-product-idx="${k.product_idx}" hidden> 
-														<label for="product${k.product_idx}" class="heart-checkbox">
+													<input type="hidden" value="${k.product_idx}"> <input
+														type="checkbox" class="product-checkbox"
+														id="product${k.product_idx}"
+														data-product-idx="${k.product_idx}" hidden> <label
+														for="product${k.product_idx}" class="heart-checkbox">
 														<i class="far fa-heart"></i>
 													</label>
 												</div>

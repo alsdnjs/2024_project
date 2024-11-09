@@ -44,6 +44,26 @@
 		GROUP BY p.product_idx
 		ORDER BY avg_rating DESC
   	</select>
+  	<select id="search_products_asc" parameterType="String" resultType="ProductsVO">
+		SELECT p.*, COALESCE(AVG(r.rating), 0) AS avg_rating
+		FROM products p
+		LEFT JOIN reviews r 
+		ON p.product_idx = r.product_idx 
+		WHERE product_name LIKE #{keyword}
+		AND p.is_active = 1
+		GROUP BY p.product_idx
+		ORDER BY avg_rating ASC
+  	</select>
+  	<select id="search_products_desc" parameterType="String" resultType="ProductsVO">
+		SELECT p.*, COALESCE(AVG(r.rating), 0) AS avg_rating
+		FROM products p
+		LEFT JOIN reviews r 
+		ON p.product_idx = r.product_idx 
+		WHERE product_name LIKE #{keyword}
+		AND p.is_active = 1
+		GROUP BY p.product_idx
+		ORDER BY avg_rating DESC
+  	</select>
   	
   	<select id="detail" parameterType="String" resultType="ProductsVO">
 		SELECT p.*, COALESCE(AVG(r.rating), 0) AS avg_rating
