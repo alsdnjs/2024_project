@@ -102,4 +102,10 @@
 		VALUES(#{product_idx}, #{user_idx}, #{rating}, #{comment}, now(), now(), 1)
     </insert>
     
+    <!-- 11/10결제하기 -->
+    <select id="get_product_by_id" parameterType="int" resultType="com.ict.products.vo.ProductsVO">
+    SELECT * FROM products WHERE product_idx = #{productIdx}
+</select>
+    
+    
 </mapper>

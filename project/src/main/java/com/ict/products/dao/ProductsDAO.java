@@ -41,5 +41,11 @@ public interface ProductsDAO {
     
     // 상품 등록
     public int getProductInsert(ProductsVO svo) throws Exception;
+    
+    
+    
+    //1110
+    ProductsVO getProductById(int productIdx) throws Exception;
+
 
 }

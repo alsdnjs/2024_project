@@ -99,6 +99,13 @@ public class ProductsDAOImpl implements ProductsDAO{
 		return sqlSessionTemplate.selectList("products.search_products_desc", params);
 	}
 
+	
+	
+	//11/10
+	@Override
+	public ProductsVO getProductById(int productIdx) throws Exception {
+	    return sqlSessionTemplate.selectOne("products.get_product_by_id", productIdx);
+	}
 
 
 

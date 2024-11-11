@@ -40,4 +40,8 @@ public interface ProductsService {
     
     // 상품 등록
     public int getProductInsert(ProductsVO svo) throws Exception;
+    
+    
+    //11/10
+    public ProductsVO getProductById(int productIdx) throws Exception;
 }

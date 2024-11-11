@@ -22,4 +22,13 @@ public interface OrderDAO {
 		
 		// 검색 페이지
 		public int getSearchOrderCount(String keyword);
+		
+		
+		
+		
+		
+		
+		
+		// 결제 완료 후 주문을 저장하기 위한 메서드 1111
+	    int insertOrder(ManagerOrderVO order);
 }

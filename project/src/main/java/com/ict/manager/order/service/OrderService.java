@@ -24,5 +24,14 @@ public interface OrderService {
 	
 	// 검색 페이지..
 	public int getSearchOrderCount(String keyword);
+	
+	
+	
+	
+	
+	
+	
+    // 결제 완료 후 주문 저장 메서드 추가  1111
+    int saveOrder(ManagerOrderVO order);
 
 }

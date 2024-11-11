@@ -45,5 +45,13 @@ public class OrderServiceImpl implements OrderService{
 	public int getSearchOrderCount(String keyword) {
 		return orderDAO.getSearchOrderCount(keyword);
 	}
+	
+	
+	//1111
+	  @Override
+	    public int saveOrder(ManagerOrderVO order) {
+	        return orderDAO.insertOrder(order);
+	    }
+	
 
 }

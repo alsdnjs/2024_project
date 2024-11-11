@@ -90,8 +90,11 @@ public class ProductsServiceImpl implements ProductsService{
 	}
 
 
-
-
+//11/10
+	@Override
+	public ProductsVO getProductById(int productIdx) throws Exception {
+	    return productDAO.getProductById(productIdx);
+	}
 
 
 	

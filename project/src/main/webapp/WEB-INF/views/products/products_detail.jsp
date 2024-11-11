@@ -208,7 +208,8 @@ footer {
     			<input type="hidden" name="quantity" value="수량" />
 				 <button type="submit" class="btn btn-primary1 btn-spacing">장바구니 담기</button>
 				</form>
-				 <a class="btn btn-primary2 btn-spacing" href="#!">구매하기</a>
+				<a class="btn btn-primary2 btn-spacing" href="${pageContext.request.contextPath}/paymentPage?product_idx=${pvo.product_idx}&amount=${pvo.price}">구매하기</a>
+				
 			</div>
 		</div>
 

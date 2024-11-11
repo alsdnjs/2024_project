@@ -58,5 +58,12 @@ public class OrderDAOImpl implements OrderDAO {
 	public int getSearchOrderCount(String keyword) {
 		return sqlSessionTemplate.selectOne("order.search_count", "%" + keyword + "%");
 	}
+	
+	
+	
+	@Override
+    public int insertOrder(ManagerOrderVO order) {
+        return sqlSessionTemplate.insert("order.insertOrder", order);
+    }
 
 }
