@@ -53,6 +53,7 @@
 		<!-- 혜리님 -->
 		<typeAlias type="com.ict.shipping.vo.ShippingVO" alias="shvo" />
 		<typeAlias type="com.ict.point.vo.PointVO" alias="pvo"/>
+		<typeAlias type="com.ict.likes.vo.LikesVO" alias="lvo"/>
 	
 		
 
@@ -84,6 +85,7 @@
 		<mapper resource="mappers/shipping_mapper.xml" />
 		<mapper resource="mappers/point_mapper.xml"/>
 <mapper resource="mappers/mypage_seller_page_mapper.xml" />
+<mapper resource="mappers/likes_mapper.xml"/>
 
 	
 

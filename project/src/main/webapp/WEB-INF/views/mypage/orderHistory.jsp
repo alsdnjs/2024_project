@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,7 +104,6 @@ body, html {
 	margin-left: 0;
 	padding-left: 18%; /* 좌우 15% 여백 */
 	padding-right: 15%;
-	z-index: -1;
 }
 
 /* 사이드바 오른쪽 중간에 토글 버튼 스타일 */
@@ -197,6 +196,55 @@ footer {
 .d-flex {
 	margin-right: -60px;
 }
+/* 페이징 컨테이너를 한 줄로 정렬 */
+.paging {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; /* 각 요소 간격 */
+}
+
+/* << >> 버튼 및 페이지 번호 스타일 */
+.paging a, .paging p {
+    margin: 0 5px;
+    padding: 5px 10px;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+	/* 페이지 번호 기본 스타일 */
+.paging a {
+    margin: 0 5px;
+    padding: 5px 10px;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.paging a:hover {
+    background-color: #f0f0f0;
+    border-color: #ddd;
+}
+
+/* 선택된 페이지 스타일 */
+.paging .now {
+    padding: 5px 10px;
+    color: #fff;
+    background-color: #ffcccc; 
+    border: 2px solid #fcb6b6; /* 테두리도 동일한 색상 */
+    border-radius: 4px;
+}
+/* << >> 버튼 비활성화 상태 스타일 */
+.paging .disable {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
 </style>
 </head>
 <body>
@@ -205,7 +253,7 @@ footer {
 	<header>
 		<nav class="navbar navbar-expand-lg">
 			<div class="container px-4 px-lg-5">
-				<a class="navbar-brand" href="/main">경빈이네</a>
+				<a class="navbar-brand" href="#!">경빈이네</a>
 				<button class="navbar-toggler" type="button"
 					data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 					aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -214,8 +262,7 @@ footer {
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-						<!-- 로그인 상태에 따른 메뉴 표시 -->
-                        <c:choose>
+						<c:choose>
                             <c:when test="${sessionScope.loginStatus == 'ok'}">
                                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_logout">로그아웃</a></li>
                             </c:when>
@@ -223,18 +270,17 @@ footer {
                                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_login">로그인 / 회원가입</a></li>
                             </c:otherwise>
                         </c:choose>
-						<li class="nav-item"><a class="nav-link" href="/mypage">마이페이지</a></li>
-						<li class="nav-item"><a class="nav-link" href="/notice">고객센터</a></li>
-						<li class="nav-item dropdown">   
-						<a class="nav-link dropdown-toggle" id="navbarDropdown" href="/products" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="products?category_idx=24002">돼지고기</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="products?category_idx=24003">닭고기</a></li>
-                                <li><a class="dropdown-item" href="products?category_idx=24001">소고기</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+						<li class="nav-item"><a class="nav-link" href="#!">마이페이지</a></li>
+						<li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
+							role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="#!">돼지고기</a></li>
+								<li><a class="dropdown-item" href="#!">닭고기</a></li>
+								<li><a class="dropdown-item" href="#!">소고기</a></li>
+							</ul></li>
+					</ul>
 					<div class="search-container">
 						<input type="text" class="search-input" placeholder="검색어를 입력하세요">
 						<button class="search-button">
@@ -242,12 +288,11 @@ footer {
 								alt="돋보기">
 						</button>
 					</div>
-					      <form class="d-flex" action="/cart_list" method="get">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                        </button>
-                    </form>
+					<form class="d-flex">
+						<button class="btn btn-outline-dark" type="submit">
+							<i class="bi-cart-fill me-1"></i> Cart
+						</button>
+					</form>
 				</div>
 			</div>
 		</nav>
@@ -255,24 +300,15 @@ footer {
 
 	<!-- 사이드바 -->
 	<div id="sidebar" class="sidebar">
-			<a href="/mypage" >나의 경빈이네</a> 
-			<a href="/orderHistory" class="active">주문/배송 내역</a> 
-			<a href="/updateProfile">회원정보수정</a>
-			 <a href="/myInquiry" >나의 1:1 문의</a>
-        <%
-        String userRole = (String) session.getAttribute("user_role");
-        if (userRole != null) {
-        if (userRole.equalsIgnoreCase("사업자")) {
-        %> <a href="/sellerProfileChk">판매자정보수정</a> <%
-         }
-        }
-         %>
-			<button id="toggleSidebar">>></button>
-		</div>
+		<a href="/mypage">나의 경빈이네</a> <a href="#" class="active">주문/배송 내역</a>
+		<a href="/updateProfile">회원정보수정</a> <a href="/myInquiry">나의 1:1문의</a>
+		<button id="toggleSidebar">☰</button>
+	</div>
 
 	<!-- 메인 컨테이너 -->
 	<div class="container-fluid main-content">
 		<div class="row">
+
 			<!-- 주문/배송 내역 콘텐츠 -->
 			<div class="col-md-10" id="main-content">
 				<div class="container mt-4">
@@ -284,40 +320,42 @@ footer {
 							<p>주문/배송 내역이 없습니다.</p>
 						</c:when>
 						<c:otherwise>
-								<table class="table table-bordered" style="align-items: center">
-									<thead class="table-header">
-										<tr>
-											<th>no.</th>
-											<th>운송장번호</th>
-											<th>주문일</th>
-											<th>상품정보</th>
-											<th>총금액</th>
-											<th>주문상태</th>
-										</tr>
-									</thead>
-							<c:forEach var="k" items="${olist}" varStatus="c">
+							<table class="table table-bordered" style="align-items: center">
+								<thead class="table-header">
+									<tr>
+										<th>no.</th>
+										<th>운송장번호</th>
+										<th>주문일</th>
+										<th>상품정보</th>
+										<th>총금액</th>
+										<th>주문상태</th>
+									</tr>
+								</thead>
+								<c:forEach var="k" items="${olist}" varStatus="c">
 									<tbody>
 										<tr>
-										<td>${paging.totalRecord - ((paging.nowPage-1)*paging.numPerPage + c.index)}</td>
+											<td>${paging.totalRecord - ((paging.nowPage-1)*paging.numPerPage + c.index)}</td>
 											<td>${k.tracking_number}</td>
 											<td>${k.order_date}</td>
 											<td class="order-info">${k.product_name}</td>
-											<td><fmt:formatNumber value="${k.total_amount}" type="number" />원</td>
+											<td><fmt:formatNumber value="${k.total_amount}"
+													type="number" />원</td>
 											<td>${k.status}</td>
 										</tr>
 									</tbody>
-							</c:forEach>
-								</table>
+								</c:forEach>
+							</table>
 						</c:otherwise>
 					</c:choose>
 				</div>
-				
-				<!-- 페이지기법 -->
+		
+
+			<!-- 페이지기법 -->
 			<div class="paging">
 				<!-- 이전 -->
 				<c:choose>
 					<c:when test="${paging.beginBlock <= paging.pagePerBlock}">
-						<p class="disable"></p>
+						<p class="disable"><<</p>
 					</c:when>
 					<c:otherwise>
 						<p>
@@ -353,8 +391,6 @@ footer {
 		</div>
 	</div>
 	</div>
-		
-
 	<!-- 여기서부터 푸터 -->
 	<footer class="footer py-5">
 		<div class="container">
