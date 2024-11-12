@@ -5,8 +5,8 @@
 <mapper namespace="likes">
 	
 	 <select id="llist" parameterType="String" resultType="lvo">
-		SELECT * FROM Likes l 
-         INNER JOIN Products p ON l.product_idx=p.product_idx
+		SELECT * FROM likes l 
+         INNER JOIN products p ON l.product_idx=p.product_idx
          INNER JOIN users u ON u.user_idx=l.user_idx 
          WHERE u.user_id = #{user_id}
 	</select>

@@ -409,18 +409,18 @@ body, html {
                             </ul>
                         </li>
                     </ul>
-					<div class="search-container">
-						<input type="text" class="search-input" placeholder="검색어를 입력하세요">
-						<button class="search-button">
-							<img src="https://img.icons8.com/ios-filled/50/ffffff/search.png"
-								alt="돋보기">
-						</button>
-					</div>
-					<form class="d-flex">
-						<button class="btn btn-outline-dark" type="submit">
-							<i class="bi-cart-fill me-1"></i> Cart
-						</button>
-					</form>
+					  <div class="search-container">
+                    <form action="product_search_main" method="get">
+                        <input type="text" class="search-input" name="keyword"
+                            placeholder="검색어를 입력하세요">
+                    </form>
+                </div>
+				 <form class="d-flex" action="/cart_list" method="get">
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                        </button>
+                        </form>
 				</div>
 			</div>
 		</nav>
@@ -460,7 +460,7 @@ body, html {
 							</a>
 						</div>
 						<div class="col-xl-3 col-md-6 dashboard-div">
-							<a href="/membership" class="dashboard-card box">
+							<a href="/rank" class="dashboard-card box">
 								<p>회원등급</p> <span class="badge badge-gold">G GOLD</span> <span
 								class="discount-text">(8% 할인혜택)</span> <!-- 연한 주황색으로 할인혜택 표시 -->
 							</a>
