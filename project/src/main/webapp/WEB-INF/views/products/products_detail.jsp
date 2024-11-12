@@ -232,7 +232,7 @@ footer {
 						<c:choose>
 							<c:when test="${sessionScope.loginStatus == 'ok'}">
 								<li class="nav-item"><a class="nav-link"
-									href="${pageContext.request.contextPath}/main">로그아웃</a></li>
+									href="${pageContext.request.contextPath}/user_logout">로그아웃</a></li>
 							</c:when>
 							<c:otherwise>
 								<li class="nav-item"><a class="nav-link"

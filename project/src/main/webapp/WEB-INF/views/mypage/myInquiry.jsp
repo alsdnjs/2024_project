@@ -445,12 +445,13 @@ hr {
 						<!-- 이전 -->
 						<c:choose>
 							<c:when test="${paging.beginBlock <= paging.pagePerBlock}">
-								<p class="disable"></p>
+								<p class="disable"><<</p>
+								
 							</c:when>
 							<c:otherwise>
 								<p>
 									<a
-										href="/myInquiry?cPage=${paging.beginBlock - paging.pagePerBlock}"></a>
+										href="/myInquiry?cPage=${paging.beginBlock - paging.pagePerBlock}"><<</a>
 								</p>
 							</c:otherwise>
 						</c:choose>

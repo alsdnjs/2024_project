@@ -92,6 +92,17 @@
 </style>
 </head>
 <body>
+
+<!-- 알림 메시지 표시 -->
+<c:if test="${not empty alertMessage}">
+    <script>
+        alert("${alertMessage}");
+    </script>
+</c:if>
+
+
+
+
   <nav class="navbar navbar-expand-lg ">
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="/main">경빈이네</a>

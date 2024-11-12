@@ -689,58 +689,82 @@ body, html {
 					<div class="row">
 					
 					<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
-					<script type="text/javascript">
-					    function openLikesModal() {
-					        $.ajax({
-					            url: '/getLikes', // getLikes 컨트롤러의 URL
-					            method: 'GET',
-					            data: { user_id: user_id }, // userId 값을 전달
-					            dataType: "json",
-					            success: function(data) {
-					                console.log(data);
-					                let modalBody = $('#orderInfoModal .modal-body .row');
-					                modalBody.empty(); // 기존 내용을 초기화
-					
-					                // 관심 상품 데이터를 모달에 추가
-					                if (data.length === 0) {
-					                    modalBody.append('<p>관심상품을 담아주세요.</p>');
-					                } else {
-					                    for (let i = 0; i < data.length; i++) {
-					                        let product_name = data[i].product_name;
-					                        let description = data[i].description;
-					                        let price = data[i].price;
-					                        let thumbnail_url = data[i].thumbnail_url;
-					
-					                        // 상품 데이터를 모달에 하나씩 추가
-					                        let productDiv = "<div class='col-xl-3 col-md-6 mb-3'><div class='product-card'>";
-					                        productDiv += "<img src=" + thumbnail_url + " class='product_img' alt='상품 이미지'>";
-					                        productDiv += "<div class='product-info'>";
-					                        productDiv += "<h5>" + product_name + "</h5>";
-					                        productDiv += "<p>" + description + "</p>"
-					                        productDiv += "<p class='price'>" + Number(price).toLocaleString() + "원</p>";
-					                        productDiv += "<div class='btn-group' style='float: right;'>"
-					                        productDiv += "<button class='btn btn-primary'>"+ "담기" +"</button>"
-					                        productDiv += "<button class='btn btn-danger'>"+ "삭제" +"</button>"
-					                        productDiv += "</div></div></div></div>";
-					                        
-					                        modalBody.append(productDiv); // 하나씩 추가
-					                    }
-					                }
-					
-					                // 모달 열기
-					                $('#orderInfoModal').modal('show');
-					            },
-					            error: function(error) {
-					                console.error("Error loading likes:", error);
-					            }
-					        });
-					    }
-					    $('#orderInfoModal').on('hidden.bs.modal', function () {
-                            $('body').removeClass('modal-open'); // 배경 어두운 효과 제거
-                            $('.modal-backdrop').remove();      // 배경 제거
-                        });
+					<div class="modal-body">
+    <div class="row">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            const BASE_URL = "${pageContext.request.contextPath}"; // JSP에서 동적으로 컨텍스트 경로 가져오기
 
-					</script>
+            function openLikesModal() {
+                $.ajax({
+                    url: '/getLikes', // getLikes 컨트롤러의 URL
+                    method: 'GET',
+                    data: { user_id: user_id }, // userId 값을 전달
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        let modalBody = $('#orderInfoModal .modal-body .row');
+                        modalBody.empty(); // 기존 내용을 초기화
+
+                        // 관심 상품 데이터를 모달에 추가
+                        if (data.length === 0) {
+                            modalBody.append('<p>관심상품을 담아주세요.</p>');
+                        } else {
+                            for (let i = 0; i < data.length; i++) {
+                                let product_idx = data[i].product_idx; // 삭제할 상품의 ID
+                                let product_name = data[i].product_name;
+                                let description = data[i].description;
+                                let price = data[i].price;
+                                let thumbnail_url = BASE_URL + "/resources/upload/" + data[i].thumbnail_url; // 절대 URL 생성
+
+                                // 상품 데이터를 모달에 하나씩 추가
+                                let productDiv = "<div class='col-xl-3 col-md-6 mb-3'><div class='product-card'>";
+                                productDiv += "<img src='" + thumbnail_url + "' class='product_img' alt='상품 이미지'>"; // 이미지 URL 수정
+                                productDiv += "<div class='product-info'>";
+                                productDiv += "<h5>" + product_name + "</h5>";
+                                productDiv += "<p>" + description + "</p>";
+                                productDiv += "<p class='price'>" + Number(price).toLocaleString() + "원</p>";
+                                productDiv += "<div class='btn-group' style='float: right;'>";
+                                productDiv += "<button class='btn btn-primary'>담기</button>";
+                                productDiv += "<button class='btn btn-danger' onclick='removeLike(" + product_idx + ")'>삭제</button>"; // 삭제 버튼 클릭 시 removeLike 호출
+                                productDiv += "</div></div></div></div>";
+
+                                modalBody.append(productDiv); // 하나씩 추가
+                            }
+                        }
+
+                        // 모달 열기
+                        $('#orderInfoModal').modal('show');
+                    },
+                    error: function(error) {
+                        console.error("Error loading likes:", error);
+                    }
+                });
+            }
+
+            // 삭제 기능을 처리하는 함수
+            function removeLike(product_id) {
+                $.ajax({
+                    url: '/remove_like', // 관심 상품 삭제 경로
+                    method: 'POST',
+                    data: { product_id: product_id }, // 삭제할 상품의 ID 전달
+                    success: function(response) {
+                        console.log(response); // 서버에서의 응답 확인
+                        openLikesModal(); // 삭제 후 모달 내용 갱신
+                    },
+                    error: function(error) {
+                        console.error("Error removing like:", error);
+                    }
+                });
+            }
+
+            $('#orderInfoModal').on('hidden.bs.modal', function () {
+                $('body').removeClass('modal-open'); // 배경 어두운 효과 제거
+                $('.modal-backdrop').remove(); // 배경 제거
+            });
+        </script>
+    </div>
+</div>
 					</div>
 				</div>
 

@@ -148,7 +148,15 @@
     </nav>
 
 <div class="wrapper">
-    <form action="/loginf_ok" method="post">
+
+	  <!-- 오류 메시지 표시 -->
+   <c:if test="${not empty errorMessage}">
+    <script>
+        alert("${errorMessage}");
+    </script>
+	</c:if>
+	
+    	<form action="/loginf_ok" method="post">
         <div class="subjecet">아이디 찾기</div>
         
         <label for="userName">이름</label>
@@ -184,7 +192,7 @@
         if (emailRegex.test(userMail)) {
             $.post("/send_email_code", { userMail }, function() {
                 alert("인증 이메일이 전송되었습니다.");
-                isEmailVerified = false;
+                isEmailVerified = false; // 이메일 전송 후 인증 상태 초기화
             });
         } else {
             alert("올바른 이메일을 입력해주세요.");
@@ -198,15 +206,27 @@
                 if (response.status === "success") {
                     alert("인증에 성공했습니다.");
                     isEmailVerified = true;
+                    enableSubmitIfVerified(); // 인증 성공 시 제출 버튼 활성화 확인
                 } else {
                     alert("인증번호가 일치하지 않습니다.");
                     $("#authNumber").val("").focus();
+                    isEmailVerified = false;
                 }
             });
         } else {
             alert("인증번호를 입력하세요.");
         }
     }
+
+    function enableSubmitIfVerified() {
+        // 인증이 완료된 경우에만 아이디 찾기 버튼 활성화
+        $("input[type='submit']").prop("disabled", !isEmailVerified);
+    }
+
+    // 페이지 로드 시 아이디 찾기 버튼 비활성화
+    $(document).ready(function() {
+        $("input[type='submit']").prop("disabled", true);
+    });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

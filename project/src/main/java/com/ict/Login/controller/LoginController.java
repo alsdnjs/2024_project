@@ -201,7 +201,9 @@ public class LoginController {
                     session.setAttribute("user_idx", foundUser.getUser_idx());
                     
                     System.out.println("로그인 성공: 세션 설정 완료");
-                    
+                    session.setAttribute("alertMessage", "경빈이네 오신것을 환영합니다!");
+                    mv.setViewName("redirect:/index");
+
                     mv.addObject("alertMessage", "로그인 성공!");
                     mv.setViewName("redirect:/index");
                 } else {
@@ -248,38 +250,25 @@ public class LoginController {
  // 아이디 찾기 처리
     @PostMapping("/loginf_ok")
     public ModelAndView findUserId(MemberVO memberVO, HttpSession session) {
-        // ModelAndView 객체 생성 (뷰와 데이터를 함께 반환하기 위해 사용)
         ModelAndView mv = new ModelAndView();
         try {
-        	  // 디버깅을 위한 로그 추가
             System.out.println("입력된 username: " + memberVO.getUsername());
             System.out.println("입력된 email: " + memberVO.getEmail());
-        	
-            // MemberService를 사용하여 사용자의 아이디를 찾음
-            // memberService.findUserId(memberVO)는 memberVO 객체의 정보를 바탕으로 데이터베이스에서 해당 아이디를 조회
+
             MemberVO foundUser = memberService.findUserId(memberVO);
-            
-            // 찾은 유저 정보 출력 (디버깅용)
+
             System.out.println("foundUser 결과: " + foundUser);
-            
-            
-            // 아이디가 조회된 경우
+
             if (foundUser != null) {
-                // 성공적으로 찾은 아이디가 있는 경우, "loginf_ok" 뷰로 이동
                 mv.setViewName("mainlogin/loginf_ok");
-                // 뷰에서 사용할 데이터로 찾은 user_id를 추가
                 mv.addObject("user_id", foundUser.getUser_id());
             } else {
-                // 찾는 아이디가 없을 경우
-                mv.setViewName("login/login");
-                // 뷰에 "일치하는 아이디가 없습니다."라는 메시지를 추가
-                mv.addObject("message", "일치하는 아이디가 없습니다.");
+                mv.setViewName("mainlogin/loginf"); // 아이디 찾기 페이지로 다시 이동
+                mv.addObject("errorMessage", "일치하는 이름과 이메일을 가진 사용자가 없습니다."); // 오류 메시지 전달// 오류 메시지 전달
             }
         } catch (Exception e) {
-            // 예외 발생 시, 스택 트레이스를 출력하여 오류 정보를 확인
             e.printStackTrace();
         }
-        // ModelAndView 객체를 반환하여 뷰와 데이터를 전달
         return mv;
     }
 
@@ -293,11 +282,14 @@ public class LoginController {
                 mv.setViewName("mainlogin/find_password_change");
                 session.setAttribute("userId", foundUser.getUser_id());
             } else {
+                // 비밀번호 찾기 실패 시 alertMessage 설정
                 mv.setViewName("mainlogin/find_password");
-                mv.addObject("message", "일치하는 정보가 없습니다.");
+                mv.addObject("alertMessage", "일치하는 정보가 없습니다.");
             }
         } catch (Exception e) {
             e.printStackTrace();
+            mv.setViewName("mainlogin/find_password");
+            mv.addObject("alertMessage", "오류가 발생했습니다. 다시 시도해주세요.");
         }
         return mv;
     }

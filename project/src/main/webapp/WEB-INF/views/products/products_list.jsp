@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -257,7 +258,7 @@ body {
                                         <!-- 상품 가격 -->
                                         ${k.price}
                                     </div>
-                                    <div>${k.avg_rating}</div>
+                                     <fmt:formatNumber value=" ${k.price}" maxFractionDigits="0"/>원
                                 </div>
 
                                 <!-- 상품 세부 정보 버튼 -->

@@ -68,6 +68,12 @@
        <link href="${pageContext.request.contextPath}/resources/css/styles.css" rel="stylesheet" />
     </head>
     <body>   
+      <c:if test="${not empty sessionScope.alertMessage}">
+        <script>
+            alert("${sessionScope.alertMessage}");
+        </script>
+        <c:remove var="alertMessage" scope="session" />
+    </c:if>
     
  <jsp:include page="popup.jsp"></jsp:include>
 
