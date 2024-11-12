@@ -197,34 +197,47 @@
 </footer>
 
 <script src="https://js.tosspayments.com/v1"></script>
-<script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        // 결제하기 버튼 클릭 이벤트
+        $("#paymentButton").click(function() {
+            // Toss Payments 클라이언트 키 설정
+            let clientKey = "test_ck_E92LAa5PVbPy2eE75QoB87YmpXyJ";
+            let tossPayments = TossPayments(clientKey);
 
+            // JSP에서 JavaScript로 변수 전달
+            let productIdxLine = "${product.product_idx != null ? product.product_idx : 0}";
+            let productIdx = productIdxLine;
 
-// product_idx 값을 설정합니다 (JSP에서 JavaScript로 전달)
- const productIdx = ${product.product_idx != null ? product.product_idx : 0}; // JSP에서 product_idx가 null일 때 기본값 0 설정
+            let orderNameLine = "${product.product_name != null ? product.product_name : ''}";
+            let orderName = orderNameLine;
 
+            let amountLine = "${product.price != null ? product.price : 0}";
+            let amount = amountLine;
 
+            // 디버깅용 콘솔 로그
+            console.log("productIdx:", productIdx);
+            console.log("orderName:", orderName);
+            console.log("amount:", amount);
 
+            // URL 인코딩 처리
+            let encodedOrderName = encodeURIComponent(orderName);
 
-    document.getElementById('paymentButton').addEventListener('click', function() {
-        const clientKey = "test_ck_E92LAa5PVbPy2eE75QoB87YmpXyJ";
-        const tossPayments = TossPayments(clientKey);
+            // 결제 요청 설정 객체를 한 줄씩 작성
+            let paymentData = {};
+            paymentData.amount = amount;
+            paymentData.orderId = 'order-' + productIdx;
+            paymentData.orderName = orderName;
+            paymentData.customerName = '홍길동';
+            paymentData.successUrl = 'http://localhost:8080/paymentSuccess?orderName=' + encodedOrderName + '&amount=' + amount + '&product_idx=' + productIdx;
+            paymentData.failUrl = 'http://localhost:8080/toss/paymentFail.jsp';
 
-        const orderName = encodeURIComponent("${product.product_name}"); // JavaScript에서 인코딩
-        const amount = ${product.price};
-        const productIdx = ${product.product_idx};
-
-        tossPayments.requestPayment('카드', {
-            amount: amount,
-            orderId: "order-" + productIdx,
-            orderName: "${product.product_name}",
-            customerName: "홍길동",
-            successUrl: `http://localhost:8080/paymentSuccess?orderName=${orderName}&amount=${amount}&product_idx=${productIdx}`,
-            failUrl: "http://localhost:8080/toss/paymentFail.jsp"
+            // 결제 요청
+            tossPayments.requestPayment('카드', paymentData);
         });
     });
 </script>
-
 
 
 </body>

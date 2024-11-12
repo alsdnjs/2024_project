@@ -15,4 +15,6 @@ public interface ShippingDAO {
 	// 주문내역 건수(진행중 주문)
 	public List<ShippingVO> getOrderCount(String user_id);
 	
+	public void insertShipping(ShippingVO shipping);
+	
 }

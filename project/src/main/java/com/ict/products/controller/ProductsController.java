@@ -125,10 +125,18 @@ public class ProductsController {
 	
 	@GetMapping("insert_review")
 	public ModelAndView insertReview(ReviewVO rvo,
-			@ModelAttribute("product_idx") String product_idx) {
+			@ModelAttribute("product_idx") String product_idx,
+			HttpSession session) {
 		try {
 			
-			System.out.println(rvo.getUser_idx());
+			String userIdx = (String) session.getAttribute("user_idx");
+			if (userIdx != null) {
+				rvo.setUser_idx(userIdx);
+			} else {
+				ModelAndView mv = new ModelAndView("redirect:/products_detail?product_idx=" + product_idx);
+				mv.addObject("loginRequired", true);
+				return mv;
+			}
 			int result = productsService.getReviewInsert(rvo);
 			if(result > 0) {
 				

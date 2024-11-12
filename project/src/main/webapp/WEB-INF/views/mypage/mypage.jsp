@@ -409,18 +409,21 @@ body, html {
                             </ul>
                         </li>
                     </ul>
-					  <div class="search-container">
+					<div class="search-container">
                     <form action="product_search_main" method="get">
                         <input type="text" class="search-input" name="keyword"
                             placeholder="검색어를 입력하세요">
                     </form>
+                    <button class="search-button">
+							<img src="https://img.icons8.com/ios-filled/50/ffffff/search.png"
+								alt="돋보기">
+						</button>
                 </div>
-				 <form class="d-flex" action="/cart_list" method="get">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                        </button>
-                        </form>
+					<form class="d-flex">
+						<button class="btn btn-outline-dark" type="submit">
+							<i class="bi-cart-fill me-1"></i> Cart
+						</button>
+					</form>
 				</div>
 			</div>
 		</nav>
@@ -429,11 +432,20 @@ body, html {
 
 	<!-- 사이드바 -->
 	<div id="sidebar" class="sidebar">
-		<a href="#" class="active">나의 경빈이네</a> <a href="/orderHistory">주문/배송
-			내역</a> <a href="/updateProfile">회원정보수정</a> <a href="/myInquiry">나의
-			1:1문의</a>
-		<button id="toggleSidebar">☰</button>
-	</div>
+            <a href="/mypage" class="active">나의 경빈이네</a> 
+            <a href="/orderHistory">주문/배송 내역</a> 
+            <a href="/updateProfile">회원정보수정</a>
+             <a href="/myInquiry">나의 1:1 문의</a>
+        <%
+        String userRole = (String) session.getAttribute("user_role");
+        if (userRole != null) {
+        if (userRole.equalsIgnoreCase("사업자")) {
+        %> <a href="/sellerProfileChk">판매자정보수정</a> <%
+         }
+        }
+         %>
+            <button id="toggleSidebar">>></button>
+        </div>
 
 	<!-- 메인 컨테이너 -->
 	<div class="container-fluid main-content">
@@ -480,19 +492,19 @@ body, html {
 
 							<!-- 목록을 반복하며 상태별 개수 누적 -->
 							<c:forEach var="k" items="${clist}" varStatus="c">
-								<c:if test="${k.status == '결제완료'}">
+								<c:if test="${k.status == '결제 완료'}">
 									<c:set var="paymentCompletedCount"
 										value="${paymentCompletedCount + 1}" />
 								</c:if>
-								<c:if test="${k.status == '상품준비중'}">
+								<c:if test="${k.status == '상품준비 중'}">
 									<c:set var="preparingProductCount"
 										value="${preparingProductCount + 1}" />
 								</c:if>
-								<c:if test="${k.status == '배송준비중'}">
+								<c:if test="${k.status == '배송준비 중'}">
 									<c:set var="shippingPreparingCount"
 										value="${shippingPreparingCount + 1}" />
 								</c:if>
-								<c:if test="${k.status == '배송중'}">
+								<c:if test="${k.status == '배송 중'}">
 									<c:set var="preparingShippingCount"
 										value="${preparingShippingCount + 1}" />
 								</c:if>
@@ -723,6 +735,11 @@ body, html {
 					            }
 					        });
 					    }
+					    $('#orderInfoModal').on('hidden.bs.modal', function () {
+                            $('body').removeClass('modal-open'); // 배경 어두운 효과 제거
+                            $('.modal-backdrop').remove();      // 배경 제거
+                        });
+
 					</script>
 					</div>
 				</div>

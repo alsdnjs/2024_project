@@ -30,5 +30,11 @@ public class ShippingServiceImpl implements ShippingService{
 		return shippingDAO.getOrderCount(user_id);
 	}
 
+	@Override
+	public void insertShipping(ShippingVO shipping) {
+		shippingDAO.insertShipping(shipping);
+		
+	}
+
 
 }

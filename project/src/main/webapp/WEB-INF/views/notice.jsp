@@ -242,18 +242,25 @@
                         </li>
                     </ul>
                 <div class="search-container">
-                    <input type="text" class="search-input" placeholder="검색어를 입력하세요">
+                    <form action="product_search_main" method="get">
+                        <input type="text" class="search-input" name="keyword"
+                            placeholder="검색어를 입력하세요"></form>
                     <button class="search-button">
-                        <img src="https://img.icons8.com/ios-filled/50/ffffff/search.png"
-                            alt="돋보기">
-                    </button>
+							<img src="https://img.icons8.com/ios-filled/50/ffffff/search.png"
+								alt="돋보기">
+						</button> 
+						
                 </div>
-                <form class="d-flex" action="/cart_list" method="get">
-					<button class="btn btn-outline-dark" type="submit">
-						<i class="bi-cart-fill me-1"></i> Cart
-					</button>
-                </form>
-            </div>
+    
+           
+    
+    </div>
+                     <form class="d-flex" action="/cart_list" method="get">
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                        </button>
+                    </form>
         </div>
         
     </nav>

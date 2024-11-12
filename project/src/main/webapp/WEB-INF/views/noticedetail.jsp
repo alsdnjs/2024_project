@@ -261,20 +261,28 @@ footer {
 								<li><a class="dropdown-item" href="#!">소고기</a></li>
 							</ul></li>
 					</ul>
-					<div class="search-container">
-						<input type="text" class="search-input" placeholder="검색어를 입력하세요">
-						<button class="search-button">
+				 <div class="search-container">
+                    <form action="product_search_main" method="get">
+                        <input type="text" class="search-input" name="keyword"
+                            placeholder="검색어를 입력하세요"></form>
+                    <button class="search-button">
 							<img src="https://img.icons8.com/ios-filled/50/ffffff/search.png"
 								alt="돋보기">
-						</button>
-					</div>
-					<form class="d-flex">
-						<button class="btn btn-outline-dark" type="submit">
-							<i class="bi-cart-fill me-1"></i> Cart
-						</button>
-					</form>
+						</button> 
+						
+                </div>
+    
+           
+    
+    </div>
+                     <form class="d-flex" action="/cart_list" method="get">
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                        </button>
+                    </form>
 				</div>
-			</div>
+		
 
 		</nav>
 	</header>
@@ -284,8 +292,7 @@ footer {
 		<a href="/notice" class="active">공지사항</a> 
 		<a href="/questions">자주 묻는 질문</a> 
 		<a href="/rank">등급 혜택</a> 
-		<a href="/productinquiries">상품 문의</a>
-		<a href="/oneinquiries">1:1 문의</a>
+	
 		<button id="toggleSidebar">☰</button>
 	</div>
 

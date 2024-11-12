@@ -9,6 +9,34 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
+.search-container {
+            display: flex;
+            align-items: center;
+            width: 300px;
+            margin: 20px auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+        }
+
+        .search-button {
+            padding: 10px;
+            background-color: LightCoral;
+            border: none;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .search-button img {
+            width: 20px;
+            height: 20px;
+		}
+		 
     body {
         font-family: "Single Day", cursive;
         background-color: #f4f4f4;
@@ -64,34 +92,57 @@
 </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="/">경빈이네</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link" href="/login">로그인 / 회원가입</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">마이페이지</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">카테고리</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#!">돼지고기</a></li>
-                        <li><a class="dropdown-item" href="#!">닭고기</a></li>
-                        <li><a class="dropdown-item" href="#!">소고기</a></li>
+  <nav class="navbar navbar-expand-lg ">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="/main">경빈이네</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <!-- 로그인 상태에 따른 메뉴 표시 -->
+                        <c:choose>
+                            <c:when test="${sessionScope.loginStatus == 'ok'}">
+                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_logout">로그아웃</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_login">로그인 / 회원가입</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <li class="nav-item"><a class="nav-link" href="/mypage">마이페이지</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/notice">고객센터</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="/products" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="products?category_idx=24002">돼지고기</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="products?category_idx=24003">닭고기</a></li>
+                                <li><a class="dropdown-item" href="products?category_idx=24001">소고기</a></li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
-            <form class="d-flex">
-                <button class="btn btn-outline-dark" type="submit">
-                    <i class="bi-cart-fill me-1"></i> Cart
-                </button>
-            </form>
-        </div>
+                    <div class="search-container">
+                    <form action="product_search_main" method="get">
+                        <input type="text" class="search-input" name="keyword"
+                            placeholder="검색어를 입력하세요"></form>
+                    <button class="search-button">
+							<img src="https://img.icons8.com/ios-filled/50/ffffff/search.png"
+								alt="돋보기">
+						</button> 
+						
+                </div>
+    
+           
+    
     </div>
-</nav>
+                     <form class="d-flex" action="/cart_list" method="get">
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                        </button>
+                    </form>
+                    
+            </div>
+      
+    </nav>
 
 <div class="wrapper">
     <form action="/find_password_change" method="post">

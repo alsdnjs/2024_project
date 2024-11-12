@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -119,37 +120,54 @@ footer p {
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#!"><strong>경빈이네</strong></a>
+            <a class="navbar-brand" href="/main"><strong>경빈이네</strong></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link" aria-current="page" href="#!"><strong>로그인 / 회원가입</strong></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!"><strong>마이페이지</strong></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!"><strong>고객센터</strong></a></li>
+                    <c:choose>
+                            <c:when test="${sessionScope.loginStatus == 'ok'}">
+                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_logout">로그아웃</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_login">로그인 / 회원가입</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    <li class="nav-item"><a class="nav-link" href="/mypage"><strong>마이페이지</strong></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/notice"><strong>고객센터</strong></a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><strong>카테고리</strong></a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!"><strong>돼지고기</strong></a></li>
-                            <li><a class="dropdown-item" href="#!"><strong>닭고기</strong></a></li>
-                            <li><a class="dropdown-item" href="#!"><strong>소고기</strong></a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="search-container">
-                    <input type="text" class="search-input" placeholder="검색어를 입력하세요">
+                      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="/products" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="products?category_idx=24002">돼지고기</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="products?category_idx=24003">닭고기</a></li>
+                                <li><a class="dropdown-item" href="products?category_idx=24001">소고기</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                 <div class="search-container">
+                    <form action="product_search_main" method="get">
+                        <input type="text" class="search-input" name="keyword"
+                            placeholder="검색어를 입력하세요"></form>
                     <button class="search-button">
-                        <img src="https://img.icons8.com/ios-filled/50/ffffff/search.png" alt="돋보기">
-                    </button>
+							<img src="https://img.icons8.com/ios-filled/50/ffffff/search.png"
+								alt="돋보기">
+						</button> 
+						
                 </div>
-                <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit">
-                        <i class="bi-cart-fill me-1"></i> Cart
-                    </button>
-                </form>
+    
+           
+    
+    </div>
+                     <form class="d-flex" action="/cart_list" method="get">
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                        </button>
+                    </form>
+                    
             </div>
-        </div>
     </nav>
 
     <!-- Main Content -->

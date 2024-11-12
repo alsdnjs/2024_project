@@ -37,5 +37,11 @@ public class ShippingDAOImpl implements ShippingDAO{
 		return sqlSessionTemplate.selectList("shipping.clist", user_id);
 	}
 
+	@Override
+	public void insertShipping(ShippingVO shipping) {
+		sqlSessionTemplate.insert("shipping.insertShipping", shipping);
+		
+	}
+
 
 }

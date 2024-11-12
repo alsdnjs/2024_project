@@ -198,29 +198,36 @@ footer p {
 							href="#!">로그인 / 회원가입</a></li>
 						<li class="nav-item"><a class="nav-link" href="/mypage">마이페이지</a></li>
 						<li class="nav-item"><a class="nav-link" href="/notice">고객센터</a></li>
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
-							role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" href="#!">돼지고기</a></li>
-								<li><a class="dropdown-item" href="#!">닭고기</a></li>
-								<li><a class="dropdown-item" href="#!">소고기</a></li>
-							</ul></li>
-					</ul>
-					<div class="search-container">
-						<input type="text" class="search-input" placeholder="검색어를 입력하세요">
-						<button class="search-button">
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" id="navbarDropdown" href="/products" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="products?category_idx=24002">돼지고기</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="products?category_idx=24003">닭고기</a></li>
+                                <li><a class="dropdown-item" href="products?category_idx=24001">소고기</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+					 <div class="search-container">
+                    <form action="product_search_main" method="get">
+                        <input type="text" class="search-input" name="keyword"
+                            placeholder="검색어를 입력하세요"></form>
+                    <button class="search-button">
 							<img src="https://img.icons8.com/ios-filled/50/ffffff/search.png"
 								alt="돋보기">
-						</button>
-					</div>
-					<form class="d-flex">
-						<button class="btn btn-outline-dark" type="submit">
-							<i class="bi-cart-fill me-1"></i> Cart
-						</button>
-					</form>
+						</button> 
+						
+                </div>
+    
+           
+    
+    </div>
+                     <form class="d-flex" action="/cart_list" method="get">
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                        </button>
+                    </form>
 				</div>
-			</div>
 		</nav>
 	</header>
 	<!-- Main Content -->
@@ -239,9 +246,7 @@ footer p {
 				<!-- 로그인 버튼 -->
 				<button class="login-btn" type="submit">로그인</button>
 </form>
-				<!-- 카카오 로그인 버튼 -->
-				<a href="https://kauth.kakao.com/oauth/authorize?client_id=46219c457fde92498ef0e8fd7557a02c&redirect_uri=http://localhost:8080/kakaologin&response_type=code" class="kakao-login-btn">카카오 로그인</a>
-
+				
 				<!-- 관리자 로그인 버튼 -->
 				<form id="adminForm" method="get">
     				<button type="button" class="admin-btn" onclick="adminLogin()">관리자 로그인</button>

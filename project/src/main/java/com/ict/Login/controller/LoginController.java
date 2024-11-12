@@ -3,8 +3,6 @@ package com.ict.Login.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,8 @@ import com.ict.products.service.ProductsService;
 import com.ict.products.vo.ProductsVO;
 import com.ict.saup.service.SaupService;
 import com.ict.saup.vo.SaupVO;
+import com.ict.shipping.service.ShippingService;
+import com.ict.shipping.vo.ShippingVO;
 
 
 @Controller
@@ -41,6 +41,9 @@ public class LoginController {
 
     @Autowired
     private SaupService saupService;
+    
+    @Autowired
+    private ShippingService shippingService;
     
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -379,6 +382,16 @@ public class LoginController {
     public String showPaymentPage(@RequestParam("product_idx") int productIdx, @RequestParam("amount") double amount, Model model) {
         try {
             ProductsVO product = productsService.getProductById(productIdx);
+            
+            // 디버깅: productIdx가 잘 전달되는지 확인
+            System.out.println("Received productIdx in Controller: " + productIdx);
+            
+            if (product == null) {
+                System.out.println("Product not found for productIdx: " + productIdx);
+            } else {
+                System.out.println("Product found: " + product.getProduct_idx());
+            }
+            
             model.addAttribute("product", product);
             model.addAttribute("amount", (int) amount);  // 소수점 없이 정수 형태로 변환하여 전달
         } catch (Exception e) {
@@ -387,40 +400,63 @@ public class LoginController {
         }
         return "toss/payment";
     }
+
+
     @GetMapping("/paymentSuccess")
     public String paymentSuccess(@RequestParam("orderName") String orderName,
                                  @RequestParam("amount") double amount,
                                  @RequestParam(value = "product_idx", defaultValue = "0") String productIdxStr,
                                  HttpSession session, Model model) {
+        // product_idx 값을 로그로 출력하여 확인
+        System.out.println("Received product_idxStr: " + productIdxStr);
+        
         // String으로 받은 product_idx를 int로 변환
         int productIdx = Integer.parseInt(productIdxStr);
-        
+        System.out.println("Parsed productIdx: " + productIdx);
+
         // 세션에서 user_idx를 가져와 String으로 변환 후 저장
         String userIdStr = (String) session.getAttribute("user_idx");
-
+        
         // userIdStr이 null이 아니면 int로 변환
         int userId = userIdStr != null ? Integer.parseInt(userIdStr) : 0;
 
         // 주문 객체 생성 및 설정
         ManagerOrderVO order = new ManagerOrderVO();
         order.setuser_idx(String.valueOf(userId));
-        System.out.println(String.valueOf(productIdx));
-        
         order.setproduct_idx(String.valueOf(productIdx));
         order.setTotal_amount(String.valueOf(amount));
         order.setStatus("결제 완료");
-        order.setPayment_status("완료");
+        order.setPayment_status("결제 완료");
         order.setQuantity("1");
 
         // 주문 정보를 데이터베이스에 저장
         orderService.saveOrder(order);
+        
+        // 지금 저장된 주문 ID 가져오기 (orders_idx)
+        String savedOrderIdx = order.getOrders_idx(); 
+        
+        ShippingVO shipping = new ShippingVO();
+        shipping.setOrders_idx(savedOrderIdx);
+        shipping.setTracking_number("123456"); // 실제 추적 번호 값 설정
+        shipping.setCarrier("우체국택배");       // 실제 운송 회사 값 설정
+        shipping.setEstimated_delivery("2024-10-10 00:00:00");
+
+        shippingService.insertShipping(shipping);
+
+
+        // 저장 후 데이터베이스에서 생성된 order_idx 가져오기
+        String orderIdx = order.getOrders_idx();  // 이제 자동 생성된 order_idx가 반환
+        System.out.println("Saved order_idx: " + orderIdx);
 
         // 결제 성공 정보를 모델에 담기
         model.addAttribute("orderName", orderName);
         model.addAttribute("amount", amount);
+        model.addAttribute("order_idx", orderIdx);  // order_idx도 모델에 추가하여 뷰에서 접근 가능
 
         return "toss/paymentSuccess";  // 결제 성공 페이지로 이동
     }
+
+
  
 }
 

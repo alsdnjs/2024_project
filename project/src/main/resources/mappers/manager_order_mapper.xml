@@ -53,9 +53,9 @@
 	
 	
 	<!-- 1111 -->
-	<insert id="insertOrder" parameterType="movo">
-    INSERT INTO orders (user_idx, product_idx, order_date, status, total_amount, payment_status, quantity)
-    VALUES (#{user_idx}, #{product_idx}, NOW(), '결제 완료', #{total_amount}, '완료', #{quantity})
+	<insert id="insertOrder" parameterType="movo" useGeneratedKeys="true" keyProperty="orders_idx"> 
+	INSERT INTO orders (user_idx, product_idx, order_date, status, total_amount, payment_status, quantity) VALUES (#{user_idx}, 
+	#{product_idx}, NOW(), #{status}, #{total_amount}, #{payment_status}, #{quantity});
 </insert>
 </mapper>
 

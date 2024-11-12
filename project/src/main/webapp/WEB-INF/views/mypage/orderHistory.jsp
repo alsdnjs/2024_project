@@ -271,8 +271,8 @@ footer {
                             </c:otherwise>
                         </c:choose>
 						<li class="nav-item"><a class="nav-link" href="/mypage">마이페이지</a></li>
-						<li class="nav-item"><a class="nav-link" href="/notice">고객센터</a></li>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" id="navbarDropdown" href="/products" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+						<li class="nav-item"><a class="nav-link" href="notice">고객센터</a></li>
+						<li class="nav-item dropdown">  <a class="nav-link dropdown-toggle" id="navbarDropdown" href="/products" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="products?category_idx=24002">돼지고기</a></li>
                                 <li><hr class="dropdown-divider" /></li>
@@ -281,28 +281,44 @@ footer {
                             </ul>
                         </li>
                     </ul>
-					  <div class="search-container">
+				 <div class="search-container">
                     <form action="product_search_main" method="get">
                         <input type="text" class="search-input" name="keyword"
-                            placeholder="검색어를 입력하세요">
-                    </form>
-                </div>
-					
-                     <form class="d-flex" action="/cart_list" method="get">
+                            placeholder="검색어를 입력하세요"></form>
+                    <button class="search-button">
+							<img src="https://img.icons8.com/ios-filled/50/ffffff/search.png"
+								alt="돋보기">
+						</button> 
+                 
+                    
+				</div>
+			</div>
+			
+			   <form class="d-flex" action="/cart_list" method="get">
                         <button class="btn btn-outline-dark" type="submit">
                             <i class="bi-cart-fill me-1"></i>
                             Cart
                         </button>
                     </form>
-				</div>
-			</div>
+                    </div>
+                    
 		</nav>
 	</header>
-
+  
 	<!-- 사이드바 -->
 	<div id="sidebar" class="sidebar">
-		<a href="/mypage">나의 경빈이네</a> <a href="#" class="active">주문/배송 내역</a>
-		<a href="/updateProfile">회원정보수정</a> <a href="/myInquiry">나의 1:1문의</a>
+		<a href="/mypage">나의 경빈이네</a> 
+		<a href="#" class="active">주문/배송 내역</a>
+		<a href="/updateProfile">회원정보수정</a> 
+		<a href="/myInquiry">나의 1:1문의</a>
+		 <%
+        String userRole = (String) session.getAttribute("user_role");
+        if (userRole != null) {
+        if (userRole.equalsIgnoreCase("사업자")) {
+        %> <a href="/sellerProfileChk">판매자정보수정</a> <%
+         }
+        }
+         %>
 		<button id="toggleSidebar">☰</button>
 	</div>
 
@@ -356,7 +372,7 @@ footer {
 				<!-- 이전 -->
 				<c:choose>
 					<c:when test="${paging.beginBlock <= paging.pagePerBlock}">
-						<p class="disable"></p>
+						<p class="disable"><<</p>
 					</c:when>
 					<c:otherwise>
 						<p>

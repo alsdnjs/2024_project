@@ -40,9 +40,9 @@ public class SellerController {
 	}
 
 	@GetMapping("/seller_detail")
-	public ModelAndView ManagerDetail(@RequestParam("seller_id") String seller_id) {
+	public ModelAndView ManagerDetail(@RequestParam("sellers_idx") String seller_idx) {
 		ModelAndView mv = new ModelAndView("manager/seller/seller_onelist");
-		ManagerSellerVO msvo = sellerService.getSellerDetail(seller_id);
+		ManagerSellerVO msvo = sellerService.getSellerDetail(seller_idx);
 		
 		
 		if (msvo != null) {
@@ -69,9 +69,9 @@ public class SellerController {
 	}
 
 	@PostMapping("/seller_update")
-	public ModelAndView ManagerUpdate(@RequestParam("seller_id") String seller_id) {
+	public ModelAndView ManagerUpdate(@RequestParam("sellers_idx") String seller_idx) {
 		ModelAndView mv = new ModelAndView("manager/seller/seller_update");
-		ManagerSellerVO msvo = sellerService.getSellerDetail(seller_id);
+		ManagerSellerVO msvo = sellerService.getSellerDetail(seller_idx);
 		if (msvo != null) {
 			mv.addObject("msvo", msvo);
 			return mv;
@@ -80,14 +80,14 @@ public class SellerController {
 	}
 
 	@PostMapping("/seller_update_ok")
-	public ModelAndView ManagerUpdateOK(@RequestParam("seller_id") String sellerId, ManagerSellerVO msvo,
+	public ModelAndView ManagerUpdateOK(@RequestParam("sellers_idx") String sellerId, ManagerSellerVO msvo,
 			HttpServletRequest request) {
 		msvo.setSellers_idx(sellerId);
 		ModelAndView mv = new ModelAndView();
 		try {
 			int result = sellerService.getSellerUpdate(msvo);
 			if (result > 0) {
-				mv.setViewName("redirect:/seller_detail?seller_id=" + msvo.getSellers_idx());
+				mv.setViewName("redirect:/seller_detail?seller_idx=" + msvo.getSellers_idx());
 				return mv;
 			}
 

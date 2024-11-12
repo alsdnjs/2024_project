@@ -339,7 +339,7 @@ hr {
                         </c:choose>
 						<li class="nav-item"><a class="nav-link" href="/mypage">마이페이지</a></li>
 						<li class="nav-item"><a class="nav-link" href="/notice">고객센터</a></li>
-						<li class="nav-item dropdown">   <a class="nav-link dropdown-toggle" id="navbarDropdown" href="/products" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+						<li class="nav-item dropdown">    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="/products" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="products?category_idx=24002">돼지고기</a></li>
                                 <li><hr class="dropdown-divider" /></li>
@@ -348,12 +348,17 @@ hr {
                             </ul>
                         </li>
                     </ul>
-				  <div class="search-container">
-                    <form action="product_search_main" method="get">
+                    <div class="search-container">
+			<form action="product_search_main" method="get">
                         <input type="text" class="search-input" name="keyword"
-                            placeholder="검색어를 입력하세요">
-                    </form>
+                            placeholder="검색어를 입력하세요"></form>
+                    <button class="search-button">
+							<img src="https://img.icons8.com/ios-filled/50/ffffff/search.png"
+								alt="돋보기">
+						</button> 
                 </div>
+                </div>
+               
 				 <form class="d-flex" action="/cart_list" method="get">
                         <button class="btn btn-outline-dark" type="submit">
                             <i class="bi-cart-fill me-1"></i>
@@ -361,7 +366,7 @@ hr {
                         </button>
                     </form>
 				</div>
-			</div>
+			
 		</nav>
 	</header>
 
