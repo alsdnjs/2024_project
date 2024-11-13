@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html>
 <head>
@@ -7,6 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Checkout Example</title>
 	
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<!-- Font Awesome -->
 	<link rel="stylesheet"
 	      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -22,9 +24,12 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 	
 	<!-- Bootstrap JS, Popper.js, and jQuery -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+
 
     <style>
         body {
@@ -358,91 +363,48 @@
     }
         
   </style>
-
-
     
   <!-- Custom styles for this template -->
 </head>
 <body>
-    <header>
-		<nav class="navbar navbar-expand-lg ">
-			<div class="container px-4 px-lg-5">
-				<a class="navbar-brand" href="#!">경빈이네</a>
-				<button class="navbar-toggler" type="button"
-					data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-					aria-controls="navbarSupportedContent" aria-expanded="false"
-					aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-						<li class="nav-item"><a class="nav-link" aria-current="page"
-							href="#!">로그인 / 회원가입</a></li>
-						<li class="nav-item"><a class="nav-link" href="#!">마이페이지</a></li>
-						<li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
-							role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" href="#!">돼지고기</a></li>
-								<li><hr class="dropdown-divider" /></li>
-								<li><a class="dropdown-item" href="#!">닭고기</a></li>
-								<li><a class="dropdown-item" href="#!">소고기</a></li>
-							</ul></li>
-					</ul>
-					<div class="search-container">
-						<input type="text" class="search-input" placeholder="검색어를 입력하세요">
-						<button class="search-button">
-							<img src="https://img.icons8.com/ios-filled/50/ffffff/search.png"
-								alt="돋보기">
-						</button>
-					</div>
-					<form class="d-flex">
-						<button class="btn btn-outline-dark" type="submit">
-							<i class="bi-cart-fill me-1"></i> Cart
-						</button>
-					</form>
-				</div>
-			</div>
-		</nav>
-	</header>
+<jsp:include page="../header.jsp"></jsp:include>	
 
     <div class="container-fluid main-content">
-        <h2 class="text-center m-4 fw-bold">Shopping Cart</h2>
+        <h2 class="text-center m-4 fw-bold">주문 상세 내역</h2>
         <div class="p-3 row" style="justify-content: center;">
             <div class="col-xl-4">
                 <div class="content-wrapper">
                     <h3 class="mb-3 fw-bold">주문 상품 정보</h3>
-    
-
-                    <div class="d-flex g-0">
-                        <div class="">
-                            <img src="https://via.placeholder.com/400" class="" alt="Sample Image">
-                        </div>
-                        <div class="card-body m-1">
-                            <h5 class="" style="text-align: left; margin-left: 4px;">Product Name</h5>
-                            <input class="form-control mt-1 mx-1" type="text" name="product" id="product">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex g-0">
-                        <div class="">
-                            <img src="https://via.placeholder.com/400" class="" alt="Sample Image">
-                        </div>
-                        <div class="card-body m-1">
-                            <h5 class="" style="text-align: left; margin-left: 4px;">Product Name</h5>
-                            <input class="form-control mt-1 mx-1" type="text" name="product" id="product">
-                        </div>
-                    </div>
+          			<c:forEach items="${cart_list}" var="c">
+                  		<div class="d-flex g-0">
+	                        <div>
+	                            <img src="${c.thumbnail_url}" class="" alt="Sample Image">
+	                        </div>
+	                        <div class="card-body m-1">
+	                            <h5 class="" style="text-align: left; margin-left: 4px;">${c.product_name}</h5>
+	                            <pre> ${c.quantity} 개</pre>
+	                            <input id="product_idx" type="hidden" value="${c.product_idx}">
+	                            <input class="form-control mt-1 mx-1" type="text" name="productPrice" id="productPrice" value="${c.saledPrice*c.quantity}" disabled>
+	                        </div>
+	                    </div>
+	                    <hr>
+                  	</c:forEach>
                 </div>
             
-                <div class="content-wrapper">
-                    <h3 class="mb-3 fw-bold">주문자 정보</h3>
-                    <p>홍길동</p>
-                    <p>01030515121</p>
-                    <p>user12@naver.com</p>
-                    <button class="form-control mt-2" style="width: auto;"> 수정 </button>
-                </div>
+				<div class="content-wrapper">
+				    <h3 class="mb-3 fw-bold">주문자 정보</h3>
+				    <p id="orderRecipient">홍길동</p>
+				    <p id="orderCountry">기존 국가</p>
+				    <p id="orderState">기존 도</p>
+				    <p id="orderPostalCode">기존 우편번호</p>
+				    <p id="orderAddressLine">기존 상세주소</p>
+				    <input type="hidden" id="orderAddress_idx">
+				    
+				    <button class="form-control mt-2" style="width: auto;" 
+				            data-toggle="modal"
+				            data-target="#addressInfoModal"> 수정 </button>
+				</div>  
+
 
                 <div class="content-wrapper" >
                     <h3>포인트</h3>
@@ -450,17 +412,15 @@
                         <div style="margin-left: 15px;">
 
                             <div class="d-flex">
-                                <input type="text" class="form-control" readonly style="width: auto;">
-                                <button type="button" class="btn btn-secondary mx-2" disabled="">적용</button>
+                                <input type="text" id="usePoint" class="form-control" style="width: auto;">
+                                <button type="button" class="btn btn-secondary mx-2" onclick="usePoint()">적용</button>
                             </div>
                             <span>
-                                <em><span id="dispOrderProductCouponText">보유 포인트</span></em>
-                                <em><span>0</span>p</em>
+                                <em><span>보유 포인트</span></em>
+                                <em><span id="totalPoint">${point}</span>p</em>
                             </span>
 
                         </div>
-        
-        
                 </div>
         </div>
 
@@ -470,88 +430,24 @@
                 <div class="payment-summary">
                     <div class="payment-item">
                         <span>상품가격</span>
-                        <span>18,000원</span>
-                    </div>
-                    <div class="payment-item">
-                        <span>쿠폰 할인</span>  
-                        <span>-1,000원</span>
+                        <span><span id="totalPrice"></span>원</span>
                     </div>
                     <div class="payment-item">
                         <span>포인트 사용</span>
-                        <span>-0원</span>
+                        <span>-<span id="usingPoint"></span>원</span>
                     </div>
                     <div class="payment-item">
                         <span>배송비</span>
-                        <span>+2,500원</span>
+                        <span>3,000원</span>
                     </div>
             
                     <div class="total-amount">
                         <span>총 결제금액</span>
-                        <span class="amount">19,500원</span>
+                        <span class="amount"><span id="finalTotal"></span>원</span>
                     </div>
             
                     <div class="points-info">
-                        <p>700</p> 
-                        포인트 적립예정
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-wrapper">
-                <h3 class="fw-bold">결제 방법</h3>
-                <div>
-                    <div class="d-flex mt-3" style="flex-wrap: wrap;">
-                        <div class="form-check mt-1" style="padding-left: 12px;">
-                            <input type="radio" class="btn-check min-width-100" name="options" id="option1" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100" for="option1">카드 결제</label>
-                        </div>
-                            
-                        <div class="form-check mt-1" style="padding-left: 12px;">
-                            <input type="radio" class="btn-check min-width-100" name="options" id="option2" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100" for="option2">무통장 입금</label>
-                        </div>
-                            
-                        <div class="form-check mt-1" style="padding-left: 12px;">
-                            <input type="radio" class="btn-check min-width-100" name="options" id="option3" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100" for="option3">Option 3</label>
-                        </div>
-                    </div>
-                    <!-- 라디오에 따라 바뀌는 결제 창 -->
-                    <div class="container">
-
-                        <div id="content1" class="content mt-3" style="height: auto; display: none;">
-                            <div class="mb-3 row">
-                                <!-- 작은 화면에서는 세로, md 이상에서는 가로 정렬 -->
-                                <div class="col-12 col-md-4"> <!-- md 이상의 화면에서는 col-4, 작은 화면에서는 col-12 -->
-                                    <select class="form-select" id="exampleSelect">
-                                        <option selected>카드사 선택</option>
-                                        <option value="1">농협</option>
-                                        <option value="2">국민</option>
-                                        <option value="3">신한</option>
-                                    </select>
-                                </div>
-                                <div class="col-12 col-md-8 mt-2 mt-md-0"> <!-- md 이상의 화면에서는 col-8, 작은 화면에서는 col-12 -->
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        
-
-                        <div id="content2" class="content mt-3" style="display:none; height: auto;">
-                            <div class="mb-3">
-                                <select class="form-select" id="exampleSelect">
-                                    <option selected>은행 선택</option>
-                                    <option value="1">농협</option>
-                                    <option value="2">국민</option>
-                                    <option value="3">신한</option>
-                                </select>
-                            </div>
-                            <input type="text" class="form-control" placeholder="입금자명(미입력시 주문자명)">
-                        </div>
-
-                        <div id="content3" class="content mt-3" style="display:none;">이것은 Option 3에 해당하는 내용입니다.</div>
-
+                        <p id="earnPoint"></p>포인트 적립예정
                     </div>
                 </div>
             </div>
@@ -560,11 +456,13 @@
                 <div class="row">
                     <label for="all"><input type="checkbox" id="all"> 전체 동의</label>
                 </div>
-            
-                <input class="purchase" type="submit" value="결제하기">
+				<div class="payment-section">
+                	<button class="purchase pay-button" id="paymentButton">결제하기</button>
+            	</div>
             </div>
         </div>
     </div>
+
 
 </div>
 <footer class="py-5 footer">
@@ -580,41 +478,205 @@
     </div>
 </footer>
 
+
+	<!-- Bootstrap Modal 1 -->
+	<div class="modal fade" id="addressInfoModal" tabindex="-1" role="dialog"
+		aria-labelledby="addressInfoModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h5 class="modal-title" id="addressInfoModalLabel">적립금 내역</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+	
+				<!-- Modal Body with Input Form -->
+				<div class="modal-body">
+	
+					<!-- 배송지 정보 -->
+					<div class="points-info">
+									<h3>배송지 정보</h3>
+						<c:choose>
+							<c:when test="${empty user_addresses}">
+								<h3 style="text-align: center;">배송지 정보가 없습니다.</h3>
+							</c:when>
+							<c:otherwise>
+								<c:forEach items="${user_addresses}" var="a">
+									<div class="container" style="text-align: left;">
+										<p>수령자 : <span>${a.recipient_name}</span></p>
+										<p>국가 : <span>${a.country}</span></p>
+										<p>도 : <span>${a.state}</span></p>
+										<p>우편번호 : <span>${a.postal_code}</span></p>
+										<p>상세주소 : <span>${a.address_line}</span></p>
+										<input type="hidden" name="address_idx" value="${a.address_idx}">
+										<!-- 버튼 클릭 시 JavaScript 함수 호출 -->
+						                <input type="button" 
+								               data-dismiss="modal"
+											   aria-label="Close"
+						                	   onclick="selectAddress('${a.address_idx}', '${a.recipient_name}', '${a.country}', '${a.state}', '${a.postal_code}', '${a.address_line}')" 
+						                       class="btn btn-outline-success" value="선택" data-bs-dismiss="modal">
+									</div>
+									<hr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<!-- 탭 메뉴 -->
+					<div class="tabs">
+						<button>전체</button>
+					</div>
+	
+				</div>
+	
+				<!-- Modal Footer with Buttons -->
+				<div class="modal-footer" style="justify-content: center;">
+				
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script src="https://js.tosspayments.com/v1"></script>
 <script>
-  // 라디오 버튼에 이벤트 추가
-  document.addEventListener('DOMContentLoaded', function () {
-    const option1 = document.getElementById('option1');
-    const option2 = document.getElementById('option2');
-    const option3 = document.getElementById('option3');
-  
-    document.getElementById('content1').style.display = 'none';
-    document.getElementById('content2').style.display = 'none';
-    document.getElementById('content3').style.display = 'none';
-    // 라디오 버튼 클릭 시 해당 내용 보여주기
-    option1.addEventListener('click', function() {
-      showContent(1);
+
+
+// product_idx 값을 설정합니다 (JSP에서 JavaScript로 전달)
+ const productIdx = ${product.product_idx != null ? product.product_idx : 0}; // JSP에서 product_idx가 null일 때 기본값 0 설정
+
+
+
+
+    document.getElementById('paymentButton').addEventListener('click', function() {
+        const clientKey = "test_ck_E92LAa5PVbPy2eE75QoB87YmpXyJ";
+        const tossPayments = TossPayments(clientKey);
+        
+        
+        const amount = $("#finalTotal").text();
+        const orderName = "${cart_list[0].product_name}" + " 외 " + "${cart_list.size()}" + " 개";
+        //	encodeURIComponent("${product.product_name}"); // JavaScript에서 인코딩
+		const productIdxArray = Array.from(document.querySelectorAll('[id^="productPrice"]'));
+    	console.log(productIdxArray);  // 배열 출력
+    	console.log(orderName);  // 배열 출력
+    	console.log(amount);  // 배열 출력
+
+        tossPayments.requestPayment('카드', {
+            amount: amount,
+            orderId: "order-" + productIdxArray,
+            orderName: orderName,
+            customerName: $("#orderRecipient").text(),
+            successUrl: `http://localhost:8080/paymentSuccess?orderName=${orderName}&amount=${amount}&product_idx=${productIdx}`,
+            failUrl: "http://localhost:8080/toss/paymentFail.jsp"
+        });
     });
-  
-    option2.addEventListener('click', function() {
-      showContent(2);
-    });
-  
-    option3.addEventListener('click', function() {
-      showContent(3);
-    });
-  });
-  
-  // 해당 내용을 보여주는 함수
-  function showContent(optionNumber) {
-    // 모든 content 숨기기
-    document.getElementById('content1').style.display = 'none';
-    document.getElementById('content2').style.display = 'none';
-    document.getElementById('content3').style.display = 'none';
-    
-    // 선택된 content만 보여주기
-    document.getElementById('content' + optionNumber).style.display = 'block';
-  }
 </script>
+
+
+<!-- 포인트 사용 -->
+<script type="text/javascript">
+	function usePoint() {
+		
+        const amount = $("#finalTotal").text();
+        const orderName = "${cart_list[0].product_name}" + " 외 " + "${cart_list.size()}" + " 개";
+        //	encodeURIComponent("${product.product_name}"); // JavaScript에서 인코딩
+		const productIdxArray = Array.from(document.querySelectorAll('#product_idx')).map(input => input.value);
+    	console.log("array : " + 	productIdxArray);  // 배열 출력
+    	console.log(orderName);  // 배열 출력
+    	console.log(amount);  // 배열 출력
+		
+	    let myPoint = parseFloat($("#totalPoint").text()); // 문자열을 숫자로 변환
+	    let usePointAmount = parseFloat($("#usePoint").val()); // 문자열을 숫자로 변환
+	    
+	    if (usePointAmount > myPoint) {
+	        alert("보유포인트가 부족합니다.");
+	    } else {
+	        $("#usingPoint").text(usePointAmount);
+	        getTotalPrice();
+	    }
+	}
+</script>
+
+
+<!-- 합계 계산 메서드 -->
+<script type="text/javascript">	
+	window.onload = function() {
+		getTotalPrice();
+	}
+	//페이지 로드 시 상태 변경
+	history.pushState(null, null, location.href);
+	
+	// 뒤로 가기했을 때 처리하는 이벤트
+	window.onpopstate = function(event) {
+	    alert("뒤로가기 버튼이 클릭되었습니다.");
+	    // 리다이렉트 처리
+	    window.location.href = "/products"; // 원하는 페이지 URL로 변경
+	};
+
+  
+	function getTotalPrice() {
+	    // 보유 포인트를 숫자로 변환
+	    let usingPoint = parseInt($("#usingPoint").text(), 10); // 기본값 0으로 설정되지 않으면
+	    if (isNaN(usingPoint)) usingPoint = 0; // 만약 값이 없으면 0으로 설정
+
+	    let grandTotal = 0;
+	    const shippingFee = 3000; // 예시 배송비
+
+	    let finalTotal = 0;
+	    const totalPrices = document.querySelectorAll('[id^="productPrice"]'); // 가격이 표시된 요소들을 모두 선택
+	    console.log("사용 포인트: ", usingPoint);
+	    console.log("가격 요소들: ", totalPrices);
+
+	    totalPrices.forEach(priceElement => {
+	        // 가격을 추출
+	        const priceValue = priceElement.textContent || priceElement.value;
+	        console.log("상품 가격: ", priceValue);
+	        
+	        if (priceValue) {
+	            // 금액에 있는 쉼표를 제거하고 숫자로 변환하여 grandTotal에 더하기
+	            grandTotal += parseInt(priceValue.replaceAll(",", ""), 10); 
+	        }
+	    });
+
+	    // 최종 금액 계산
+	    if (usingPoint === 0) {
+	        finalTotal = grandTotal + shippingFee; // 포인트가 없을 경우 배송비 포함
+	    } else {
+	        finalTotal = grandTotal + shippingFee - usingPoint; // 포인트가 있을 경우 적용
+	    }
+
+	    // 화면에 최종 금액, 총 금액, 적립 포인트 출력
+	    $("#totalPrice").text(grandTotal.toLocaleString()); // 총 금액
+	    $("#finalTotal").text(finalTotal.toLocaleString()); // 최종 금액
+	    $("#earnPoint").text((grandTotal / 1000).toFixed(2)); // 적립금 계산 (예시로 1000원당 1포인트)
+	}
+
+</script>
+<!-- 모달에서 주소 적용하는 코드 -->
+<script>
+	function selectAddress(address_idx, recipient, country, state, postalCode, addressLine) {
+	    // 선택한 주소 정보를 부모 페이지의 요소에 업데이트
+	    
+	    $("#orderAddress_idx").val(address_idx);
+	    $("#orderRecipient").text(recipient);
+	    $("#orderCountry").text(country);
+	    $("#orderState").text(state);
+	    $("#orderPostalCode").text(postalCode);
+	    $("#orderAddressLine").text(addressLine);
+	/*     document.getElementById("orderRecipient").textContent = recipient;
+	    document.getElementById("orderCountry").textContent = country;
+	    document.getElementById("orderState").textContent = state;
+	    document.getElementById("orderPostalCode").textContent = postalCode;
+	    document.getElementById("orderAddressLine").textContent = addressLine; */
+	
+	    // 모달 닫기 (Bootstrap 5 방식)
+	    var myModal = new bootstrap.Modal(document.getElementById('addressInfoModal'));
+	    myModal.hide();
+	}
+</script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 

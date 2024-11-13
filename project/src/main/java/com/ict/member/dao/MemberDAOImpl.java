@@ -17,13 +17,13 @@ public class MemberDAOImpl implements MemberDAO {
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
     
-    // 로그인 처리
+    // 濡쒓렇�씤 泥섎━
     @Override
     public MemberVO loginCheck(String user_id) throws Exception {
         return sqlSessionTemplate.selectOne("member.loginCheck", user_id);
     }
 
-    // 회원가입 처리
+    // �쉶�썝媛��엯 泥섎━
     @Override
     public int registerMember(MemberVO mvo) throws Exception {
         return sqlSessionTemplate.insert("member.registerMember", mvo);
@@ -49,33 +49,45 @@ public class MemberDAOImpl implements MemberDAO {
             params.put("newPassword", newPassword);
             return sqlSessionTemplate.update("member.updatePassword", params);
     }
-        // MemberDAOImpl.java 수정
+        // MemberDAOImpl.java �닔�젙
         @Override
         public int getTotalSpent(String user_idx) {
-           System.out.println("getTotalSpent 호출 - user_idx: " + user_idx);
+           System.out.println("getTotalSpent �샇異� - user_idx: " + user_idx);
            Integer total = sqlSessionTemplate.selectOne("member.getTotalSpent", user_idx);
-           System.out.println("조회된 총 구매 금액: " + total);
+           System.out.println("議고쉶�맂 珥� 援щℓ 湲덉븸: " + total);
            return (total != null) ? total : 0;
                 
             
     }
         
-     // 아이디 중복  11092시
+     // �븘�씠�뵒 以묐났  11092�떆
         @Override
         public int checkUserId(String userId) throws Exception {
             return sqlSessionTemplate.selectOne("member.idchk", userId);
         } 
         
-        
-        @Override
-    	public List<AddressVO> getMemberAddressList(int user_idx) throws Exception {
-    		return sqlSessionTemplate.selectList("member.getAddressList", user_idx);
-    	}
+       
 
-    	@Override
-    	public int getTotalPoint(int user_idx) throws Exception {
-    		return sqlSessionTemplate.selectOne("member.totalPoint", user_idx);
-    	}
+		@Override
+		public List<AddressVO> getMemberAddressList(String user_idx) throws Exception {
+			return sqlSessionTemplate.selectList("member.getMemberAddressList", user_idx);
+		}
+
+		@Override
+		public int getTotalPoint(String user_idx) throws Exception {
+			String result = sqlSessionTemplate.selectOne("member.getTotalPoint", user_idx);
+			
+			int point = 0;
+			if(result==null) {
+				point = 0;
+			}else {
+				Double doubleValue = Double.parseDouble(result);  // Double로 파싱
+				point = doubleValue.intValue();  // int로 변환 (소수점은 버려짐)
+			}
+			
+			
+			return point;
+		}
         
         
         

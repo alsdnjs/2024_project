@@ -30,6 +30,6 @@ public interface MemberService {
   //아이디 중복  1109 2시
     public boolean isUserIdAvailable(String userId) throws Exception;
     
-    public List<AddressVO> getMemberAddressList(int user_idx) throws Exception;
-	public int getTotalPoint(int user_idx) throws Exception;
+    public List<AddressVO> getMemberAddressList(String user_idx) throws Exception;
+	public int getTotalPoint(String user_idx) throws Exception;
 }

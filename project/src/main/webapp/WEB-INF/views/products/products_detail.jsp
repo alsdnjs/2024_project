@@ -94,125 +94,18 @@ footer {
 	color: white;
 	font-weight: bold;
 }
-
-
-
-#reviewForm {
-    background-color: #f8f9fa; /* 배경색 */
-    padding: 20px; /* 패딩 */
-    border-radius: 8px; /* 테두리 둥글게 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    margin-top: 20px; /* 위쪽 마진 */
-    max-width: 600px; /* 최대 너비 */
-   
+.btn-spacing {
+    margin-left: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
 }
-
-#reviewForm label {
-    font-weight: bold; /* 글씨 두껍게 */
-    color: #333; /* 글씨 색상 */
-    margin-bottom: 5px; /* 라벨 아래 여백 */
-}
-
-#reviewForm input[type="range"] {
-    width: 100%; /* 슬라이더 너비 100% */
-    margin: 10px 0; /* 위 아래 여백 */
-}
-
-#reviewForm #volumeValue {
-    font-weight: bold; /* 값 글씨 두껍게 */
-    color: #ff4aa5; /* 색상 */
-}
-
-#reviewForm textarea {
-    width: 100%; /* 너비 100% */
-    height: 100px; /* 높이 설정 */
-    padding: 10px; /* 여백 */
-    border: 1px solid #ccc; /* 테두리 색상 */
-    border-radius: 5px; /* 테두리 둥글게 */
-    resize: none; /* 크기 조절 비활성화 */
-    font-size: 14px; /* 폰트 크기 */
-}
-
-#reviewForm button[type="submit"] {
-    background-color: #ff4aa5; /* 버튼 배경 색상 */
-    color: white; /* 글씨 색상 */
-    border: none; /* 테두리 제거 */
-    padding: 10px 20px; /* 버튼 여백 */
-    font-size: 16px; /* 폰트 크기 */
-    border-radius: 5px; /* 버튼 테두리 둥글게 */
-    cursor: pointer; /* 마우스 커서 손모양 */
-    transition: background-color 0.3s; /* 배경색 변화 효과 */
-}
-
-#reviewForm button[type="submit"]:hover {
-    background-color: #e0488f; /* 호버시 배경 색상 */
-}
-#reviewList {
-    background-color: #f8f9fa; /* 배경색 */
-    padding: 20px; /* 패딩 */
-    border-radius: 8px; /* 테두리 둥글게 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    margin-top: 20px; /* 위쪽 마진 */
-    max-width: 800px; /* 최대 너비 */
-    
-}
-
-#reviewList h2 {
-    font-size: 24px; /* 제목 폰트 크기 */
-    color: #333; /* 제목 색상 */
-   
-    margin-bottom: 20px; /* 제목 아래 여백 */
-}
-
-.review-item {
-    background-color: white; /* 항목 배경 색상 */
-    padding: 15px; /* 항목 패딩 */
-    border-radius: 8px; /* 테두리 둥글게 */
-    margin-bottom: 20px; /* 항목 간 간격을 넓힘 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* 항목 그림자 효과 */
-}
-
-
-
-.review-item:hover {
-    background-color: #f1f1f1; /* 마우스 올렸을 때 배경색 */
-    cursor: pointer; /* 마우스 커서 손모양 */
-}
-
-.review-item .review-header {
-    display: flex; /* 수평 정렬 */
-    justify-content: space-between; /* 양쪽 끝 정렬 */
-    margin-bottom: 10px; /* 헤더 아래 여백 */
-}
-
-.review-item .review-header .review-author {
-    font-weight: bold; /* 작성자 글씨 두껍게 */
-    color: #333; /* 색상 */
-}
-
-.review-item .review-header .review-date {
-    font-size: 12px; /* 날짜 폰트 크기 */
-    color: #888; /* 날짜 색상 */
-}
-
-.review-item .review-content {
-    font-size: 14px; /* 본문 폰트 크기 */
-    color: #555; /* 본문 색상 */
-    line-height: 1.6; /* 줄 간격 */
-}
-
-.review-item .review-rating {
-    font-size: 16px; /* 평점 폰트 크기 */
-    color: #ff4aa5; /* 평점 색상 */
-    font-weight: bold; /* 평점 글씨 두껍게 */
-    margin-top: 10px; /* 평점 위 여백 */
-}
-
 
 </style>
 
 </head>
-
 
 <body>
 	<!-- Responsive navbar-->
@@ -232,7 +125,7 @@ footer {
 						<c:choose>
 							<c:when test="${sessionScope.loginStatus == 'ok'}">
 								<li class="nav-item"><a class="nav-link"
-									href="${pageContext.request.contextPath}/user_logout">로그아웃</a></li>
+									href="${pageContext.request.contextPath}/main">로그아웃</a></li>
 							</c:when>
 							<c:otherwise>
 								<li class="nav-item"><a class="nav-link"
@@ -243,8 +136,8 @@ footer {
 						<li class="nav-item"><a class="nav-link" href="/mypage">마이페이지</a></li>
 						<li class="nav-item"><a class="nav-link" href="/notice">고객센터</a></li>
 
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" onclick="toggleDropdown()">카테고리</a>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" onclick="toggleDropdown()">카테고리</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 								<li><a class="dropdown-item"
 									href="/products?category_idx=24002">돼지고기</a></li>
@@ -253,7 +146,8 @@ footer {
 									href="/products?category_idx=24003">닭고기</a></li>
 								<li><a class="dropdown-item"
 									href="/products?category_idx=24001">소고기</a></li>
-							</ul></li>
+							</ul>
+						</li>
 					</ul>
 					<div class="search-container">
 						<input type="text" class="search-input" placeholder="검색어를 입력하세요">
@@ -291,14 +185,9 @@ footer {
 			}
 		}
 	</script>
-	
-	<% if (request.getParameter("loginRequired") != null) { %>
-    <script>
-        alert("상품평을 작성하려면 로그인을 해주세요");
-    </script>
-<% } %>
 		<!-- Header-->
 	</header>
+
 
 	<!-- Page Content-->
 	<div class="container px-4 px-lg-5">
@@ -325,12 +214,14 @@ footer {
 				<p>배송 후 : 교환 및 반품 불가</p>
 				<p>신선배송 : 포장비 없음</p>
 
-				<form action="/add_to_cart" method="post">
-				<input type="hidden" name="product_idx" value="상품_ID" />
-    			<input type="hidden" name="quantity" value="수량" />
-				 <button type="submit" class="btn btn-primary1 btn-spacing">장바구니 담기</button>
-				</form>
-				<a class="btn btn-primary2 btn-spacing" href="${pageContext.request.contextPath}/paymentPage?product_idx=${pvo.product_idx}&amount=${pvo.price}">구매하기</a>
+				<div class="product-actions">				
+					<input type="number" id="quantity" value="1" min="1" class="form-control d-flex">
+					<input type="hidden" id="product_idx" value="${pvo.product_idx}">
+					<button type="button" class="btn btn-primary btn-spacing" onclick="addToCart()">장바구니 담기</button> 
+					<button type="button" class="btn btn-primary btn-spacing" onclick="location.href='${pageContext.request.contextPath}/paymentPage?product_idx=${pvo.product_idx}&amount=${pvo.price}'">구매하기</button>
+
+				</div>
+				
 				
 			</div>
 		</div>
@@ -434,6 +325,44 @@ footer {
 		</div>
 
 	</footer>
+	
+	<!-- 장바구니 관련 -->
+	<script type="text/javascript">
+		function addToCart(){
+			
+			let product_idx = $("#product_idx").val();
+			let quantity = $("#quantity").val();
+			console.log("product_idx : " + product_idx);
+			console.log(quantity);
+		    // 서버에 장바구니 추가 요청 보내기
+		    $.ajax({
+		        url: '/add_to_cart',  // 서버의 장바구니 추가 URL
+		        type: 'POST',
+		        data: {
+		            product_idx: product_idx,  // 예시 상품 ID (실제 데이터로 변경)
+		    		quantity : quantity		   // 수량
+		        },
+		        success: function(response) {
+			        	  // 로그인되지 않은 경우
+			            if (response.redirect) {
+			                // 로그인 페이지로 리다이렉트
+			                window.location.href = response.loginUrl;
+			            } else if (response.success) {
+			                // 장바구니 추가가 성공하면
+			                if (confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")) {
+			                    window.location.href = "/cart_list";  // 장바구니 페이지로 이동
+			                }
+			            } else {
+			                alert("장바구니 추가에 실패했습니다.");
+			            }
+		       	  },
+		        error: function() {
+		            alert("서버와의 연결에 실패했습니다.");
+		        }
+		    });
+		}
+		
+	</script>
 
 	<script>
 
@@ -453,6 +382,7 @@ footer {
     
     const rangeInput = document.getElementById('volume');
     const volumeValue = document.getElementById('volumeValue');
+    
     // rating 줄 바꾸면 숫자 바뀜
     rangeInput.addEventListener('input', function() {
         volumeValue.textContent = this.value; // 현재 슬라이더 값을 표시
@@ -479,8 +409,7 @@ footer {
                 // 리뷰 리스트 업데이트
                 $("#reviewList").empty();
               
-                let div = "<div style='width:580px; margin: 5px; padding:5px; margin-bottom: 20px;' >";
-
+                let div = "<div style='border: 1px solid #cc00cc; width:580px; margin: 5px; padding:5px;'>";
 
                     for (let i = 0; i < response.reviews.length; i++) {
                         let username = response.reviews[i].username;

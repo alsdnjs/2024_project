@@ -69,16 +69,16 @@ public class MemberServiceImpl implements MemberService {
             return memberDAO.checkUserId(userId) == 0; // 아이디가 존재하지 않으면 true 반환
         }
         
-        
-        @Override
-    	public List<AddressVO> getMemberAddressList(int user_idx) throws Exception {
-    		return memberDAO.getMemberAddressList(user_idx);
-    	}
 
-    	@Override
-    	public int getTotalPoint(int user_idx) throws Exception {
-    		return memberDAO.getTotalPoint(user_idx);
-    	}
+		@Override
+		public List<AddressVO> getMemberAddressList(String user_idx) throws Exception {
+			return memberDAO.getMemberAddressList(user_idx);
+		}
+
+		@Override
+		public int getTotalPoint(String user_idx) throws Exception {
+			return memberDAO.getTotalPoint(user_idx);
+		}
         
         
 }

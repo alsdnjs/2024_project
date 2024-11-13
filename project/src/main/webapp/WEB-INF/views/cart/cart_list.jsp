@@ -230,56 +230,7 @@
     </style>
 </head>
 <body>
-
-    <header>
-		<nav class="navbar navbar-expand-lg ">
-			<div class="container px-4 px-lg-5">
-				<a class="navbar-brand" href="/main">경빈이네</a>
-				<button class="navbar-toggler" type="button"
-					data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-					aria-controls="navbarSupportedContent" aria-expanded="false"
-					aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-						 <!-- 로그인 상태에 따른 메뉴 표시 -->
-                        <c:choose>
-                            <c:when test="${sessionScope.loginStatus == 'ok'}">
-                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_logout">로그아웃</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user_login">로그인 / 회원가입</a></li>
-                            </c:otherwise>
-                        </c:choose>
-						<li class="nav-item"><a class="nav-link" href="/mypage">마이페이지</a></li>
-						<li class="nav-item"><a class="nav-link" href="/notice">고객센터</a></li>
-						<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="navbarDropdown" href="/products" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="products?category_idx=24002">돼지고기</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="products?category_idx=24003">닭고기</a></li>
-                                <li><a class="dropdown-item" href="products?category_idx=24001">소고기</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-					<div class="search-container">
-						<input type="text" class="search-input" placeholder="검색어를 입력하세요">
-						<button class="search-button">
-							<img src="https://img.icons8.com/ios-filled/50/ffffff/search.png"
-								alt="돋보기">
-						</button>
-					</div>
-					
-					<form class="d-flex">
-						<button class="btn btn-outline-dark" type="submit">
-							<i class="bi-cart-fill me-1"></i> Cart
-						</button>
-					</form>
-				</div>
-			</div>
-		</nav>
-	</header>
+<jsp:include page="../header.jsp"></jsp:include>
 
     <div class="container mt-5">
         <h2 class="text-center mb-4 fw-bold">Shopping Cart</h2>
@@ -309,8 +260,15 @@
 		                	<c:forEach items="${cart_list}" var="k" varStatus="s">
 		                	
 					           	<tr>
-			                        <td class="text-center ">
-			                            <input type="checkbox" class="form-check-input" >
+									<td class="text-center ">
+										<!-- 체크박스 -->
+			                            <input 
+			                            	type="checkbox" 
+			                            	name="cartCheckbox"
+			                            	id="checkbox${k.product_idx}"
+											data-product_idx="${k.product_idx}" 
+											data-quantity="${k.quantity}"
+											class="form-check-input cart-checkbox" >
 			                        </td>
 			
 			                        <td>
@@ -339,17 +297,21 @@
 			                        <!-- 수량(quantity) -->
 			                        <td class="text-center">
 								        <div class="d-flex justify-content-center align-items-center">
-								            <button class="btn btn-secondary" onclick="updateQuantity('quantityInput${s.index}', -1)">-</button>
-								            <input type="number" id="quantityInput${s.index}" value="0" min="0" class="form-control mx-1 text-center" style="width: 60px;">
-								            <button class="btn btn-secondary" onclick="updateQuantity('quantityInput${s.index}', 1)">+</button>
+								            <button type="button" class="btn btn-secondary" onclick="changeQuantity(${k.product_idx}, -1)">-</button>
+								            <input type="number" 
+								            id="quantityInput${k.product_idx}" 
+								            value="${k.quantity}" min="1" 
+								            class="form-control mx-1 text-center" 
+								            style="width: 60px;" onchange="updateTotal(${k.product_idx})">
+								            <button type="button" class="btn btn-secondary" onclick="changeQuantity(${k.product_idx}, 1)">+</button>
 								        </div>
 			                        </td>
 			                        <td class="text-center fw-bold">
-			                            <p id="price1">${k.price}</p>원</td>
+			                            <span id="price${k.product_idx}"> ${k.price} </span>원</td>
 			                        <td class="text-center fw-bold">
-			                            <p id="discount1">${k.saleprice}</p>원</td>
+			                            <span id="discount${k.product_idx}"> ${k.saleprice} </span>원</td>
 			                        <td class="text-center fw-bold">
-			                            <p id="totalPrice1"> ${k.saledPrice} </p>원</td>
+			                            <span id="totalPrice${k.product_idx}"> ${k.saledPrice}  </span>원</td>
 			                    </tr>
 		                	
 		                	</c:forEach>
@@ -360,19 +322,21 @@
         </div>
         
         <div class="mt-5">
-            <button class="btn btn-secondary mx-1">쇼핑 계속하기</button>
+            <button type="button" class="btn btn-secondary mx-1" onclick="goToProductList()">쇼핑 계속하기</button>
             
-            <div class="summary-section d-flex justify-content-between align-items-center mt-4">
-                <div>
-                    <span class="total-amount">중 5 개의 상품금액 1,000,000원</span>
-                    <span class="mx-2">+ 배송비 0원</span>
-                    <span class="mx-2">= 합계 1,000,000원</span>
-                </div>
+            <div class="summary-section mt-4 text-end">
+			    <strong>
+			        <span>총 <span id="grandCount"></span> 개의 상품금액 <span id="grandTotal"></span>원</span>
+			        <span class="mx-2">+ 배송비 <span id="shippingFee">3000</span>원</span>
+			        <span class="mx-2">= 합계 <span id="finalTotal"></span>원</span>
+			    </strong>
             </div>
             <div class="mt-3 mb-4 text-end">
-                <button class="btn btn-secondary mx-1">선택 상품 삭제</button>
-                <button class="btn btn-secondary mx-1">선택 상품 품절</button>
-                <button class="btn btn-custom">전체 상품 주문</button>
+	            <button type="button" class="btn btn-secondary mx-1" onclick="return deleteSelectedItems()">선택 상품 삭제</button>
+            	<form action="/view_orders_detail" method="POST">
+            		<input type="hidden" id="selectedItemsInput" name="selectedItems" value="">
+		            <button type="submit" class="btn btn-custom" onclick="return viewOrderDetails();">전체 상품 주문</button>
+            	</form>
             </div>
         </div>
     </div>
@@ -392,15 +356,190 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-    <script>
-        let quantity = $("#quantityInput1").val();
-        let price = $("#price1").text();
-        let discount = $("#discount1").text();
+    <script type="text/javascript">
 
+	 
+	 // 페이지 로드 시 data-quantity 값 최신화
+	    $(document).ready(function() {
+	        // 페이지가 로드될 때마다 수량 업데이트 (뒤로가기 후에도)
+	        $(".cart-checkbox").each(function() {
+	            var index = $(this).data("index");
+	            var quantity = $("#quantityInput" + index).val();
+	            $(this).attr("data-quantity", quantity);  // data-quantity 업데이트
+	        });
+	    });
+    	
+    	// 수량을 checkbox의 data로 저장 업데이트
+	    function updateCheckboxQuantity(index) {
+	        var quantity = $("#quantityInput" + index).val();  // 수량 입력값
+	        var checkbox = $("#checkbox" + index);
+			checkbox.attr("data-quantity", quantity);
+			
+			console.log("quantity : " + quantity);
+	    }
+	    
+	    // 서버에 넘겨서 페이지 이동
+	    function viewOrderDetails() {
+	        var selectedItems = [];
 
-        let totalPrice1 = price*quantity-discount;
-        $("#totalPrice1").append(totalPrice1);
+	        // 체크된 상품들을 배열로 묶음
+	        $(".cart-checkbox:checked").each(function() {
+	        	//this = 체크박스
+	            var product_idx = $(this).data("product_idx");  // 체크박스에서 product_id 가져오기
+	            
+	            console.log("product_idx : " + product_idx);
+	            updateCheckboxQuantity(product_idx);
+	            var quantity = $(this).data("quantity");  // 체크박스에서 product_id 가져오기
+	            selectedItems.push({ product_idx: product_idx, quantity: quantity });  // 객체로 저장
+	        });
+	        
+			
+	        // 선택된 상품들이 없으면 알림 표시
+	        if (selectedItems.length === 0) {
+				alert("주문할 상품을 선택해주세요.");	
+				return false; // 폼 제출 방지
+	        }
+			console.log(selectedItems);
+			
+		    // JSON 문자열로 변환하여 hidden input에 설정
+		    $("#selectedItemsInput").val(JSON.stringify(selectedItems));
+		    
+		    return true; // 폼 제출
+	    }
+
     </script>
+    
+    
+    
+    
+	<!-- 선택 항목 삭제 -->
+    <script type="text/javascript">
+    function deleteSelectedItems() {
+        const selectedIds = [];
+        document.querySelectorAll('.cart-checkbox:checked').forEach(checkbox => {
+            selectedIds.push(checkbox.value); // 체크된 상품의 ID를 수집
+        });
+
+        if (selectedIds.length === 0) {
+            alert("삭제할 상품을 선택해 주세요.");
+            return ;
+        }
+        // 서버로 삭제 요청
+        $.ajax({
+            url: '/deleteSelectedItems',
+            type: 'POST',
+            data: { product_ids: selectedIds },
+            traditional: true, // 배열 데이터를 처리하기 위함
+            success: function(response) {
+                if (response.success) {
+                	// 성공
+                    alert("선택한 상품이 삭제되었습니다.");
+                    location.reload(); // 페이지를 새로고침하여 장바구니 업데이트
+                } else {
+                	//실패
+                	if(response.login){
+	                    alert("삭제에 실패했습니다.");
+                	} else{
+                		alert("로그인해주세요.");
+                		// 로그인 페이지 이동
+                		location.href("login");
+                	}
+                }
+            },
+            error: function() {
+                alert("서버와의 연결에 실패했습니다.");
+            }
+        });
+        
+	 }
+    </script>
+    
+    <!-- onclick 이벤트 처리 -->
+    <script type="text/javascript">
+    	function goToProductList(){
+    		location.href = "products";
+    	}
+    </script>
+    <!-- 수량 변화 및 총합 금액 계산 javascript -->
+	<script type="text/javascript">
+	
+		function updateGrandTotal() {
+			//총 합계
+		    let grandTotal = 0;
+		    //총 개수
+		    let grandCount = 0;
+		    //배달비
+		    let shippingFee = $("#shippingFee").text();
+		    shippingFee = parseInt(shippingFee);
+		    
+		    
+ 		    // 모든 항목에 대해 totalPrice를 더합니다.
+		    const totalPrices = document.querySelectorAll('[id^="totalPrice"]');
+		    totalPrices.forEach(totalPriceElement => {
+		    	console.log(totalPriceElement.textContent); 
+		        grandTotal += parseInt(totalPriceElement.textContent.replaceAll(",","")	);
+		        grandCount += 1;
+		    }); 
+		    
+		    // 체크된 항목만 계산해서 최종 가격에 표시
+/* 		    const totalPrices = document.querySelectorAll('[id^="totalPrice"]');
+		    const checkedPrices = Array.from(totalPrices).filter(item => {
+		        const checkbox = document.querySelector(`#checkbox${item.dataset.index}`);
+		        return checkbox && checkbox.checked;
+		    }); 
+
+		    // 체크된 항목의 값을 확인
+		    checkedPrices.forEach(item => {
+		        console.log(`ID: ${item.id}, Total Price: ${item.textContent}`);
+		    }); */
+		    
+		    // 배달비 포함 합계
+		    let finalTotal = grandTotal + shippingFee;
+		    console.log(grandTotal);
+		    
+		    // 총합을 표시합니다.
+		    $('#grandTotal').text(grandTotal.toLocaleString());
+		    $('#grandCount').text(grandCount);
+		    $('#finalTotal').text(finalTotal.toLocaleString());
+		}
+	
+	    // 수량을 변경하는 함수
+	    function changeQuantity(index, delta) {
+	        updateCheckboxQuantity(index);
+	        const quantityInput = document.getElementById("quantityInput" + index);
+	        const newQuantity = parseInt(quantityInput.value) + delta;
+	        if (newQuantity >= 1) {
+	            quantityInput.value = newQuantity;
+	            updateTotal(index);
+	           
+	        }
+	    }
+	    
+	    // 총합 금액을 업데이트하는 함수
+	    function updateTotal(index) {
+	        const quantity = document.getElementById("quantityInput" + index).value;
+	        const price = document.getElementById("price" + index).textContent;
+	        const discount = document.getElementById("discount" + index).textContent;
+	        const discountedPrice = price - discount;
+	        const totalPrice = quantity * discountedPrice;
+	        
+	        document.getElementById("totalPrice" + index).textContent = totalPrice.toLocaleString();
+	        updateGrandTotal();
+	        updateCheckboxQuantity(index);
+	    }
+	    
+	    window.onload = function() {
+	        const quantityInputs = document.querySelectorAll('[id^="quantityInput"]');
+	        quantityInputs.forEach(input => {
+	            const index = input.id.replace('quantityInput', '');
+	            updateTotal(index);  // 페이지 로드 시 각 항목의 총합을 계산합니다.
+	        });
+	        // 모든 상품 총합 초기화
+	        updateGrandTotal();
+	    }
+	    
+
+	</script>
     
     <script>
         function toggleNavbar() {

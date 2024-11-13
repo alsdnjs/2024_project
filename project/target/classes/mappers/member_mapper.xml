@@ -41,17 +41,27 @@
     </select>
 
    <update id="updatePassword" parameterType="map">
-    UPDATE users SET password = #{newPassword} WHERE user_id = #{userId}
-</update>
+    	UPDATE users SET password = #{newPassword} WHERE user_id = #{userId}
+	</update>
 	
 	<!-- 회원등급   -->
 	<select id="getTotalSpent" parameterType="string" resultType="int"> 
-	SELECT COALESCE(SUM(total_amount), 0) 
-	FROM orders 
-	WHERE user_idx = #{user_idx} 
-	AND status = '배송 완료' 
+		SELECT COALESCE(SUM(total_amount), 0) 
+		FROM orders 
+		WHERE user_idx = #{user_idx} 
+		AND status = '배송 완료' 
+	</select>
+	
+	<select id="getMemberAddressList" parameterType="String" resultType="com.ict.member.vo.AddressVO">
+		SELECT * FROM user_addresses
+		WHERE user_idx=#{user_idx}
+	</select>
+	
+	<select id="getTotalPoint" resultType="String" parameterType="String">
+		SELECT SUM(points_amount) AS total_point 
+		FROM points 
+		WHERE user_idx = #{user_idx} 
+		GROUP BY user_idx;
 	</select>
   
-  
-	
 </mapper>

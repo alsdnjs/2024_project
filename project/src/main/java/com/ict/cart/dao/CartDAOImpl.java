@@ -15,7 +15,8 @@ public class CartDAOImpl implements CartDAO {
     private SqlSessionTemplate sqlSessionTemplate;
 
     @Override
-    public List<CartVO> getCartList(String user_idx) throws Exception {
+    public List<CartVO> getCartList(String user_idx_String) throws Exception {
+    	int user_idx = Integer.parseInt(user_idx_String);
         return sqlSessionTemplate.selectList("cart.list", user_idx);
     }
 
@@ -45,9 +46,10 @@ public class CartDAOImpl implements CartDAO {
     }
     
     @Override
-    public int deleteSelectedItems(List<Integer> product_ids, String user_idx) throws Exception {
+    public int deleteSelectedItems(List<Integer> product_idx, String user_idx_String) throws Exception {
+    	int user_idx = Integer.parseInt(user_idx_String);
         Map<String, Object> map = new HashMap<>();
-        map.put("product_ids", product_ids);
+        map.put("product_idx", product_idx);
         map.put("user_idx", user_idx);
         return sqlSessionTemplate.delete("cart.removeProductsFromCart", map);
     }
