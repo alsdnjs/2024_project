@@ -172,7 +172,7 @@
                     <li>
                         <div>
                             <input type="checkbox" class="required"> (필수) 만 14세 이상입니다.
-                        </div> <span class="icon" data-modal="modal1">></span>
+                        </div> <span class="icon" data-modal="modal1"></span>
                     </li>
                     <li>
                         <div>
@@ -252,10 +252,11 @@
                         content = '만 14세 이상 확인에 대한 설명입니다.';
                         break;
                     case 'modal2':
-                        content = '이용약관 동의에 대한 설명입니다.';
+                        content = '제 1조 이 약관은 경빙니ㅔ가 운영하는 경빈이네 회원과 회사간의 권리, 의무, 책임사항 및 회원의 서비스 이용절차등에 관한 사항을 규정함을 목적으로 합니다. '; 
+           
                         break;
                     case 'modal3':
-                        content = '개인정보 수집 및 이용 동의에 대한 설명입니다.';
+                        content = '목적 : 본인식별 확인, 서비스 제공 및 고객 민원 처리 / 항목: 이름, 아이디, 비밀번호, 휴대폰 번호, 이메일 주소';
                         break;
                     case 'modal4':
                         content = '선택 개인정보 수집 및 이용 동의에 대한 설명입니다.';

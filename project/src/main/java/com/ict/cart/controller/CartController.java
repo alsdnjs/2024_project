@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.google.gson.Gson;
 import com.ict.cart.service.CartService;
 import com.ict.cart.vo.CartVO;
@@ -27,6 +28,8 @@ public class CartController {
     
     @Autowired
     private MemberService memberService; // 추가된 부분
+    
+  
 
     // 세션에서 user_id를 가져오는 로그인 상태 확인 메서드
     private String getUserIdxFromSession(HttpSession session) {
@@ -122,6 +125,8 @@ public class CartController {
             }
 
             mv.addObject("cart_list", cartList);
+            
+
             return mv;
         } catch (Exception e) {
             System.out.println(e);

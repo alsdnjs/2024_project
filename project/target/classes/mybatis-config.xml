@@ -55,6 +55,7 @@
 		<typeAlias type="com.ict.point.vo.PointVO" alias="pvo"/>
 		<typeAlias type="com.ict.likes.vo.LikesVO" alias="lvo"/>
 	
+		<typeAlias type="com.ict.userrank.vo.UserrankVO" alias="urvo"/>
 		
 
 	</typeAliases>
@@ -86,7 +87,7 @@
 		<mapper resource="mappers/point_mapper.xml"/>
 <mapper resource="mappers/mypage_seller_page_mapper.xml" />
 <mapper resource="mappers/likes_mapper.xml"/>
-
+<mapper resource="mappers/userrank_mapper.xml"/>
 	
 
 

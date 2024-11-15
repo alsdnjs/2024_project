@@ -372,7 +372,11 @@ body, html {
     border: none; /* 기본 테두리를 제거하고 배경색만 남깁니다 */
     height: 1px; /* hr 요소의 두께 */
 }
-    
+    .badge . badge-gold{z-index: 11; color: red;}
+ #userRankDisplay {
+    color: silver; /* 회원 등급 글자 색상을 은색으로 설정 */
+    font-weight: bold; /* 글자 굵게 */
+}
 </style>
 </head>
 
@@ -473,8 +477,8 @@ body, html {
 						</div>
 						<div class="col-xl-3 col-md-6 dashboard-div">
 							<a href="/rank" class="dashboard-card box">
-								<p>회원등급</p> <span class="badge badge-gold">G GOLD</span> <span
-								class="discount-text">(8% 할인혜택)</span> <!-- 연한 주황색으로 할인혜택 표시 -->
+								<p>회원등급</p> <span  id="userRankDisplay" class="badge badge-gold"></span> 
+								
 							</a>
 						</div>
 					</div>
@@ -668,6 +672,29 @@ body, html {
 		</div>
 	</div>
 
+<script>
+    $(document).ready(function() {
+        // 페이지 로드 시 회원등급 가져오기
+        loadUserRank();
+    });
+
+    function loadUserRank() {
+        $.ajax({
+            url: '/getUserRank',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // 받은 userrank 값을 네모칸에 표시
+                let userRank = data.user_rank || 'FAMILY';
+                $('#userRankDisplay').text(userRank);
+            },
+            error: function(error) {
+                console.error("Error loading user rank:", error);
+                $('#userRankDisplay').text("회원 등급 불러오기 실패");
+            }
+        });
+    }
+</script>
 
 	<!-- Bootstrap Modal 2 -->
 	<div class="modal fade" id="orderInfoModal" tabindex="-1" role="dialog"
@@ -741,6 +768,7 @@ body, html {
                     }
                 });
             }
+           
 
             // 삭제 기능을 처리하는 함수
             function removeLike(product_id) {

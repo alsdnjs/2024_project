@@ -213,14 +213,7 @@
                                 <div class="text-center">
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">치마+토시+제비 - 국산 | 신선P&F - 3등급</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
+                                   
                                     <!-- Product price-->
                                     <span class="text-muted text-decoration-line-through">45000원</span>
                                    40000원
@@ -262,13 +255,7 @@
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">삼겹살10mm - 국산 | 당당한돈</h5>
                                     <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
+                                   
                                     <!-- Product price-->
                                     12340원
                                 </div>
@@ -327,14 +314,7 @@
                                 <div class="text-center">
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">[업소용] 닭다리살(정육) 2kg*5 - 국산</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
+                                    
                                     <!-- Product price-->
                                     	108200원
                                 </div>
@@ -354,14 +334,7 @@
                                 <div class="text-center">
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">통닭8호 [벌크포장 20수] - 국산</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
+                                   
                                     <!-- Product price-->
                                     5003원
                                 </div>

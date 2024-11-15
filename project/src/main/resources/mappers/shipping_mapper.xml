@@ -5,32 +5,32 @@
 <mapper namespace="shipping">
 	
  <select id="count" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM Shipping s
+        SELECT COUNT(*) FROM shipping s
         INNER JOIN orders o ON s.orders_idx=o.orders_idx 
         INNER JOIN users u ON u.user_idx=o.user_idx 
         WHERE user_id = #{user_id}
     </select>
 
     <select id="olist" parameterType="map" resultType="shvo">
-     SELECT * FROM Shipping s 
+     SELECT * FROM shipping s 
          INNER JOIN orders o ON s.orders_idx=o.orders_idx 
           INNER JOIN users u ON u.user_idx=o.user_idx 
-         INNER JOIN Products p ON o.product_idx=p.product_idx
+         INNER JOIN products p ON o.product_idx=p.product_idx
          WHERE u.user_id = #{user_id}
         ORDER BY s.shipping_date DESC
    	 LIMIT #{offset}, #{limit}
     </select>
 	
 	<select id="clist" parameterType="String" resultType="shvo">
-		SELECT * FROM Shipping s 
+		SELECT * FROM shipping s 
          INNER JOIN orders o ON s.orders_idx=o.orders_idx 
          INNER JOIN users u ON u.user_idx=o.user_idx 
-         INNER JOIN Products p ON o.product_idx=p.product_idx
+         INNER JOIN products p ON o.product_idx=p.product_idx
          WHERE u.user_id = #{user_id}
 	</select>
 	
 	<insert id="insertShipping" parameterType="shvo" useGeneratedKeys="true" keyProperty="shipping_idx">
-	    INSERT INTO Shipping (orders_idx, shipping_date, tracking_number, carrier, estimated_delivery)
+	    INSERT INTO shipping (orders_idx, shipping_date, tracking_number, carrier, estimated_delivery)
 	    VALUES (#{orders_idx}, NOW(), #{tracking_number}, #{carrier}, #{estimated_delivery});
 	</insert>
 

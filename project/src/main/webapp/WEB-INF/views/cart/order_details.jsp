@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html>
 <head>
@@ -8,7 +7,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Checkout Example</title>
 	
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<!-- Font Awesome -->
 	<link rel="stylesheet"
 	      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -24,12 +22,9 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 	
 	<!-- Bootstrap JS, Popper.js, and jQuery -->
-	
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-
-
 
     <style>
         body {
@@ -363,6 +358,8 @@
     }
         
   </style>
+
+
     
   <!-- Custom styles for this template -->
 </head>
@@ -416,19 +413,27 @@
             <div class="col-xl-4">
                 <div class="content-wrapper">
                     <h3 class="mb-3 fw-bold">주문 상품 정보</h3>
-          			<c:forEach items="${cart_list}" var="c">
-                  		<div class="d-flex g-0">
-	                        <div>
-	                            <img src="${c.thumbnail_url}" class="" alt="Sample Image">
-	                        </div>
-	                        <div class="card-body m-1">
-	                            <h5 class="" style="text-align: left; margin-left: 4px;">${c.product_name}</h5>
-	                            <pre> ${c.quantity} 개</pre>
-	                            <input class="form-control mt-1 mx-1" type="text" name="product" id="product" value="${c.saledPrice*c.quantity}" disabled>
-	                        </div>
-	                    </div>
-	                    <hr>
-                  	</c:forEach>
+    
+
+                    <div class="d-flex g-0">
+                        <div class="">
+                            <img src="https://via.placeholder.com/400" class="" alt="Sample Image">
+                        </div>
+                        <div class="card-body m-1">
+                            <h5 class="" style="text-align: left; margin-left: 4px;">Product Name</h5>
+                            <input class="form-control mt-1 mx-1" type="text" name="product" id="product">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex g-0">
+                        <div class="">
+                            <img src="https://via.placeholder.com/400" class="" alt="Sample Image">
+                        </div>
+                        <div class="card-body m-1">
+                            <h5 class="" style="text-align: left; margin-left: 4px;">Product Name</h5>
+                            <input class="form-control mt-1 mx-1" type="text" name="product" id="product">
+                        </div>
+                    </div>
                 </div>
             
                 <div class="content-wrapper">
@@ -436,9 +441,7 @@
                     <p>홍길동</p>
                     <p>01030515121</p>
                     <p>user12@naver.com</p>
-                    <button class="form-control mt-2" style="width: auto;" 
-                    		data-toggle="modal"
-							data-target="#addressInfoModal"> 수정 </button>
+                    <button class="form-control mt-2" style="width: auto;"> 수정 </button>
                 </div>
 
                 <div class="content-wrapper" >
@@ -563,7 +566,6 @@
         </div>
     </div>
 
-
 </div>
 <footer class="py-5 footer">
     <div class="container">
@@ -578,66 +580,7 @@
     </div>
 </footer>
 
-
-	<!-- Bootstrap Modal 1 -->
-	<div class="modal fade" id="addressInfoModal" tabindex="-1" role="dialog"
-		aria-labelledby="addressInfoModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<h5 class="modal-title" id="addressInfoModalLabel">적립금 내역</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-	
-				<!-- Modal Body with Input Form -->
-				<div class="modal-body">
-	
-					<!-- 적립금 정보 -->
-					<div class="points-info">
-						<h3>사용 가능 적립금</h3>
-						<div class="points-amount">0원</div>
-						<div class="points-detail">
-							소멸예정 금액 (30일 이내): 0원<br> 총 누적 적립금: 6,128원
-						</div>
-					</div>
-					<!-- 탭 메뉴 -->
-					<div class="tabs">
-						<button>전체</button>
-					</div>
-	
-					<!-- 적립금 내역 없음 표시 -->
-					<div class="no-history" style="display: none;">적립/사용/소멸 내역이
-						없습니다.</div>
-	
-				</div>
-	
-				<!-- Modal Footer with Buttons -->
-				<div class="modal-footer" style="justify-content: center;">
-					<img src="https://cdn-icons-png.flaticon.com/512/16/16410.png"
-						class="point_img" alt="적립금 아이콘"> 적립/사용/소멸 내역이 없습니다.
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-<script>	
-
-	//페이지 로드 시 상태 변경
-	history.pushState(null, null, location.href);
-	
-	// 뒤로 가기했을 때 처리하는 이벤트
-	window.onpopstate = function(event) {
-	    alert("뒤로가기 버튼이 클릭되었습니다.");
-	    // 리다이렉트 처리
-	    window.location.href = "/products"; // 원하는 페이지 URL로 변경
-	};
-
-
+<script>
   // 라디오 버튼에 이벤트 추가
   document.addEventListener('DOMContentLoaded', function () {
     const option1 = document.getElementById('option1');
@@ -671,18 +614,7 @@
     // 선택된 content만 보여주기
     document.getElementById('content' + optionNumber).style.display = 'block';
   }
-
 </script>
-	<script>
-		$(document).ready(function() {
-			// 토글 버튼 클릭 시 사이드바 열고 닫기 및 메인 콘텐츠 이동
-			$('#toggleSidebar').click(function() {
-				$('#sidebar').toggleClass('show');
-			});
-		});
-	</script>
-
-
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 

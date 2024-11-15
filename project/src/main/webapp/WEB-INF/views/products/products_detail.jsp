@@ -366,7 +366,7 @@ footer {
 
 	<script>
 
-	let loggedInUserIdx = "${mvo.user_idx}";
+	let loggedInUserIdx = "${user_idx}";
 	console.log("session  : " + loggedInUserIdx);
     let cPage = 1; // 현재 페이지
     const product_idx = $('#product-info').data('product-idx');

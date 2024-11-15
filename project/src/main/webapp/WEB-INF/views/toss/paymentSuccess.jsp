@@ -64,8 +64,7 @@
     <!-- Confirmation Content -->
     <div class="container">
         <h2 class="confirmation-message">결제가 성공적으로 완료되었습니다!</h2>
-      
-        <a href="main.jsp" class="return-btn">메인 페이지로 이동하기</a>
+     
     </div>
 
     <!-- Footer-->
